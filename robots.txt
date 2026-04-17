@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://muneebsyed29.com/sitemap.xml

@@ -3,7 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Syed Muneeb Rehaman — B2B Paid Media</title>
+  <title>Syed Muneeb Rehaman — B2B Paid Media & Demand Gen | Bengaluru</title>
+
+  <!-- SEO -->
+  <meta name="description" content="B2B Paid Media & Demand Gen specialist with 5+ years and $25M+ managed. Expert in LinkedIn Ads, Google Ads, ABM, and programmatic — based in Bengaluru, working globally.">
+  <meta name="keywords" content="B2B paid media, demand generation, ABM, LinkedIn ads, Google ads, programmatic advertising, SaaS marketing, HubSpot, Bengaluru, India">
+  <meta name="author" content="Syed Muneeb Rehaman">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://muneebsyed29.com" />
+
+  <!-- Open Graph (LinkedIn, WhatsApp, Slack previews) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://muneebsyed29.com" />
+  <meta property="og:title" content="Syed Muneeb Rehaman — B2B Paid Media & Demand Gen" />
+  <meta property="og:description" content="Turning paid media into predictable pipeline. $25M+ managed across LinkedIn, Google & Programmatic. SaaS · Fintech · AI." />
+  <meta property="og:image" content="https://muneebsyed29.com/avatar.png" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Syed Muneeb Rehaman — B2B Paid Media" />
+  <meta name="twitter:description" content="Turning paid media into predictable pipeline. $25M+ managed." />
+  <meta name="twitter:image" content="https://muneebsyed29.com/avatar.png" />
+
+  <!-- Google Search Console verification — replace content value after verifying -->
+  <!-- <meta name="google-site-verification" content="PASTE_YOUR_CODE_HERE" /> -->
+
+  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
+
+  <!-- Structured Data (helps Google understand who you are) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Syed Muneeb Rehaman",
+    "jobTitle": "B2B Paid Media & Demand Generation Specialist",
+    "url": "https://muneebsyed29.com",
+    "email": "hello@muneebsyed29.com",
+    "telephone": "+917411018396",
+    "image": "https://muneebsyed29.com/avatar.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bengaluru",
+      "addressRegion": "Karnataka",
+      "addressCountry": "IN"
+    },
+    "sameAs": ["https://www.linkedin.com/in/muneebsyed29"],
+    "knowsAbout": ["B2B Marketing", "Paid Media", "ABM", "LinkedIn Ads", "Google Ads", "Demand Generation", "HubSpot", "Programmatic Advertising", "SaaS Marketing"]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
@@ -954,19 +1008,30 @@
       </div>
       <div class="contact-form reveal">
         <h3>Send a message</h3>
-        <div class="form-row">
-          <label>Name</label>
-          <input type="text" placeholder="Your name" />
-        </div>
-        <div class="form-row">
-          <label>Email</label>
-          <input type="email" placeholder="you@company.com" />
-        </div>
-        <div class="form-row">
-          <label>Message</label>
-          <textarea placeholder="What's on your mind?"></textarea>
-        </div>
-        <button class="form-submit" onclick="handleSubmit(this)">Send Message</button>
+        <!-- Web3Forms: get your free access key at web3forms.com using hello@muneebsyed29.com -->
+        <form id="leadForm" onsubmit="handleSubmit(event)">
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+          <input type="hidden" name="subject" value="New lead from muneebsyed29.com" />
+          <input type="hidden" name="from_name" value="Portfolio Website" />
+          <input type="checkbox" name="botcheck" style="display:none" />
+          <div class="form-row">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-row">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@company.com" required />
+          </div>
+          <div class="form-row">
+            <label>Company</label>
+            <input type="text" name="company" placeholder="Your company" />
+          </div>
+          <div class="form-row">
+            <label>Message</label>
+            <textarea name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">Send Message</button>
+        </form>
       </div>
     </div>
   </div>
@@ -1035,16 +1100,39 @@
     document.getElementById(panelId).classList.add('active');
   }
 
-  /* ── Form submit ── */
-  function handleSubmit(btn) {
-    btn.textContent = '✓ Sent!';
-    btn.style.background = '#16A34A';
-    btn.style.color = '#fff';
-    setTimeout(() => {
-      btn.textContent = 'Send Message';
-      btn.style.background = '';
-      btn.style.color = '';
-    }, 3000);
+  /* ── Lead form submit via Web3Forms ── */
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const form = document.getElementById('leadForm');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form)
+      });
+      const data = await res.json();
+      if (data.success) {
+        btn.textContent = '✓ Message sent!';
+        btn.style.background = '#16A34A';
+        form.reset();
+        setTimeout(() => {
+          btn.textContent = 'Send Message';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4000);
+      } else {
+        throw new Error();
+      }
+    } catch {
+      btn.textContent = 'Failed — try emailing directly';
+      btn.style.background = '#DC2626';
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 4000);
+    }
   }
 </script>
 </body>

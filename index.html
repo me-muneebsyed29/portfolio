@@ -369,12 +369,15 @@
       cursor: default;
     }
     .brand-chip:hover { border-color: var(--text2); transform: translateY(-2px); }
+    .brand-chip { text-decoration: none; }
     .brand-icon {
-      width: 32px; height: 32px; border-radius: 8px;
+      width: 36px; height: 36px; border-radius: 8px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; font-weight: 700; color: #fff;
-      flex-shrink: 0;
+      overflow: hidden; flex-shrink: 0; padding: 4px;
     }
+    .brand-icon img { width: 100%; height: 100%; object-fit: contain; }
     .brand-name { font-size: 0.88rem; font-weight: 600; color: var(--text); }
     .brand-type { font-size: 0.7rem; color: var(--muted); font-weight: 400; }
 
@@ -393,7 +396,8 @@
       cursor: default;
     }
     .skill-card:hover { border-color: var(--text); transform: translateY(-3px); }
-    .sk-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
+    .sk-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; line-height: 1; }
+    .sk-icon img { width: 28px; height: 28px; object-fit: contain; }
     .sk-name { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .sk-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
     .sk-level {
@@ -420,13 +424,19 @@
       transition: border-color 0.25s, transform 0.25s;
       cursor: default;
     }
+    .cert-card {
+      text-decoration: none;
+      cursor: pointer;
+    }
     .cert-card:hover { border-color: var(--text); transform: translateY(-2px); }
     .cert-ico {
-      width: 42px; height: 42px; border-radius: 10px;
-      background: var(--surface2);
+      width: 44px; height: 44px; border-radius: 10px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; flex-shrink: 0;
+      overflow: hidden; flex-shrink: 0; padding: 6px;
     }
+    .cert-ico img { width: 100%; height: 100%; object-fit: contain; }
     .cert-name { font-size: 0.88rem; font-weight: 600; color: var(--text); line-height: 1.4; }
     .cert-src { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
 
@@ -741,83 +751,83 @@
   <div class="brands-track-wrap">
     <div class="brands-track" id="brandsTrack">
       <!-- Set 1 -->
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#1A56DB;">T</div>
+      <a class="brand-chip" href="https://www.tripledart.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/tripledart.com" alt="TripleDart" onerror="this.src='https://cdn.simpleicons.org/dart/1A56DB'"/></div>
         <div><div class="brand-name">TripleDart</div><div class="brand-type">B2B SaaS Agency</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#111111;">G</div>
+      </a>
+      <a class="brand-chip" href="https://www.gale.agency" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/gale.agency" alt="GALE" onerror="this.parentElement.style.background='#111';this.remove()"/></div>
         <div><div class="brand-name">GALE</div><div class="brand-type">Performance Agency</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#7C3AED;">Z</div>
+      </a>
+      <a class="brand-chip" href="https://www.zetaglobal.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/zetaglobal.com" alt="Zeta Global" onerror="this.src='https://cdn.simpleicons.org/z/7C3AED'"/></div>
         <div><div class="brand-name">Zeta Global</div><div class="brand-type">MarTech Platform</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#059669;">M</div>
+      </a>
+      <a class="brand-chip" href="https://www.moneylion.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/moneylion.com" alt="MoneyLion"/></div>
         <div><div class="brand-name">MoneyLion</div><div class="brand-type">Fintech</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#B45309;">P</div>
+      </a>
+      <a class="brand-chip" href="https://www.pella.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/pella.com" alt="Pella"/></div>
         <div><div class="brand-name">Pella Corporation</div><div class="brand-type">Home Improvement</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#DC2626;">R</div>
+      </a>
+      <a class="brand-chip" href="https://www.rocketsoftware.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/rocketsoftware.com" alt="Rocket Software"/></div>
         <div><div class="brand-name">Rocket Software</div><div class="brand-type">Enterprise SaaS</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#0284C7;">U</div>
+      </a>
+      <a class="brand-chip" href="https://www.universal-robots.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/universal-robots.com" alt="Universal Robots"/></div>
         <div><div class="brand-name">Universal Robots</div><div class="brand-type">Robotics / Cobot</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#D97706;">J</div>
+      </a>
+      <a class="brand-chip" href="https://www.jetlearn.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/jetlearn.com" alt="JetLearn"/></div>
         <div><div class="brand-name">JetLearn</div><div class="brand-type">EdTech</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#E11D48;">A</div>
+      </a>
+      <a class="brand-chip" href="https://www.airtel.in" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/airtel.in" alt="Airtel"/></div>
         <div><div class="brand-name">Airtel Payments Bank</div><div class="brand-type">Fintech / Telecom</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#16A34A;">C</div>
+      </a>
+      <a class="brand-chip" href="https://www.creativeplanning.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/creativeplanning.com" alt="Creative Planning"/></div>
         <div><div class="brand-name">Creative Planning</div><div class="brand-type">Wealth Management</div></div>
-      </div>
+      </a>
       <!-- Set 2 (duplicate for infinite loop) -->
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#1A56DB;">T</div>
+      <a class="brand-chip" href="https://www.tripledart.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/tripledart.com" alt="TripleDart"/></div>
         <div><div class="brand-name">TripleDart</div><div class="brand-type">B2B SaaS Agency</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#111111;">G</div>
+      </a>
+      <a class="brand-chip" href="https://www.gale.agency" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/gale.agency" alt="GALE"/></div>
         <div><div class="brand-name">GALE</div><div class="brand-type">Performance Agency</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#7C3AED;">Z</div>
+      </a>
+      <a class="brand-chip" href="https://www.zetaglobal.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/zetaglobal.com" alt="Zeta Global"/></div>
         <div><div class="brand-name">Zeta Global</div><div class="brand-type">MarTech Platform</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#059669;">M</div>
+      </a>
+      <a class="brand-chip" href="https://www.moneylion.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/moneylion.com" alt="MoneyLion"/></div>
         <div><div class="brand-name">MoneyLion</div><div class="brand-type">Fintech</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#B45309;">P</div>
+      </a>
+      <a class="brand-chip" href="https://www.pella.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/pella.com" alt="Pella"/></div>
         <div><div class="brand-name">Pella Corporation</div><div class="brand-type">Home Improvement</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#DC2626;">R</div>
+      </a>
+      <a class="brand-chip" href="https://www.rocketsoftware.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/rocketsoftware.com" alt="Rocket Software"/></div>
         <div><div class="brand-name">Rocket Software</div><div class="brand-type">Enterprise SaaS</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#0284C7;">U</div>
+      </a>
+      <a class="brand-chip" href="https://www.universal-robots.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/universal-robots.com" alt="Universal Robots"/></div>
         <div><div class="brand-name">Universal Robots</div><div class="brand-type">Robotics / Cobot</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#D97706;">J</div>
+      </a>
+      <a class="brand-chip" href="https://www.jetlearn.com" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/jetlearn.com" alt="JetLearn"/></div>
         <div><div class="brand-name">JetLearn</div><div class="brand-type">EdTech</div></div>
-      </div>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#E11D48;">A</div>
+      </a>
+      <a class="brand-chip" href="https://www.airtel.in" target="_blank" rel="noopener">
+        <div class="brand-icon"><img src="https://logo.clearbit.com/airtel.in" alt="Airtel"/></div>
         <div><div class="brand-name">Airtel Payments Bank</div><div class="brand-type">Fintech / Telecom</div></div>
-      </div>
+      </a>
       <div class="brand-chip">
         <div class="brand-icon" style="background:#16A34A;">C</div>
         <div><div class="brand-name">Creative Planning</div><div class="brand-type">Wealth Management</div></div>
@@ -835,37 +845,37 @@
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal">
-        <span class="sk-icon">🎯</span>
+        <span class="sk-icon"><img src="https://cdn.simpleicons.org/googleads/4285F4" alt="Google Ads"/></span>
         <div class="sk-name">Paid Search</div>
         <div class="sk-desc">Google Ads strategy, structure, and optimisation for B2B and B2C funnels.</div>
         <span class="sk-level">Expert</span>
       </div>
       <div class="skill-card reveal">
-        <span class="sk-icon">🏢</span>
+        <span class="sk-icon"><img src="https://cdn.simpleicons.org/meta/0866FF" alt="Meta"/></span>
         <div class="sk-name">B2B ABM</div>
         <div class="sk-desc">Account-based marketing at scale — CRM audiences, intent targeting, buying committee strategy.</div>
         <span class="sk-level">Expert</span>
       </div>
       <div class="skill-card reveal">
-        <span class="sk-icon">💼</span>
+        <span class="sk-icon"><img src="https://cdn.simpleicons.org/linkedin/0A66C2" alt="LinkedIn"/></span>
         <div class="sk-name">LinkedIn Ads</div>
         <div class="sk-desc">Demand gen and pipeline campaigns using LinkedIn's B2B targeting capabilities.</div>
         <span class="sk-level">Expert</span>
       </div>
       <div class="skill-card reveal">
-        <span class="sk-icon">🔗</span>
+        <span class="sk-icon"><img src="https://cdn.simpleicons.org/hubspot/FF7A59" alt="HubSpot"/></span>
         <div class="sk-name">HubSpot</div>
         <div class="sk-desc">CRM-connected workflows, lead management, and campaign attribution.</div>
         <span class="sk-level">Advanced</span>
       </div>
       <div class="skill-card reveal">
-        <span class="sk-icon">📡</span>
+        <span class="sk-icon"><img src="https://cdn.simpleicons.org/googletagmanager/246FDB" alt="Programmatic"/></span>
         <div class="sk-name">Programmatic</div>
         <div class="sk-desc">Data-driven execution across DSPs for audience targeting and full-funnel delivery.</div>
         <span class="sk-level">Advanced</span>
       </div>
       <div class="skill-card reveal">
-        <span class="sk-icon">📊</span>
+        <span class="sk-icon"><img src="https://cdn.simpleicons.org/googleanalytics/E37400" alt="Analytics"/></span>
         <div class="sk-name">Demand Generation</div>
         <div class="sk-desc">Pipeline-focused strategy that goes beyond top-of-funnel noise.</div>
         <span class="sk-level">Expert</span>
@@ -882,41 +892,41 @@
       <h2 class="section-title">Certified across<br /><em>every major platform.</em></h2>
     </div>
     <div class="certs-grid">
-      <div class="cert-card reveal">
-        <div class="cert-ico">👻</div>
+      <a class="cert-card reveal" href="https://forbusiness.snapchat.com/certifications" target="_blank" rel="noopener">
+        <div class="cert-ico"><img src="https://cdn.simpleicons.org/snapchat/FFFC00" alt="Snapchat"/></div>
         <div>
           <div class="cert-name">Snapchat Ads Certification</div>
-          <div class="cert-src">Snapchat</div>
+          <div class="cert-src">Snapchat for Business ↗</div>
         </div>
-      </div>
-      <div class="cert-card reveal">
-        <div class="cert-ico">📚</div>
+      </a>
+      <a class="cert-card reveal" href="https://www.facebook.com/business/learn/certification" target="_blank" rel="noopener">
+        <div class="cert-ico"><img src="https://cdn.simpleicons.org/meta/0866FF" alt="Meta"/></div>
         <div>
           <div class="cert-name">Fundamentals of Marketing</div>
-          <div class="cert-src">Meta Blueprint</div>
+          <div class="cert-src">Meta Blueprint ↗</div>
         </div>
-      </div>
-      <div class="cert-card reveal">
-        <div class="cert-ico">👍</div>
+      </a>
+      <a class="cert-card reveal" href="https://www.facebook.com/business/learn/certification" target="_blank" rel="noopener">
+        <div class="cert-ico"><img src="https://cdn.simpleicons.org/meta/0866FF" alt="Meta"/></div>
         <div>
           <div class="cert-name">Facebook Marketing &amp; Advertising</div>
-          <div class="cert-src">Meta Blueprint</div>
+          <div class="cert-src">Meta Blueprint ↗</div>
         </div>
-      </div>
-      <div class="cert-card reveal">
-        <div class="cert-ico">🎵</div>
+      </a>
+      <a class="cert-card reveal" href="https://www.tiktok.com/business/en/tiktok-academy" target="_blank" rel="noopener">
+        <div class="cert-ico"><img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok"/></div>
         <div>
           <div class="cert-name">TikTok Media Buying Certification</div>
-          <div class="cert-src">TikTok for Business</div>
+          <div class="cert-src">TikTok for Business ↗</div>
         </div>
-      </div>
-      <div class="cert-card reveal">
-        <div class="cert-ico">⚡</div>
+      </a>
+      <a class="cert-card reveal" href="https://www.facebook.com/business/learn/certification" target="_blank" rel="noopener">
+        <div class="cert-ico"><img src="https://cdn.simpleicons.org/meta/0866FF" alt="Meta"/></div>
         <div>
           <div class="cert-name">Advertising on Facebook: Advanced</div>
-          <div class="cert-src">Meta Blueprint</div>
+          <div class="cert-src">Meta Blueprint ↗</div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>

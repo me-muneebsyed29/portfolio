@@ -371,13 +371,12 @@
     .brand-chip:hover { border-color: var(--text2); transform: translateY(-2px); }
     .brand-chip { text-decoration: none; }
     .brand-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: #fff;
-      border: 1px solid rgba(0,0,0,0.08);
+      width: 36px; height: 36px; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; flex-shrink: 0; padding: 4px;
+      flex-shrink: 0;
+      font-family: var(--font); font-size: 14px; font-weight: 800;
+      color: #fff; letter-spacing: -0.5px;
     }
-    .brand-icon img { width: 100%; height: 100%; object-fit: contain; }
     .brand-name { font-size: 0.88rem; font-weight: 600; color: var(--text); }
     .brand-type { font-size: 0.7rem; color: var(--muted); font-weight: 400; }
 
@@ -431,10 +430,9 @@
     .cert-card:hover { border-color: var(--text); transform: translateY(-2px); }
     .cert-ico {
       width: 44px; height: 44px; border-radius: 10px;
-      background: #fff;
-      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--surface2);
       display: flex; align-items: center; justify-content: center;
-      overflow: hidden; flex-shrink: 0; padding: 6px;
+      overflow: hidden; flex-shrink: 0; padding: 8px;
     }
     .cert-ico img { width: 100%; height: 100%; object-fit: contain; }
     .cert-name { font-size: 0.88rem; font-weight: 600; color: var(--text); line-height: 1.4; }
@@ -752,86 +750,86 @@
     <div class="brands-track" id="brandsTrack">
       <!-- Set 1 -->
       <a class="brand-chip" href="https://www.tripledart.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/tripledart.com" alt="TripleDart" onerror="this.src='https://cdn.simpleicons.org/dart/1A56DB'"/></div>
+        <div class="brand-icon" style="background:#1A56DB;">TD</div>
         <div><div class="brand-name">TripleDart</div><div class="brand-type">B2B SaaS Agency</div></div>
       </a>
       <a class="brand-chip" href="https://www.gale.agency" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/gale.agency" alt="GALE" onerror="this.parentElement.style.background='#111';this.remove()"/></div>
+        <div class="brand-icon" style="background:#1A1A1A;">G</div>
         <div><div class="brand-name">GALE</div><div class="brand-type">Performance Agency</div></div>
       </a>
       <a class="brand-chip" href="https://www.zetaglobal.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/zetaglobal.com" alt="Zeta Global" onerror="this.src='https://cdn.simpleicons.org/z/7C3AED'"/></div>
+        <div class="brand-icon" style="background:#7C3AED;">ZG</div>
         <div><div class="brand-name">Zeta Global</div><div class="brand-type">MarTech Platform</div></div>
       </a>
       <a class="brand-chip" href="https://www.moneylion.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/moneylion.com" alt="MoneyLion"/></div>
+        <div class="brand-icon" style="background:#059669;">ML</div>
         <div><div class="brand-name">MoneyLion</div><div class="brand-type">Fintech</div></div>
       </a>
       <a class="brand-chip" href="https://www.pella.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/pella.com" alt="Pella"/></div>
+        <div class="brand-icon" style="background:#B45309;">P</div>
         <div><div class="brand-name">Pella Corporation</div><div class="brand-type">Home Improvement</div></div>
       </a>
       <a class="brand-chip" href="https://www.rocketsoftware.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/rocketsoftware.com" alt="Rocket Software"/></div>
+        <div class="brand-icon" style="background:#DC2626;">RS</div>
         <div><div class="brand-name">Rocket Software</div><div class="brand-type">Enterprise SaaS</div></div>
       </a>
       <a class="brand-chip" href="https://www.universal-robots.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/universal-robots.com" alt="Universal Robots"/></div>
+        <div class="brand-icon" style="background:#0284C7;">UR</div>
         <div><div class="brand-name">Universal Robots</div><div class="brand-type">Robotics / Cobot</div></div>
       </a>
       <a class="brand-chip" href="https://www.jetlearn.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/jetlearn.com" alt="JetLearn"/></div>
+        <div class="brand-icon" style="background:#D97706;">JL</div>
         <div><div class="brand-name">JetLearn</div><div class="brand-type">EdTech</div></div>
       </a>
       <a class="brand-chip" href="https://www.airtel.in" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/airtel.in" alt="Airtel"/></div>
+        <div class="brand-icon" style="background:#E11D48;">A</div>
         <div><div class="brand-name">Airtel Payments Bank</div><div class="brand-type">Fintech / Telecom</div></div>
       </a>
       <a class="brand-chip" href="https://www.creativeplanning.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/creativeplanning.com" alt="Creative Planning"/></div>
+        <div class="brand-icon" style="background:#16A34A;">CP</div>
         <div><div class="brand-name">Creative Planning</div><div class="brand-type">Wealth Management</div></div>
       </a>
       <!-- Set 2 (duplicate for infinite loop) -->
       <a class="brand-chip" href="https://www.tripledart.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/tripledart.com" alt="TripleDart"/></div>
+        <div class="brand-icon" style="background:#1A56DB;">TD</div>
         <div><div class="brand-name">TripleDart</div><div class="brand-type">B2B SaaS Agency</div></div>
       </a>
       <a class="brand-chip" href="https://www.gale.agency" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/gale.agency" alt="GALE"/></div>
+        <div class="brand-icon" style="background:#1A1A1A;">G</div>
         <div><div class="brand-name">GALE</div><div class="brand-type">Performance Agency</div></div>
       </a>
       <a class="brand-chip" href="https://www.zetaglobal.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/zetaglobal.com" alt="Zeta Global"/></div>
+        <div class="brand-icon" style="background:#7C3AED;">ZG</div>
         <div><div class="brand-name">Zeta Global</div><div class="brand-type">MarTech Platform</div></div>
       </a>
       <a class="brand-chip" href="https://www.moneylion.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/moneylion.com" alt="MoneyLion"/></div>
+        <div class="brand-icon" style="background:#059669;">ML</div>
         <div><div class="brand-name">MoneyLion</div><div class="brand-type">Fintech</div></div>
       </a>
       <a class="brand-chip" href="https://www.pella.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/pella.com" alt="Pella"/></div>
+        <div class="brand-icon" style="background:#B45309;">P</div>
         <div><div class="brand-name">Pella Corporation</div><div class="brand-type">Home Improvement</div></div>
       </a>
       <a class="brand-chip" href="https://www.rocketsoftware.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/rocketsoftware.com" alt="Rocket Software"/></div>
+        <div class="brand-icon" style="background:#DC2626;">RS</div>
         <div><div class="brand-name">Rocket Software</div><div class="brand-type">Enterprise SaaS</div></div>
       </a>
       <a class="brand-chip" href="https://www.universal-robots.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/universal-robots.com" alt="Universal Robots"/></div>
+        <div class="brand-icon" style="background:#0284C7;">UR</div>
         <div><div class="brand-name">Universal Robots</div><div class="brand-type">Robotics / Cobot</div></div>
       </a>
       <a class="brand-chip" href="https://www.jetlearn.com" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/jetlearn.com" alt="JetLearn"/></div>
+        <div class="brand-icon" style="background:#D97706;">JL</div>
         <div><div class="brand-name">JetLearn</div><div class="brand-type">EdTech</div></div>
       </a>
       <a class="brand-chip" href="https://www.airtel.in" target="_blank" rel="noopener">
-        <div class="brand-icon"><img src="https://logo.clearbit.com/airtel.in" alt="Airtel"/></div>
+        <div class="brand-icon" style="background:#E11D48;">A</div>
         <div><div class="brand-name">Airtel Payments Bank</div><div class="brand-type">Fintech / Telecom</div></div>
       </a>
-      <div class="brand-chip">
-        <div class="brand-icon" style="background:#16A34A;">C</div>
+      <a class="brand-chip" href="https://www.creativeplanning.com" target="_blank" rel="noopener">
+        <div class="brand-icon" style="background:#16A34A;">CP</div>
         <div><div class="brand-name">Creative Planning</div><div class="brand-type">Wealth Management</div></div>
-      </div>
+      </a>
     </div>
   </div>
 </section>

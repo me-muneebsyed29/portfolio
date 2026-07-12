@@ -13,6 +13,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Container } from "@/components/layout/container";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +59,8 @@ export function Nav() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           <Button
             render={<a href={siteConfig.bookingUrl} />}
             nativeButton={false}
@@ -69,12 +71,14 @@ export function Nav() {
           </Button>
         </div>
 
-        <Sheet>
-          <SheetTrigger
-            render={<Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu" />}
-          >
-            <Menu className="size-5" />
-          </SheetTrigger>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <Sheet>
+            <SheetTrigger
+              render={<Button variant="ghost" size="icon" aria-label="Open menu" />}
+            >
+              <Menu className="size-5" />
+            </SheetTrigger>
           <SheetContent
             side="right"
             className="w-full border-l border-border bg-background sm:max-w-sm"
@@ -115,7 +119,8 @@ export function Nav() {
               </SheetClose>
             </div>
           </SheetContent>
-        </Sheet>
+          </Sheet>
+        </div>
       </Container>
     </motion.header>
   );

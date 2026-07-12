@@ -39,8 +39,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-geist-sans), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
   --font-heading: var(--font-sans);
 
   --text-hero: 5rem;
@@ -60,6 +60,52 @@
 }
 
 :root {
+  color-scheme: light;
+
+  --background: #ffffff;
+  --surface: #f7f7f8;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+
+  --primary: #0a0a0a;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f8;
+  --secondary-foreground: #52525b;
+  --muted: #f7f7f8;
+  --muted-foreground: #6b6b76;
+  --accent: #0a0a0a;
+  --accent-foreground: #ffffff;
+
+  --destructive: #d13438;
+
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
+  --input: rgba(0, 0, 0, 0.08);
+  --ring: rgba(0, 0, 0, 0.24);
+
+  /* Chart-only accent hues — the rest of the UI stays monochrome black/white. */
+  --chart-1: #0a0a0a;
+  --chart-2: #2f9c7c;
+  --chart-3: #3574b8;
+  --chart-4: #b8923d;
+  --chart-5: #6b6b76;
+
+  --radius: 0.75rem;
+
+  --sidebar: #f7f7f8;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #0a0a0a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ffffff;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: rgba(0, 0, 0, 0.08);
+  --sidebar-ring: rgba(0, 0, 0, 0.24);
+}
+
+.dark {
   color-scheme: dark;
 
   --background: #090909;
@@ -93,8 +139,6 @@
   --chart-4: #d6c48f;
   --chart-5: #a1a1aa;
 
-  --radius: 0.75rem;
-
   --sidebar: #111111;
   --sidebar-foreground: #fafafa;
   --sidebar-primary: #fafafa;
@@ -113,10 +157,10 @@
     @apply font-sans scroll-smooth;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased transition-colors duration-300;
   }
   ::selection {
-    @apply bg-white/90 text-black;
+    @apply bg-foreground text-background;
   }
 }
 

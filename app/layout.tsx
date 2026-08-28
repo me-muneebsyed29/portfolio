@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Nav } from "@/components/layout/nav";
-import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-const figtree = Figtree({
-  variable: "--font-figtree",
+/* Brand sheet 02 / TYPE. Instrument Sans sets display and body; JetBrains Mono
+   sets every figure and every mono caps label. No third face exists in the
+   system — the signature mark is drawn, not typeset. */
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -69,19 +76,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${figtree.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${instrumentSans.variable} ${jetbrainsMono.variable} h-full`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <TooltipProvider>
-            <Nav />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </TooltipProvider>
-        </ThemeProvider>
+        {/* Each site tree owns its own ThemeProvider: the B2B portfolio is
+            dark by default with a toggle, B2C is always dark with none. A
+            single root provider could only impose one of those. */}
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );

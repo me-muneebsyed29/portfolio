@@ -1,43 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 import { Section, Eyebrow, SectionTitle } from "@/components/layout/section";
 import { essays } from "@/data/writing";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
+/* A ledger of rows, not cards: index, title, standfirst, reading time. Reading
+   time is a figure, so it takes the mono face like every other number. */
 export function Writing() {
   return (
     <Section id="writing">
-      <Eyebrow>Writing</Eyebrow>
-      <SectionTitle className="mt-4 max-w-2xl">
-        Essays on growth and AI.
-      </SectionTitle>
+      <Eyebrow index="05">Writing</Eyebrow>
+      <SectionTitle className="mt-5 max-w-xl">Essays on growth and AI.</SectionTitle>
 
       <motion.div
-        variants={staggerContainer(0.08)}
+        variants={staggerContainer(0.07)}
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-16 divide-y divide-border border-t border-border"
+        className="mt-14 border-t border-rule"
       >
-        {essays.map((essay) => (
+        {essays.map((essay, i) => (
           <motion.a
             key={essay.title}
             href="#writing"
             variants={fadeUp}
-            className="group grid grid-cols-1 gap-2 py-8 md:grid-cols-12 md:items-center md:gap-6"
+            className="group grid grid-cols-1 gap-x-8 gap-y-3 border-b border-rule py-7 transition-colors duration-200 hover:bg-panel md:grid-cols-12 md:items-baseline"
           >
-            <h3 className="md:col-span-6 text-xl font-medium text-balance text-foreground">
+            <p className="mono-label text-faint md:col-span-1">
+              {String(i + 1).padStart(2, "0")}
+            </p>
+            <h3 className="text-lg font-semibold tracking-[-0.025em] text-balance text-foreground md:col-span-5">
               {essay.title}
             </h3>
-            <p className="md:col-span-5 text-base text-muted-foreground text-pretty">
+            <p className="text-caption text-muted-foreground text-pretty md:col-span-5">
               {essay.excerpt}
             </p>
-            <div className="flex items-center justify-between md:col-span-1 md:justify-end md:gap-3">
-              <span className="text-sm text-muted-foreground">{essay.readingTime}</span>
-              <ArrowUpRight className="size-4 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
-            </div>
+            <span className="figures whitespace-nowrap text-caption text-faint md:col-span-1 md:text-right">
+              {essay.readingTime}
+            </span>
           </motion.a>
         ))}
       </motion.div>

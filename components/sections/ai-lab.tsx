@@ -2,49 +2,55 @@
 
 import { motion } from "framer-motion";
 import { Section, Eyebrow, SectionTitle } from "@/components/layout/section";
-import { Badge } from "@/components/ui/badge";
 import { labProjects } from "@/data/ai-lab";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
+/* Cards read as cells in a table — indexed, ruled, flat. Status sits in a mono
+   tag built like the redaction tag on the Applications sheet: panel fill, 1px
+   faint border, mono caps. */
 export function AiLab() {
   return (
     <Section id="ai-lab">
-      <Eyebrow>AI Lab</Eyebrow>
-      <SectionTitle className="mt-4 max-w-2xl">
-        Experiments in AI-powered growth.
-      </SectionTitle>
-      <p className="mt-4 max-w-xl text-base text-muted-foreground text-pretty">
+      <Eyebrow index="04">AI Lab</Eyebrow>
+      <SectionTitle className="mt-5 max-w-xl">Experiments in AI-powered growth.</SectionTitle>
+      <p className="mt-5 max-w-lg text-body text-muted-foreground text-pretty">
         Internal tools I build to test where AI actually changes how growth work gets done.
       </p>
 
       <motion.div
-        variants={staggerContainer(0.08)}
+        variants={staggerContainer(0.07)}
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        className="mt-14 grid grid-cols-1 gap-px border-t-2 border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3"
       >
-        {labProjects.map((project) => (
-          <motion.div
+        {labProjects.map((project, i) => (
+          <motion.article
             key={project.name}
             variants={fadeUp}
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex h-full flex-col rounded-2xl border border-border bg-card p-8"
+            className="flex h-full flex-col bg-background p-7"
           >
-            <div className="flex items-start justify-between">
-              <div className="flex size-10 items-center justify-center rounded-full border border-border">
-                <project.icon className="size-4.5 text-foreground" strokeWidth={1.5} />
-              </div>
-              <Badge variant="secondary" className="rounded-full border-border bg-transparent text-xs text-muted-foreground">
+            <div className="flex items-start justify-between gap-4">
+              <span className="figures text-caption font-medium text-faint">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="mono-label border border-faint bg-panel px-2 py-1 text-faint">
                 {project.status}
-              </Badge>
+              </span>
             </div>
-            <h3 className="mt-6 text-lg font-medium text-foreground">{project.name}</h3>
-            <p className="mt-2 text-sm font-medium text-muted-foreground">{project.tagline}</p>
-            <p className="mt-4 text-sm text-muted-foreground text-pretty">{project.description}</p>
-          </motion.div>
+            <h3 className="mt-7 text-lg font-semibold tracking-[-0.025em] text-foreground">
+              {project.name}
+            </h3>
+            <p className="mono-label mt-3 text-muted-foreground">{project.tagline}</p>
+            <p className="mt-5 text-caption text-muted-foreground text-pretty">
+              {project.description}
+            </p>
+          </motion.article>
         ))}
+
+        {/* Five cards leave one trailing cell empty in both the 2- and 3-column
+            layouts, which would otherwise expose the rule grid as a solid block. */}
+        <div aria-hidden className="hidden bg-background sm:block" />
       </motion.div>
     </Section>
   );

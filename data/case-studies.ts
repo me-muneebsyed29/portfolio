@@ -9,7 +9,10 @@ export type CaseStudy = {
   approach: string[];
   execution: string[];
   outcome: string;
-  metrics: { label: string; value: string }[];
+  /* Applications sheet, 03 / CASE STUDY HEADER: the stat strip carries exactly
+     one cadmium cell — the number the study is about. The rest stay chalk even
+     when they are also good numbers. */
+  metrics: { label: string; value: string; accent?: boolean }[];
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -33,8 +36,8 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "CAC dropped 65% over two quarters while trial volume held steady, freeing budget to reinvest into the channels that were actually compounding.",
     metrics: [
-      { label: "CAC", value: "-65%" },
-      { label: "Trial volume", value: "steady" },
+      { label: "CAC", value: "-65%", accent: true },
+      { label: "Trial volume", value: "Steady" },
       { label: "Time to result", value: "2 quarters" },
     ],
   },
@@ -58,7 +61,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "Spend scaled 7x without efficiency collapsing — revenue efficiency actually improved 40% as the system matured.",
     metrics: [
-      { label: "Spend scaled", value: "€4K → €30K/mo" },
+      { label: "Spend scaled", value: "7×", accent: true },
       { label: "Revenue efficiency", value: "+40%" },
       { label: "Timeframe", value: "9 months" },
     ],
@@ -83,7 +86,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "The program became the template for enterprise GTM across the org, with marketing-sourced pipeline in target accounts becoming a standing line item in QBRs.",
     metrics: [
-      { label: "Media managed", value: "$25M+" },
+      { label: "Media managed", value: "$25M+", accent: true },
       { label: "Program", value: "Enterprise ABM" },
       { label: "Channels", value: "Google, Meta, LinkedIn" },
     ],

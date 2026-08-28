@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { siteConfig } from "@/lib/site-config";
 
 const WEB3FORMS_ACCESS_KEY = "5a81973b-6946-4089-829c-2370d3d97b5a";
 
@@ -45,22 +46,30 @@ export function ContactForm() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name" className="mono-label text-faint">
+            Name
+          </Label>
           <Input id="name" name="name" placeholder="Your name" required />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email" className="mono-label text-faint">
+            Email
+          </Label>
           <Input id="email" name="email" type="email" placeholder="you@company.com" required />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="company">Company</Label>
+        <Label htmlFor="company" className="mono-label text-faint">
+          Company
+        </Label>
         <Input id="company" name="company" placeholder="Your company" />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
+        <Label htmlFor="message" className="mono-label text-faint">
+          Message
+        </Label>
         <Textarea id="message" name="message" placeholder="What's on your mind?" required rows={5} />
       </div>
 
@@ -68,22 +77,22 @@ export function ContactForm() {
         type="submit"
         size="lg"
         disabled={status === "sending"}
-        className="w-full rounded-full sm:w-auto sm:px-8"
+        className="mono-label h-11 w-full"
       >
         {status === "sending" && "Sending…"}
-        {status === "success" && "Message sent ✓"}
+        {status === "success" && "Message sent"}
         {status === "idle" && "Send message"}
         {status === "error" && "Try again"}
       </Button>
 
       {status === "success" && (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           Thanks — I&apos;ll get back to you shortly.
         </p>
       )}
       {status === "error" && (
-        <p className="text-sm text-destructive">
-          Something went wrong. Try emailing hello@muneebsyed29.com directly.
+        <p className="text-caption text-destructive">
+          Something went wrong. Try emailing {siteConfig.email} directly.
         </p>
       )}
     </form>

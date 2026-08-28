@@ -27,8 +27,8 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const study = caseStudies.find((s) => s.slug === slug);
-  if (!study) notFound();
+  const index = caseStudies.findIndex((s) => s.slug === slug);
+  if (index === -1) notFound();
 
-  return <CaseStudyDetail study={study} />;
+  return <CaseStudyDetail study={caseStudies[index]} index={index} />;
 }

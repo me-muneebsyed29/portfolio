@@ -4,6 +4,9 @@ export type Win = {
   suffix?: string;
   label: string;
   detail: string;
+  /* Brand sheet 01 / COLOR: cadmium is "the single number that matters", one per
+     frame. Exactly one win in this list may carry it. */
+  accent?: boolean;
 };
 
 export const wins: Win[] = [
@@ -12,13 +15,16 @@ export const wins: Win[] = [
     suffix: "%",
     label: "Reduced CAC",
     detail: "Cut customer acquisition cost through creative testing and audience refinement.",
+    accent: true,
   },
   {
-    value: 30,
-    prefix: "€4K → €",
-    suffix: "K/mo",
+    /* Stated as a multiple rather than "€4K → €30K": the forbidden list rules
+       out arrows, and the brand sheet sets deltas as figures like "4.2×". */
+    value: 7,
+    suffix: "×",
     label: "Spend scaled",
-    detail: "Grew monthly paid media investment 7x while holding efficiency targets.",
+    detail:
+      "Grew monthly paid media investment from €4K to €30K while holding efficiency targets.",
   },
   {
     value: 25,

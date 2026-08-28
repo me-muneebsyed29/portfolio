@@ -3,6 +3,8 @@ import { ImageResponse } from "next/og";
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
+/* 02 / MONOGRAM: "Favicon uses the alternate, solid: an outline box turns to
+   mush at 16px." Solid slab, letters only, no rule. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -13,15 +15,15 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#090909",
-          color: "#fafafa",
-          fontSize: 20,
-          fontWeight: 600,
+          background: "#CC4327",
+          color: "#F2F2F0",
+          fontSize: 17,
+          fontWeight: 700,
+          letterSpacing: "-0.5px",
           fontFamily: "sans-serif",
-          borderRadius: 8,
         }}
       >
-        M
+        SM
       </div>
     ),
     size

@@ -25,6 +25,19 @@
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-grade-strong: var(--grade-strong);
+  --color-grade-strong-bg: var(--grade-strong-bg);
+  --color-grade-acceptable: var(--grade-acceptable);
+  --color-grade-acceptable-bg: var(--grade-acceptable-bg);
+  --color-grade-caution: var(--grade-caution);
+  --color-grade-caution-bg: var(--grade-caution-bg);
+  --color-grade-reject: var(--grade-reject);
+  --color-grade-reject-bg: var(--grade-reject-bg);
+  --color-grade-neutral: var(--grade-neutral);
+  --color-grade-neutral-bg: var(--grade-neutral-bg);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -39,16 +52,37 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  --color-well: var(--well);
+  --color-panel: var(--panel);
+  --color-rule: var(--rule);
+  --color-faint: var(--faint);
+  --color-cadmium: var(--cadmium);
+  --color-cadmium-ink: var(--cadmium-ink);
+  --color-improved: var(--improved);
+  --color-broken: var(--broken);
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
 
-  --text-hero: 5rem;
-  --text-hero--line-height: 1.02;
+  /* Brand sheet 02 / TYPE. Display and figure sizes only; anything smaller than
+     the 13px caption is a spec violation, so no step exists below it. */
+  --text-hero: 4.5rem;
+  --text-hero--line-height: 1.05;
   --text-hero--letter-spacing: -0.025em;
-  --text-section: 3rem;
+  --text-section: 1.75rem;
   --text-section--line-height: 1.1;
-  --text-section--letter-spacing: -0.02em;
+  --text-section--letter-spacing: -0.025em;
+  --text-h1: 2.75rem;
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.025em;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.55;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.16em;
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -59,94 +93,169 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * Brand sheet rev 01 — 01 / COLOR.
+ * Light mode is the chalk ground (#F2F2F0), dark is graphite (#1A1A1A).
+ * The sheet specifies light-mode variants only for label, accent, and the two
+ * semantics; the light rule/panel/well steps below are derived to hold the same
+ * contrast interval against chalk that the spec'd ones hold against graphite.
+ */
 :root {
   color-scheme: light;
 
-  --background: #ffffff;
-  --surface: #f7f7f8;
-  --card: #ffffff;
-  --card-foreground: #0a0a0a;
-  --foreground: #0a0a0a;
-  --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
+  --background: #f2f2f0; /* chalk — the light-mode ground */
+  --well: #dedeD9;
+  --panel: #e7e7e3;
+  --surface: #e7e7e3;
+  --card: #e7e7e3;
+  --card-foreground: #1a1a1a;
+  --foreground: #1a1a1a; /* ink */
+  --popover: #e7e7e3;
+  --popover-foreground: #1a1a1a;
 
-  --primary: #0a0a0a;
-  --primary-foreground: #ffffff;
-  --secondary: #f7f7f8;
-  --secondary-foreground: #52525b;
-  --muted: #f7f7f8;
-  --muted-foreground: #6b6b76;
-  --accent: #0a0a0a;
-  --accent-foreground: #ffffff;
+  --primary: #1a1a1a;
+  --primary-foreground: #f2f2f0;
+  --secondary: #e7e7e3;
+  --secondary-foreground: #4a4a46;
+  --muted: #e7e7e3;
+  --muted-foreground: #4a4a46; /* label, light mode — 8.0:1 */
+  --faint: #6e6e68; /* coordinates and page numbers only, never body copy */
+  --accent: #1a1a1a;
+  --accent-foreground: #f2f2f0;
 
-  --destructive: #d13438;
+  --destructive: #9e2f16;
 
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.16);
-  --input: rgba(0, 0, 0, 0.08);
-  --ring: rgba(0, 0, 0, 0.24);
+  --rule: #d5d5ce;
+  --border: #d5d5ce;
+  --border-strong: #b9b9b2;
+  --input: #c9c9c2;
+  --ring: #6e6e68;
 
-  /* Chart-only accent hues — the rest of the UI stays monochrome black/white. */
-  --chart-1: #0a0a0a;
-  --chart-2: #2f9c7c;
-  --chart-3: #3574b8;
-  --chart-4: #b8923d;
-  --chart-5: #6b6b76;
+  /* Cadmium is the one-per-frame accent. On chalk it only clears contrast at
+     display sizes, so anything under 24px uses the ink variant instead. */
+  --cadmium: #cc4327;
+  --cadmium-ink: #9e2f16;
+  --improved: #3f6b5c; /* slate green, light mode */
+  --broken: #8a5a2b; /* umber, light mode */
 
-  --radius: 0.75rem;
+  --chart-1: #1a1a1a;
+  --chart-2: #3f6b5c;
+  --chart-3: #4a4a46;
+  --chart-4: #8a5a2b;
+  --chart-5: #6e6e68;
 
-  --sidebar: #f7f7f8;
-  --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #0a0a0a;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #ffffff;
-  --sidebar-accent-foreground: #0a0a0a;
-  --sidebar-border: rgba(0, 0, 0, 0.08);
-  --sidebar-ring: rgba(0, 0, 0, 0.24);
+  /* 03 / STRUCTURE: radius is 0 everywhere, no exceptions. */
+  --radius: 0rem;
+
+  --sidebar: #e7e7e3;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #1a1a1a;
+  --sidebar-primary-foreground: #f2f2f0;
+  --sidebar-accent: #f2f2f0;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #d5d5ce;
+  --sidebar-ring: #6e6e68;
 }
 
 .dark {
   color-scheme: dark;
 
-  --background: #090909;
-  --surface: #111111;
-  --card: #151515;
-  --card-foreground: #fafafa;
-  --foreground: #fafafa;
-  --popover: #151515;
-  --popover-foreground: #fafafa;
+  --background: #1a1a1a; /* graphite — primary ground */
+  --well: #0d0d0d;
+  --panel: #2a2a28;
+  --surface: #2a2a28;
+  --card: #2a2a28;
+  --card-foreground: #f2f2f0;
+  --foreground: #f2f2f0; /* chalk */
+  --popover: #2a2a28;
+  --popover-foreground: #f2f2f0;
 
-  --primary: #fafafa;
-  --primary-foreground: #090909;
-  --secondary: #111111;
-  --secondary-foreground: #a1a1aa;
-  --muted: #111111;
-  --muted-foreground: #a1a1aa;
-  --accent: #fafafa;
-  --accent-foreground: #090909;
+  --primary: #f2f2f0;
+  --primary-foreground: #1a1a1a;
+  --secondary: #2a2a28;
+  --secondary-foreground: #a8a8a2;
+  --muted: #2a2a28;
+  --muted-foreground: #a8a8a2; /* label — 8.4:1 */
+  --faint: #6e6e68; /* 3.5:1 — never body text on dark */
+  --accent: #f2f2f0;
+  --accent-foreground: #1a1a1a;
 
-  --destructive: #e5484d;
+  --destructive: #cc4327;
 
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: rgba(255, 255, 255, 0.28);
+  --rule: #3d3d3a;
+  --border: #3d3d3a;
+  --border-strong: #4a4a46;
+  --input: #3d3d3a;
+  --ring: #a8a8a2;
 
-  /* Chart-only accent hues — the rest of the UI stays monochrome white/black. */
-  --chart-1: #fafafa;
-  --chart-2: #8fd6c4;
-  --chart-3: #8fb4d6;
-  --chart-4: #d6c48f;
-  --chart-5: #a1a1aa;
+  --cadmium: #cc4327; /* large type only on dark — 3.6:1 */
+  --cadmium-ink: #cc4327;
+  --improved: #7fa893; /* slate green */
+  --broken: #c08a4a; /* umber */
 
-  --sidebar: #111111;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #fafafa;
-  --sidebar-primary-foreground: #090909;
-  --sidebar-accent: #151515;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: rgba(255, 255, 255, 0.28);
+  --chart-1: #f2f2f0;
+  --chart-2: #7fa893;
+  --chart-3: #a8a8a2;
+  --chart-4: #c08a4a;
+  --chart-5: #6e6e68;
+
+  --sidebar: #2a2a28;
+  --sidebar-foreground: #f2f2f0;
+  --sidebar-primary: #f2f2f0;
+  --sidebar-primary-foreground: #1a1a1a;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #f2f2f0;
+  --sidebar-border: #3d3d3a;
+  --sidebar-ring: #a8a8a2;
+}
+
+/*
+ * B2C sub-brand (b2c.muneebsyed29.com).
+ * Scoped token override rather than a second stylesheet — the shadcn components
+ * all read these vars, so the whole primitive library re-skins from this block.
+ * Always dark: the B2C site has no theme toggle, so it must not depend on `.dark`.
+ */
+.b2c {
+  color-scheme: dark;
+
+  /* The B2B site moved to Instrument Sans with the rev 01 brand system; the B2C
+     sub-brand is deliberately not on that system, so it keeps Figtree. Loaded in
+     app/b2c/layout.tsx so the B2B site never pays for a font it doesn't render. */
+  font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --background: #08090a;
+  --surface: #0d0f11;
+  --card: #111417;
+  --card-foreground: #f2f5f3;
+  --foreground: #f2f5f3;
+  --popover: #111417;
+  --popover-foreground: #f2f5f3;
+
+  /* Acid lime carries every CTA and every metric. Nothing else is coloured. */
+  --primary: #c9f24d;
+  --primary-foreground: #0a0c08;
+  --secondary: #161a1d;
+  --secondary-foreground: #ccd4cf;
+  --muted: #121518;
+  --muted-foreground: #939c97;
+  --accent: #c9f24d;
+  --accent-foreground: #0a0c08;
+
+  --destructive: #ff7a7a;
+
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(201, 242, 77, 0.3);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: rgba(201, 242, 77, 0.5);
+
+  /* Tighter than the B2B site's 0.75rem — reads more instrument, less brochure. */
+  --radius: 0.5rem;
+}
+
+/* Paint the document itself so overscroll doesn't flash the B2B background. */
+body:has(.b2c) {
+  background-color: #08090a;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -165,6 +274,41 @@
 }
 
 @layer utilities {
+  /* Mono face for eyebrows, metric labels and table headers on the B2C site.
+     Declared here (not via --font-mono) because `@theme inline` bakes the
+     font-mono utility to a literal, so it can't be overridden per-scope. */
+  .font-mono-ui {
+    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+    font-feature-settings: "ss02" on;
+  }
+
+  /* 02 / TYPE — FIGURES: "Every number, everywhere." Any rendered figure gets
+     the mono face and tabular lining so columns of numbers align on the decimal. */
+  .figures {
+    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* Mono caps label: 11px / 0.16em. Kickers, metric labels, table headers. */
+  .mono-label {
+    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* The illustration kit's ground: a 1px panel-coloured grid on a 40px module.
+     Used behind the hero in place of the radial glow the system forbids. */
+  .brand-grid {
+    background-image:
+      linear-gradient(to right, var(--panel) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--panel) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
   .noise-overlay {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC45Ii8+PC9zdmc+");
     background-repeat: repeat;

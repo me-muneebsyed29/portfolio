@@ -1,0 +1,14 @@
+# Vercel installs dependencies and runs the build itself, so shipping the local
+# node_modules and build cache only makes the upload enormous and flaky — the
+# Turbopack dev cache in .next alone runs to several GB.
+node_modules
+.next
+out
+
+# The pre-Next.js static site, kept for reference only. Never served.
+legacy-static-site
+
+# Local tooling and editor state.
+.claude
+.git
+.DS_Store

@@ -15,21 +15,35 @@ import { cn } from "@/lib/utils";
  *
  * These are scale and credential figures, deliberately not the outcome figures.
  * Selected Wins sits one section below with -65%, 7x and +40%; repeating those
- * here would spend the same proof twice in one scroll. Every figure traces to
- * something already published on the page: the platform count is the ad
- * platforms in the stack table, and the ROAS is Karunakaran Nagarajan's
- * testimonial, which is on this page verbatim.
+ * here would spend the same proof twice in one scroll.
+ *
+ * Sourcing, so these stay honest as the page changes:
+ * - Markets is US, Canada and India, the three named in the B2C positioning.
+ *   Europe is deliberately not counted: the only European signal on the site is
+ *   the euro-denominated case study, which is placeholder copy.
+ * - The average ROAS is Muneeb's own cross-client figure, confirmed by him. It
+ *   is NOT the 3.3 in Karunakaran Nagarajan's testimonial further down, which is
+ *   the top of one client's 2-3.3 range. The two matching is a coincidence.
  */
 const stats: { figure: string; label: string; accent?: boolean }[] = [
   { figure: "$25M+", label: "Media managed", accent: true },
   { figure: "5+", label: "Years operating" },
-  { figure: "9", label: "Ad platforms run" },
-  { figure: "3.3×", label: "Peak client ROAS" },
+  { figure: "3", label: "Markets served" },
+  /* Abbreviated so the label holds one line in a quarter-width cell; spelled out
+     it wrapped while its three neighbours did not, dropping this cell's label
+     off the shared baseline. */
+  { figure: "3.3×", label: "Avg. client ROAS" },
 ];
 
 /* Qualitative credentials carry no figure, so they sit in a mono caps line
-   rather than in the stat strip — a cell with an empty number is not a cell. */
-const credentials = ["Enterprise SaaS", "Google · Meta · LinkedIn", "AI-native GTM"];
+   rather than in the stat strip — a cell with an empty number is not a cell.
+   The market list sits here so the figure above it evidences itself. */
+const credentials = [
+  "Enterprise SaaS",
+  "US · Canada · India",
+  "Google · Meta · LinkedIn",
+  "AI-native GTM",
+];
 
 export function Hero() {
   return (
@@ -92,7 +106,9 @@ export function Hero() {
           /* Bounded to the strip it heads. Left full width the rule carried on
              for another 240px past the last credential, which read as a gap
              rather than a divider. */
-          className="mt-16 max-w-3xl border-t-2 border-rule"
+          /* Matches the headline's measure, and gives the four labels room to
+             each hold a single line. */
+          className="mt-16 max-w-4xl border-t-2 border-rule"
         >
           {/* A four-column grid rather than a flex row: equal cells keep the
               dividers on a regular rhythm instead of letting them fall wherever

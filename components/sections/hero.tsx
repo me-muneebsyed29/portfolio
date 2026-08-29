@@ -10,12 +10,21 @@ import { cn } from "@/lib/utils";
 
 /*
  * "EACH FRAME: ONE ACCENT NUMBER, NOTHING ELSE." The $25M+ figure is the single
- * cadmium element on this screen — the other figure stays chalk even though it
- * is also a good number.
+ * cadmium element on this screen — the rest stay chalk even though they are also
+ * good numbers.
+ *
+ * These are scale and credential figures, deliberately not the outcome figures.
+ * Selected Wins sits one section below with -65%, 7x and +40%; repeating those
+ * here would spend the same proof twice in one scroll. Every figure traces to
+ * something already published on the page: the platform count is the ad
+ * platforms in the stack table, and the ROAS is Karunakaran Nagarajan's
+ * testimonial, which is on this page verbatim.
  */
 const stats: { figure: string; label: string; accent?: boolean }[] = [
   { figure: "$25M+", label: "Media managed", accent: true },
   { figure: "5+", label: "Years operating" },
+  { figure: "9", label: "Ad platforms run" },
+  { figure: "3.3×", label: "Peak client ROAS" },
 ];
 
 /* Qualitative credentials carry no figure, so they sit in a mono caps line
@@ -83,16 +92,25 @@ export function Hero() {
           /* Bounded to the strip it heads. Left full width the rule carried on
              for another 240px past the last credential, which read as a gap
              rather than a divider. */
-          className="mt-16 max-w-2xl border-t-2 border-rule"
+          className="mt-16 max-w-3xl border-t-2 border-rule"
         >
-          {/* Padding rather than a flex gap, so the rule sits centred between the
-              two stats instead of 56px from one and 24px from the other. */}
-          <dl className="flex flex-wrap gap-y-8">
-            {stats.map((item) => (
+          {/* A four-column grid rather than a flex row: equal cells keep the
+              dividers on a regular rhythm instead of letting them fall wherever
+              each figure happens to end. Padding, not a gap, so a rule sits
+              centred between its neighbours. */}
+          <dl className="grid grid-cols-2 gap-y-8 sm:grid-cols-4">
+            {stats.map((item, i) => (
               <motion.div
                 key={item.label}
                 variants={fadeUp}
-                className="border-l border-rule px-6 pt-6 first:border-l-0 first:pl-0"
+                className={cn(
+                  "pt-6 pr-6",
+                  /* A cell starting a row stays flush with the container edge
+                     and drops its rule; the grid is 2 columns, then 4 from sm,
+                     so which cells those are changes with the breakpoint. */
+                  i % 2 === 0 ? "pl-0" : "border-l border-rule pl-6",
+                  i % 4 === 0 ? "sm:border-l-0 sm:pl-0" : "sm:border-l sm:border-rule sm:pl-6"
+                )}
               >
                 <dd
                   className={cn(

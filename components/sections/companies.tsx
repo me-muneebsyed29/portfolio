@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Container } from "@/components/layout/container";
+import { PlatformLogo } from "@/components/brand/platform-logos";
 import { companies } from "@/data/companies";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
-/* Platform wall in mono caps. No logos: the system forbids sourced marks sitting
-   next to each other, and set type holds the grid better at small sizes. */
+/* Mark plus wordmark, all in one colour. Rests at label grey and comes up to
+   full chalk on hover — the wall reads as texture until you look at it. */
 export function Companies() {
   return (
     <section className="border-t-2 border-rule py-10">
@@ -16,15 +17,16 @@ export function Companies() {
           initial="hidden"
           whileInView="show"
           viewport={viewportOnce}
-          className="flex flex-wrap items-center gap-x-10 gap-y-4"
+          className="flex flex-wrap items-center gap-x-10 gap-y-6"
         >
           {companies.map((company) => (
             <motion.li
-              key={company.name}
+              key={company.id}
               variants={fadeUp}
-              className="mono-label text-faint transition-colors duration-200 hover:text-foreground"
+              className="flex items-center gap-2.5 text-faint transition-colors duration-200 hover:text-foreground"
             >
-              {company.name}
+              <PlatformLogo id={company.id} className="size-5 shrink-0" />
+              <span className="mono-label">{company.name}</span>
             </motion.li>
           ))}
         </motion.ul>

@@ -11,7 +11,7 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 export function AiLab() {
   return (
     <Section id="ai-lab">
-      <Eyebrow index="04">AI Lab</Eyebrow>
+      <Eyebrow index="05">AI Lab</Eyebrow>
       <SectionTitle className="mt-5 max-w-xl">Experiments in AI-powered growth.</SectionTitle>
       <p className="mt-5 max-w-lg text-body text-muted-foreground text-pretty">
         Internal tools I build to test where AI actually changes how growth work gets done.

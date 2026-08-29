@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container } from "@/components/layout/container";
 import { Monogram } from "@/components/brand/monogram";
+import { Figure } from "@/components/brand/figures";
 import type { CaseStudy } from "@/data/case-studies";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn, isFigure } from "@/lib/utils";
@@ -72,6 +73,16 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
                 </div>
               ))}
             </motion.dl>
+
+            {/* Achromatic: the strip above already spends this frame's accent. */}
+            <motion.div variants={fadeUp} className="mt-14">
+              <Figure
+                id={study.figure}
+                caption={study.figureCaption}
+                size="hero"
+                achromatic
+              />
+            </motion.div>
           </motion.div>
         </Container>
       </section>

@@ -1,3 +1,5 @@
+import type { FigureId } from "@/components/brand/figures";
+
 // Placeholder case studies structured for easy real-content swaps later —
 // replace `client`, `logo`, copy, and `metrics` with confirmed details/screenshots per engagement.
 export type CaseStudy = {
@@ -13,6 +15,10 @@ export type CaseStudy = {
      one cadmium cell — the number the study is about. The rest stay chalk even
      when they are also good numbers. */
   metrics: { label: string; value: string; accent?: boolean }[];
+  /* The opening figure. It runs achromatic on these pages: the stat strip above
+     it already carries the frame's one accent. */
+  figure: FigureId;
+  figureCaption: string;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -40,6 +46,8 @@ export const caseStudies: CaseStudy[] = [
       { label: "Trial volume", value: "Steady" },
       { label: "Time to result", value: "2 quarters" },
     ],
+    figure: "outlier",
+    figureCaption: "The one variant carrying the account",
   },
   {
     slug: "vertical-saas-scale",
@@ -65,6 +73,8 @@ export const caseStudies: CaseStudy[] = [
       { label: "Revenue efficiency", value: "+40%" },
       { label: "Timeframe", value: "9 months" },
     ],
+    figure: "delta",
+    figureCaption: "Spend at 7x, efficiency held",
   },
   {
     slug: "enterprise-abm",
@@ -90,5 +100,7 @@ export const caseStudies: CaseStudy[] = [
       { label: "Program", value: "Enterprise ABM" },
       { label: "Channels", value: "Google, Meta, LinkedIn" },
     ],
+    figure: "gap",
+    figureCaption: "Marketing and sales scoring different things",
   },
 ];

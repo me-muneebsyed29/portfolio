@@ -24,7 +24,7 @@ export function Contact() {
       >
         <div className="md:col-span-6">
           <motion.div variants={fadeUp}>
-            <Eyebrow index="07">Contact</Eyebrow>
+            <Eyebrow index="08">Contact</Eyebrow>
           </motion.div>
           <motion.h2
             variants={fadeUp}

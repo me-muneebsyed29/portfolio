@@ -1,13 +1,16 @@
-// Placeholder wordmark wall for the platforms/ecosystem this work runs on.
-// Swap in real client logos (SVG, in /public/logos) once available —
-// just replace `name` entries below with { name, logo: "/logos/x.svg" }.
-export const companies: { name: string }[] = [
-  { name: "Google Ads" },
-  { name: "Meta Ads" },
-  { name: "LinkedIn Ads" },
-  { name: "HubSpot" },
-  { name: "Salesforce" },
-  { name: "Amplitude" },
-  { name: "Segment" },
-  { name: "Webflow" },
+import type { PlatformId } from "@/components/brand/platform-logos";
+
+export type Company = { id: PlatformId; name: string };
+
+/* The platforms and tools the work actually runs on. Client logos are absent by
+   necessity — the case studies are anonymised under NDA. */
+export const companies: Company[] = [
+  { id: "google-ads", name: "Google Ads" },
+  { id: "meta", name: "Meta Ads" },
+  { id: "linkedin", name: "LinkedIn Ads" },
+  { id: "hubspot", name: "HubSpot" },
+  { id: "salesforce", name: "Salesforce" },
+  { id: "amplitude", name: "Amplitude" },
+  { id: "segment", name: "Segment" },
+  { id: "webflow", name: "Webflow" },
 ];

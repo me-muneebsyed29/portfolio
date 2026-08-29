@@ -39,7 +39,7 @@ export function About() {
 
         <div className="md:col-span-7 md:col-start-6">
           <motion.div variants={fadeUp}>
-            <Eyebrow index="06">About</Eyebrow>
+            <Eyebrow index="07">About</Eyebrow>
           </motion.div>
 
           <motion.p

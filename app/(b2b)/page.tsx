@@ -3,6 +3,7 @@ import { Wins } from "@/components/sections/wins";
 import { Companies } from "@/components/sections/companies";
 import { Philosophy } from "@/components/sections/philosophy";
 import { CaseStudies } from "@/components/sections/case-studies";
+import { Testimonials } from "@/components/sections/testimonials";
 import { AiLab } from "@/components/sections/ai-lab";
 import { Writing } from "@/components/sections/writing";
 import { About } from "@/components/sections/about";
@@ -16,6 +17,7 @@ export default function Home() {
       <Companies />
       <Philosophy />
       <CaseStudies />
+      <Testimonials />
       <AiLab />
       <Writing />
       <About />

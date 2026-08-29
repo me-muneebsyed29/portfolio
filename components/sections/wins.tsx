@@ -25,11 +25,20 @@ export function Wins() {
         viewport={viewportOnce}
         className="mt-14 grid grid-cols-1 gap-px border-t-2 border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4"
       >
-        {wins.map((win) => (
+        {wins.map((win, i) => (
           <motion.div
             key={win.label}
             variants={fadeUp}
-            className="flex min-h-[224px] flex-col justify-between bg-background px-1 pt-7 pb-1 sm:px-6 sm:pb-6"
+            className={cn(
+              "flex min-h-[224px] flex-col justify-between bg-background pt-7 pr-6 pb-6",
+              /* A cell with a rule to its left needs padding to clear it; a cell
+                 that starts a row must stay flush with the container edge, or
+                 the strip stops aligning with the heading above it. The grid is
+                 1 / 2 / 4 columns, so which cells start a row changes with the
+                 breakpoint — hence the index maths rather than a static class. */
+              i % 2 !== 0 && "sm:pl-6",
+              i % 4 === 0 ? "lg:pl-0" : "lg:pl-6"
+            )}
           >
             <AnimatedCounter
               value={win.value}

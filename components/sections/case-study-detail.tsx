@@ -51,10 +51,15 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
               variants={fadeUp}
               className="mt-12 grid grid-cols-2 gap-px border-t-2 border-rule bg-rule sm:grid-cols-3"
             >
-              {study.metrics.map((metric) => (
+              {study.metrics.map((metric, i) => (
                 <div
                   key={metric.label}
-                  className="flex min-h-[104px] flex-col justify-between bg-background px-1 pt-6 pb-1 sm:pr-6"
+                  className={cn(
+                    "flex min-h-[104px] flex-col justify-between bg-background pt-6 pr-6 pb-1",
+                    /* 2 columns, then 3 from sm — see the note in wins.tsx. */
+                    i % 2 !== 0 && "pl-6",
+                    i % 3 === 0 ? "sm:pl-0" : "sm:pl-6"
+                  )}
                 >
                   <dd
                     className={cn(

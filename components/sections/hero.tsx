@@ -80,14 +80,19 @@ export function Hero() {
           variants={staggerContainer(0.07, 0.25)}
           initial="hidden"
           animate="show"
-          className="mt-16 border-t-2 border-rule"
+          /* Bounded to the strip it heads. Left full width the rule carried on
+             for another 240px past the last credential, which read as a gap
+             rather than a divider. */
+          className="mt-16 max-w-2xl border-t-2 border-rule"
         >
-          <dl className="flex flex-wrap gap-x-14 gap-y-8">
+          {/* Padding rather than a flex gap, so the rule sits centred between the
+              two stats instead of 56px from one and 24px from the other. */}
+          <dl className="flex flex-wrap gap-y-8">
             {stats.map((item) => (
               <motion.div
                 key={item.label}
                 variants={fadeUp}
-                className="border-l border-rule pl-6 pt-6 first:border-l-0 first:pl-0"
+                className="border-l border-rule px-6 pt-6 first:border-l-0 first:pl-0"
               >
                 <dd
                   className={cn(

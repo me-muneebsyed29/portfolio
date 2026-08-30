@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Analytics } from "@/components/analytics";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -49,6 +50,9 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
   },
+  /* Explicit canonical. Without it the page emitted none, which left Google to
+     pick between the apex and www itself. */
+  alternates: { canonical: siteConfig.url },
   robots: {
     index: true,
     follow: true,
@@ -89,6 +93,7 @@ export default function RootLayout({
         {/* Each site tree owns its own ThemeProvider: the B2B portfolio is
             dark by default with a toggle, B2C is always dark with none. A
             single root provider could only impose one of those. */}
+        <Analytics />
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>

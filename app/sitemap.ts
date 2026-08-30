@@ -2,28 +2,29 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { caseStudies } from "@/data/case-studies";
 import { essays } from "@/data/writing";
-import { b2cConfig } from "@/lib/b2c-config";
 
+/*
+ * Only real, crawlable URLs.
+ *
+ * Previously this also listed /#work, /#writing, /#about and /#contact. A
+ * fragment is not a separate document — Google drops the hash and sees four
+ * duplicates of the homepage, so a third of the file was noise.
+ *
+ * It also listed the B2C subdomain, which has no DNS record yet. A sitemap entry
+ * that cannot be fetched is a hard error in Search Console. Add it back once
+ * b2c.muneebsyed29.com resolves, and note that a cross-host entry is only
+ * honoured when both hosts are verified on the same account.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "#work", "#writing", "#about", "#contact"].map((path) => ({
-    url: `${siteConfig.url}/${path}`,
-    lastModified: new Date(),
-  }));
-
-  const workRoutes = caseStudies.map((study) => ({
-    url: `${siteConfig.url}/work/${study.slug}`,
-    lastModified: new Date(),
-  }));
-
-  const essayRoutes = essays.map((essay) => ({
-    url: `${siteConfig.url}/writing/${essay.slug}`,
-    lastModified: new Date(essay.date),
-  }));
-
-  // The B2C subdomain shares this deployment, so it has no sitemap of its own.
-  // Listing it here is what gets it discovered — both hosts need to be verified
-  // in Search Console for a cross-host entry to be honoured.
-  const b2cRoutes = [{ url: b2cConfig.url, lastModified: new Date() }];
-
-  return [...routes, ...workRoutes, ...essayRoutes, ...b2cRoutes];
+  return [
+    { url: `${siteConfig.url}/`, lastModified: new Date() },
+    ...caseStudies.map((study) => ({
+      url: `${siteConfig.url}/work/${study.slug}`,
+      lastModified: new Date(),
+    })),
+    ...essays.map((essay) => ({
+      url: `${siteConfig.url}/writing/${essay.slug}`,
+      lastModified: new Date(essay.date),
+    })),
+  ];
 }

@@ -57,11 +57,12 @@
   --color-rule: var(--rule);
   --color-faint: var(--faint);
   --color-cadmium: var(--cadmium);
-  --color-cadmium-ink: var(--cadmium-ink);
+  --color-cadmium-sm: var(--cadmium-sm);
+  --color-grid: var(--grid);
   --color-improved: var(--improved);
   --color-broken: var(--broken);
 
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
 
@@ -134,7 +135,12 @@
   /* Cadmium is the one-per-frame accent. On chalk it only clears contrast at
      display sizes, so anything under 24px uses the ink variant instead. */
   --cadmium: #cc4327;
-  --cadmium-ink: #9e2f16;
+  /* Accent text under 24px. On a chalk ground that is the ink value; full
+     cadmium only clears contrast at display sizes. */
+  --cadmium-sm: #9e2f16;
+  /* Rev 02 sets the figure grid to #232320 for screen, which is a dark-ground
+     value. Derived here to hold the same barely-there weight against chalk. */
+  --grid: #e7e7e3;
   --improved: #3f6b5c; /* slate green, light mode */
   --broken: #8a5a2b; /* umber, light mode */
 
@@ -189,7 +195,15 @@
   --ring: #a8a8a2;
 
   --cadmium: #cc4327; /* large type only on dark — 3.6:1 */
-  --cadmium-ink: #cc4327;
+  /* Rev 02 addition: cadmium light. Full cadmium measures 3.6:1 on graphite and
+     is unreadable below ~24px; this is the accent value for accent text under
+     24px on dark grounds, at 5.5:1. A size variant, not a fourth colour — never
+     above 24px, never on chalk, never a second accent in the same frame. */
+  --cadmium-sm: #e4704f;
+  /* Rev 02: #232320 for screen and social. #2A2A28 stays correct for print,
+     where nothing is recompressed. Grid line only — panel fills, redaction bars
+     and table header rows stay #2A2A28 on every surface. */
+  --grid: #232320;
   --improved: #7fa893; /* slate green */
   --broken: #c08a4a; /* umber */
 
@@ -218,7 +232,7 @@
 .b2c {
   color-scheme: dark;
 
-  /* The B2B site moved to Instrument Sans with the rev 01 brand system; the B2C
+  /* The B2B site moved to Space Grotesk with the rev 02 brand system; the B2C
      sub-brand is deliberately not on that system, so it keeps Figtree. Loaded in
      app/b2c/layout.tsx so the B2B site never pays for a font it doesn't render. */
   font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
@@ -304,8 +318,8 @@ body:has(.b2c) {
      Used behind the hero in place of the radial glow the system forbids. */
   .brand-grid {
     background-image:
-      linear-gradient(to right, var(--panel) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--panel) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 

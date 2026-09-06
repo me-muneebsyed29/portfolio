@@ -65,7 +65,7 @@ export function Hero() {
 
           <motion.h1
             variants={fadeUp}
-            className="mt-8 text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.025em] text-balance text-foreground sm:text-[3.25rem] md:text-hero"
+            className="mt-8 text-[2.5rem] font-bold leading-[1.05] tracking-[-0.025em] text-balance text-foreground sm:text-[3.25rem] md:text-hero"
           >
             Building AI-first growth systems that turn paid media into predictable pipeline.
           </motion.h1>

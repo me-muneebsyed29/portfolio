@@ -28,7 +28,7 @@ export function Contact() {
           </motion.div>
           <motion.h2
             variants={fadeUp}
-            className="mt-5 max-w-lg text-[2rem] font-semibold leading-[1.05] tracking-[-0.025em] text-balance text-foreground md:text-h1"
+            className="mt-5 max-w-lg text-[2rem] font-bold leading-[1.05] tracking-[-0.025em] text-balance text-foreground md:text-h1"
           >
             Let&apos;s build something people remember.
           </motion.h2>

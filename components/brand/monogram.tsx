@@ -50,7 +50,7 @@ export function Monogram({
         y="50"
         textAnchor="middle"
         dominantBaseline="central"
-        fontFamily="var(--font-instrument-sans), sans-serif"
+        fontFamily="var(--font-space-grotesk), sans-serif"
         fontSize="42"
         fontWeight="700"
         letterSpacing={size < 32 ? "0" : "-1"}

@@ -75,7 +75,7 @@ export function EssayDetail({ essay, index }: { essay: Essay; index: number }) {
 
             <motion.h1
               variants={fadeUp}
-              className="mt-5 max-w-3xl text-[2rem] font-semibold leading-[1.05] tracking-[-0.025em] text-balance text-foreground md:text-h1"
+              className="mt-5 max-w-3xl text-[2rem] font-bold leading-[1.05] tracking-[-0.025em] text-balance text-foreground md:text-h1"
             >
               {essay.title}
             </motion.h1>

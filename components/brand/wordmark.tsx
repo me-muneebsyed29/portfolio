@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /*
- * 01 / WORDMARK. Instrument Sans 700, tracking −0.025em, all caps, no space
+ * 01 / WORDMARK. Space Grotesk 700, tracking −0.025em, all caps, no space
  * between the name and the period.
  *
  * The period is the only place the accent appears in a mark, and it is dropped
@@ -18,7 +18,7 @@ export function Wordmark({
   className?: string;
 }) {
   const base = cn(
-    "inline-block font-semibold uppercase tracking-[-0.025em] leading-none",
+    "inline-block font-bold uppercase tracking-[-0.025em] leading-none",
     className
   );
 
@@ -30,10 +30,11 @@ export function Wordmark({
   return (
     <span className={base}>
       Muneeb
-      {/* The mark sets at 17px in the header, so the period takes the ink
-          variant of cadmium — on a chalk ground the full-strength accent only
-          clears contrast at 24px and above. */}
-      <span className={accent ? "text-cadmium-ink" : undefined}>.</span>
+      {/* The mark sets at 17px, so the period takes the under-24px accent
+          value, which rev 02 splits by ground: cadmium light (#E4704F) on
+          dark, the ink value (#9E2F16) on chalk. Full cadmium here would sit
+          at 3.6:1 on graphite. */}
+      <span className={accent ? "text-cadmium-sm" : undefined}>.</span>
     </span>
   );
 }

@@ -5,7 +5,7 @@ import { B2CFooter } from "@/components/b2c/footer";
 import { b2cConfig } from "@/lib/b2c-config";
 
 /* Loaded here rather than in the root layout so the B2B site doesn't pay for a
-   font it never renders. The B2B site moved to Instrument Sans with the rev 01
+   font it never renders. The B2B site moved to Space Grotesk with the rev 02
    brand system; this sub-brand is not on that system and stays on Figtree.
    JetBrains Mono now comes from the root layout, which the brand system needs
    for figures anyway, so it is no longer loaded twice. */

@@ -35,7 +35,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
 
             <motion.h1
               variants={fadeUp}
-              className="mt-5 max-w-3xl text-[2rem] font-semibold leading-[1.05] tracking-[-0.025em] text-balance text-foreground md:text-h1"
+              className="mt-5 max-w-3xl text-[2rem] font-bold leading-[1.05] tracking-[-0.025em] text-balance text-foreground md:text-h1"
             >
               {study.summary}
             </motion.h1>

@@ -1,12 +1,17 @@
 import { cn } from "@/lib/utils";
 
 /*
- * The illustration system: six marks, four primitives, no metaphors. Geometry is
- * transcribed from the sheet rather than redrawn, so these are the same figures
- * that appear in the decks and carousels.
+ * The illustration system. Geometry is transcribed from the sheet rather than
+ * redrawn, so these are the same figures that appear in the decks and carousels.
+ * Rev 02 verified: the drawings are unchanged.
  *
- * Kit: 1.5px chalk lines, a 1px panel grid on a 40px module, 4px dots, filled
- * cells. The only curve allowed is a circle.
+ * Rev 02 reframed the sheet from a closed set of six into a grammar — every
+ * figure is a field, an operation and one mark — and these six are now its first
+ * six worked examples rather than the whole vocabulary. `field` and `operation`
+ * below record each one's place in that grammar.
+ *
+ * Kit: 1.5px chalk lines, a 1px grid on a 40px module, 4px dots, filled cells.
+ * The only curve allowed is a circle.
  *
  * Colours resolve through tokens so a figure inverts correctly in light mode.
  * `achromatic` exists because the sheet is explicit: if the frame already has an
@@ -38,11 +43,33 @@ const figureIndex: Record<FigureId, string> = {
   "flagged-row": "06",
 };
 
+/*
+ * Each figure's position in the rev 02 grammar: a field (what is being
+ * measured, 7 of them) and an operation (what happens to it, 10 of them). Kept
+ * as code rather than caption text — it is the vocabulary the system is built
+ * from, not something a site visitor needs read to them.
+ *
+ * Any figure added here must be nameable as one of the 7 x 10 pairs, must
+ * finish the sentence "a measurement of...", and must need no new primitive.
+ * If it needs a new primitive it is not part of this system.
+ */
+export const figureGrammar: Record<FigureId, { field: string; operation: string }> = {
+  narrowing: { field: "Path", operation: "narrowing" },
+  outlier: { field: "Scatter", operation: "filtering" },
+  "one-cell": { field: "Matrix", operation: "filtering" },
+  gap: { field: "Two columns", operation: "breaking" },
+  delta: { field: "Axis", operation: "crossing" },
+  "flagged-row": { field: "Stack", operation: "filtering" },
+};
+
 /* The 40px module the figures are drawn over. Omitted by "the one cell", which
-   builds its own table instead. */
+   builds its own table instead.
+   Rev 02 moved the grid line off the panel fill to its own value: at feed size
+   compression flattened the two together. Fills elsewhere in these figures stay
+   on --panel, which is unchanged. */
 function Grid() {
   return (
-    <g stroke="var(--panel)" strokeWidth="1" fill="none">
+    <g stroke="var(--grid)" strokeWidth="1" fill="none">
       <path d="M0 40h320M0 80h320M0 120h320M0 160h320M40 0v200M80 0v200M120 0v200M160 0v200M200 0v200M240 0v200M280 0v200" />
     </g>
   );

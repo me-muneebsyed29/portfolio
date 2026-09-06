@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@/components/analytics";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-/* Brand sheet 02 / TYPE. Instrument Sans sets display and body; JetBrains Mono
-   sets every figure and every mono caps label. No third face exists in the
-   system — the signature mark is drawn, not typeset. */
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
+/* Brand sheet rev 02 / TYPE. Space Grotesk carries every word, JetBrains Mono
+   carries every number — no overlap and no exceptions. Rev 02 replaced
+   Instrument Sans in both roles; Space Mono was tested as the companion and
+   rejected, because the mono has to stay neutral when the number is the
+   argument. No third face exists — the signature mark is drawn, not typeset. */
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  /* 700 is the display weight; 400-600 cover body. */
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -82,7 +86,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">

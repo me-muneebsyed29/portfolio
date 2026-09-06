@@ -68,6 +68,6 @@ export function SectionTitle({
   className?: string;
 }) {
   return (
-    <h2 className={cn("text-section font-semibold text-balance", className)}>{children}</h2>
+    <h2 className={cn("text-section font-bold text-balance", className)}>{children}</h2>
   );
 }

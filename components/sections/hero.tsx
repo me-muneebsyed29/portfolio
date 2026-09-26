@@ -80,7 +80,7 @@ export function Hero() {
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-3">
             <Button
-              render={<a href={siteConfig.bookingUrl} />}
+              render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
               nativeButton={false}
               size="lg"
               className="mono-label h-11 px-6"

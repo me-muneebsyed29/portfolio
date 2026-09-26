@@ -22,7 +22,6 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Content still to swap in
 
-- `lib/site-config.ts` → `bookingUrl` — currently points at the contact section; replace with a real Cal.com/Calendly link once you have one.
 - `data/case-studies.ts` — placeholder client names/metrics; replace with real client details, logos, and screenshots per engagement.
 - `data/companies.ts` — text wordmarks for the ad platforms/tools; swap for real client logos in `public/logos` if desired.
 - `data/writing.ts` — essay previews only; wire up to real posts/MDX when they exist.

@@ -68,7 +68,7 @@ export function Nav() {
         <div className="hidden items-center gap-3 md:flex">
           <ThemeToggle />
           <Button
-            render={<a href={siteConfig.bookingUrl} />}
+            render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
             nativeButton={false}
             size="sm"
             className="mono-label h-9 px-4"
@@ -113,7 +113,7 @@ export function Nav() {
                   nativeButton={false}
                   render={
                     <Button
-                      render={<a href={siteConfig.bookingUrl} />}
+                      render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
                       nativeButton={false}
                       className="mono-label h-11 w-full"
                     />

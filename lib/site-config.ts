@@ -16,8 +16,7 @@ export const siteConfig = {
   location: "Bengaluru, India",
   linkedin: "https://www.linkedin.com/in/muneebsyed29",
   twitter: "",
-  // TODO: replace with a real scheduling link (Cal.com / Calendly) — falls back to the contact section.
-  bookingUrl: "#contact",
+  bookingUrl: "https://cal.com/muneebsyed29/30min",
   nav: [
     { label: "Work", href: "#work" },
     { label: "Writing", href: "#writing" },

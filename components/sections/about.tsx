@@ -15,7 +15,9 @@ const traits = ["Builder", "Growth Operator", "Father", "Bengaluru"];
  * built on and left the short text column stranded beside a taller image.
  *
  * The portrait takes the frame treatment images get here: squared off in a well,
- * 1px rule, no crop to a shape and no shadow, monogram stamping the corner.
+ * 1px rule, no crop to a shape and no shadow, monogram stamping the corner. The
+ * photo is baked to greyscale, like the figures: the frame stays achromatic and
+ * the page keeps its one cadmium accent.
  */
 export function About() {
   return (
@@ -56,13 +58,15 @@ export function About() {
         <motion.figure variants={fadeUp} className="md:col-span-4 md:col-start-9">
           <div className="relative aspect-square w-full max-w-[260px] border border-rule bg-well md:ml-auto">
             <Image
-              src="/avatar.png"
+              src="/portrait.jpg"
               alt="Portrait of Muneeb Syed"
               fill
               sizes="260px"
               className="object-cover"
             />
-            <Monogram size={24} className="absolute right-2.5 bottom-2.5 text-muted-foreground" />
+            {/* Fixed to the dark-mode label grey: the photo is dark in both
+                themes, and the light-mode label value vanishes against it. */}
+            <Monogram size={24} className="absolute right-2.5 bottom-2.5 text-[#a8a8a2]" />
           </div>
           <figcaption className="mono-label mt-4 text-faint md:text-right">
             Bengaluru, India · 2026

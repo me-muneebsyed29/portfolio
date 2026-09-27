@@ -69,6 +69,7 @@ const jsonLd = {
   name: siteConfig.name,
   jobTitle: siteConfig.role,
   url: siteConfig.url,
+  image: `${siteConfig.url}/portrait.jpg`,
   email: siteConfig.email,
   address: {
     "@type": "PostalAddress",

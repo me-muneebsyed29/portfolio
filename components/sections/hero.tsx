@@ -1,9 +1,11 @@
 "use client";
 
+import { useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { GridGround } from "@/components/brand/grid-ground";
+import { HeroStack } from "@/components/sections/hero-stack";
 import { siteConfig } from "@/lib/site-config";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -46,14 +48,22 @@ const credentials = [
 ];
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const anchors = useMemo(() => [copyRef, statsRef], []);
+
   return (
     <section
+      ref={sectionRef}
       id="top"
       className="relative flex min-h-[88vh] items-center border-b-2 border-rule pt-28 pb-14 md:pb-22"
     >
       <GridGround />
-      <Container>
+      <HeroStack sectionRef={sectionRef} anchorRefs={anchors} />
+      <Container className="relative">
         <motion.div
+          ref={copyRef}
           variants={staggerContainer(0.1)}
           initial="hidden"
           animate="show"
@@ -100,6 +110,7 @@ export function Hero() {
         </motion.div>
 
         <motion.div
+          ref={statsRef}
           variants={staggerContainer(0.07, 0.25)}
           initial="hidden"
           animate="show"

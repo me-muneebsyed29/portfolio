@@ -105,15 +105,12 @@ export function Hero() {
           >
             <motion.div variants={fadeUp} className="flex items-center gap-3">
               {/* The floating head lives beside the card on large screens;
-                  smaller screens get it as a badge in the card instead. */}
-              <span className="relative size-11 shrink-0 overflow-hidden rounded-full bg-[#79bbf7] ring-2 ring-white lg:hidden">
-                <Image
-                  src="/sky/avatar-head.webp"
-                  alt=""
-                  fill
-                  sizes="44px"
-                  className="object-cover object-top"
-                />
+                  smaller screens get it as a badge in the card instead. The
+                  badge has its own square image, framed so the whole head
+                  (hair to chin) sits inside the circle; cropping the tall
+                  cutout cut the chin off. */}
+              <span className="relative size-12 shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-[0_6px_14px_-6px_rgba(16,64,140,0.5)] lg:hidden">
+                <Image src="/sky/avatar-badge.webp" alt="" fill sizes="48px" className="object-cover" />
               </span>
               <p className="caps-label w-fit rounded-full bg-white/70 px-3 py-1.5 text-muted-foreground">
                 {siteConfig.role} · Bengaluru

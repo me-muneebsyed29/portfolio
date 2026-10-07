@@ -30,7 +30,7 @@ export function Philosophy() {
             variants={fadeUp}
             className="grid grid-cols-1 gap-x-8 gap-y-6 border-b border-rule py-10 md:grid-cols-12"
           >
-            <p className="mono-label text-faint md:col-span-1">
+            <p className="caps-label text-faint md:col-span-1">
               {String(i + 1).padStart(2, "0")}
             </p>
             <div className="md:col-span-5">

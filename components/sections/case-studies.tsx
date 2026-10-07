@@ -40,11 +40,11 @@ export function CaseStudies() {
             >
               <div>
                 <div className="flex items-baseline justify-between gap-4">
-                  <p className="mono-label text-faint">
+                  <p className="caps-label text-faint">
                     Case study {String(i + 1).padStart(2, "0")}
                   </p>
                 </div>
-                <p className="mono-label mt-6 text-muted-foreground">{study.category}</p>
+                <p className="caps-label mt-6 text-muted-foreground">{study.category}</p>
                 <h3 className="mt-4 text-xl font-semibold tracking-[-0.025em] text-balance text-foreground">
                   {study.client}
                 </h3>
@@ -65,11 +65,11 @@ export function CaseStudies() {
                       >
                         {metric.value}
                       </dd>
-                      <dt className="mono-label mt-2 text-faint">{metric.label}</dt>
+                      <dt className="caps-label mt-2 text-faint">{metric.label}</dt>
                     </div>
                   ))}
                 </dl>
-                <span className="mono-label mt-7 inline-flex items-center gap-2 text-primary">
+                <span className="caps-label mt-7 inline-flex items-center gap-2 text-primary">
                   Read case study
                   <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
                     →

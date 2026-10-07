@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { getWeather, subscribeWeather, type Weather } from "@/lib/weather";
 import { mulberry32, pxToSceneX, ridgeY, ridges, sceneScale, sceneToPx, SCENE_H } from "./landscape";
 
 /*
@@ -11,6 +12,11 @@ import { mulberry32, pxToSceneX, ridgeY, ridges, sceneScale, sceneToPx, SCENE_H 
  * - the cursor parts the grass it passes over, and butterflies keep clear of it
  * - a click on open meadow sends a gust rolling out from that point, shaking
  *   petals loose; a click in the sky flushes a small flock of birds
+ *
+ * Weather (lib/weather.ts) changes all of it: rain darkens the grass, sends
+ * the butterflies away and splashes on the meadow; snow buries most of the
+ * grass and the flowers and falls in front of the hills. Each change eases in
+ * over about a second rather than snapping.
  *
  * The loop only runs while the finale is on screen and the tab is visible.
  * With reduced motion it paints one still frame and stops.
@@ -51,18 +57,51 @@ type Flock = { x: number; y: number; vx: number; vy: number; birds: Bird[] };
 
 type Gust = { x: number; y: number; t0: number };
 
+type Drop = { x: number; y: number; ground: number; len: number; speed: number };
+type Flake = { x: number; y: number; ground: number; r: number; speed: number; phase: number };
+type Splash = { x: number; y: number; life: number };
+
 const BANDS = 4;
 const SHADES = 3;
 
-/* Back bands are cooler and darker, front bands warmer and lit. */
-const bladeColors = [
-  ["#3f7f3a", "#467f3e", "#3a7536"],
-  ["#4b9140", "#55983f", "#478a3d"],
-  ["#5aa544", "#66ad47", "#529c40"],
-  ["#6cb84a", "#7fc452", "#5fae45"],
-];
+/* Back bands are cooler and darker, front bands warmer and lit. One palette
+   per weather; frames blend between them while the weather changes. */
+const bladePalettes: Record<Weather, string[][]> = {
+  sunny: [
+    ["#3f7f3a", "#467f3e", "#3a7536"],
+    ["#4b9140", "#55983f", "#478a3d"],
+    ["#5aa544", "#66ad47", "#529c40"],
+    ["#6cb84a", "#7fc452", "#5fae45"],
+  ],
+  rainy: [
+    ["#35663a", "#3a6a3c", "#305e34"],
+    ["#3f7438", "#467b3b", "#3b6e36"],
+    ["#4b8540", "#548c42", "#46803d"],
+    ["#5a9447", "#659d4b", "#53893f"],
+  ],
+  /* Frosted tips poking out of the snow. */
+  snowy: [
+    ["#c6d4c8", "#bccbbf", "#cfdcd1"],
+    ["#b9cbb6", "#c4d4c0", "#afc2ac"],
+    ["#a9c0a3", "#b8ccb2", "#9db795"],
+    ["#9fb996", "#afc7a5", "#93ae8a"],
+  ],
+};
+
+const rgbPalettes = Object.fromEntries(
+  Object.entries(bladePalettes).map(([k, bands]) => [
+    k,
+    bands.map((band) => band.map((hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)))),
+  ])
+) as Record<Weather, number[][][]>;
 
 const petalColors = ["#ffffff", "#ffd84d", "#ff9fb5", "#c9b6ff", "#fff3b0"];
+/* What a gust throws up in each weather: petals, spray, powder snow. */
+const gustColors: Record<Weather, string[]> = {
+  sunny: petalColors,
+  rainy: ["#e3edf8", "#c9daec", "#f4f8fc"],
+  snowy: ["#ffffff", "#f1f6fb", "#e4edf6"],
+};
 const wingColors = ["#ffcf3f", "#ff9f5a", "#7cc0ff"];
 
 function isInteractive(target: EventTarget | null) {
@@ -92,6 +131,13 @@ export function MeadowLife({ className }: { className?: string }) {
     let flocks: Flock[] = [];
     let petals: Petal[] = [];
     let gusts: Gust[] = [];
+    let drops: Drop[] = [];
+    let flakes: Flake[] = [];
+    let splashes: Splash[] = [];
+    let weather: Weather = getWeather();
+    /* How much of each weather is showing, 0..1, eased toward `weather`. */
+    const mix: Record<Weather, number> = { sunny: 0, rainy: 0, snowy: 0 };
+    mix[weather] = 1;
     let nextFlock = 4;
     const pointer = { x: -9999, y: -9999, active: false };
 
@@ -176,6 +222,18 @@ export function MeadowLife({ className }: { className?: string }) {
           phase: rand() * 10,
           color,
         };
+      });
+
+      /* Each drop and flake lands somewhere on the meadow, not at the canvas
+         edge, so rain splashes and snow settles on the ground you can see. */
+      const groundAt = () => meadowTop + 20 + Math.random() * (H - meadowTop - 20);
+      drops = Array.from({ length: Math.round((W * H) / 6000) }, () => {
+        const ground = groundAt();
+        return { x: Math.random() * (W + H * 0.22), y: Math.random() * ground, ground, len: 16 + Math.random() * 18, speed: 950 + Math.random() * 450 };
+      });
+      flakes = Array.from({ length: Math.round((W * H) / 5200) }, () => {
+        const ground = groundAt();
+        return { x: Math.random() * W, y: Math.random() * ground, ground, r: (1.2 + Math.random() * 2.6) * unit, speed: 30 + Math.random() * 55, phase: Math.random() * 6.3 };
       });
     }
 
@@ -270,9 +328,13 @@ export function MeadowLife({ className }: { className?: string }) {
 
       /* Birds, behind everything else in the scene. */
       if (!reduceMotion) {
+        const ease = Math.min(1, dt * 1.4);
+        for (const w of ["sunny", "rainy", "snowy"] as Weather[]) mix[w] += ((w === weather ? 1 : 0) - mix[w]) * ease;
+
         nextFlock -= dt;
         if (nextFlock <= 0) {
-          spawnFlock();
+          /* Birds sit out the rain. */
+          if (mix.rainy < 0.5) spawnFlock();
           nextFlock = 9 + Math.random() * 8;
         }
       }
@@ -303,7 +365,7 @@ export function MeadowLife({ className }: { className?: string }) {
           }
           if (m.x > W + 10) m.x = -10;
         }
-        const a = 0.35 + 0.35 * Math.sin(t * 2 + m.phase);
+        const a = (0.35 + 0.35 * Math.sin(t * 2 + m.phase)) * mix.sunny;
         ctx!.fillStyle = `rgba(255, 248, 210, ${a})`;
         ctx!.beginPath();
         ctx!.arc(m.x, m.y, m.r, 0, Math.PI * 2);
@@ -312,18 +374,38 @@ export function MeadowLife({ className }: { className?: string }) {
 
       gusts = gusts.filter((g) => t - g.t0 < 3);
 
-      /* Grass and flowers, back band to front band. */
+      /* Grass and flowers, back band to front band. Snow buries most of each
+         blade, so blades are drawn shorter as the snow comes in. */
+      const heightScale = 1 - 0.55 * mix.snowy;
+      const flowerAlpha = mix.sunny + 0.85 * mix.rainy;
       let fi = 0;
       for (let band = 0; band < BANDS; band++) {
         for (let shade = 0; shade < SHADES; shade++) {
           const bucket = buckets[band * SHADES + shade];
-          ctx!.fillStyle = bladeColors[band][shade];
+          const rgb = [0, 1, 2].map((c) =>
+            Math.round(
+              rgbPalettes.sunny[band][shade][c] * mix.sunny +
+                rgbPalettes.rainy[band][shade][c] * mix.rainy +
+                rgbPalettes.snowy[band][shade][c] * mix.snowy
+            )
+          );
+          ctx!.fillStyle = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
           ctx!.beginPath();
-          for (const b of bucket) bladePath(b, sway(b, t, dt));
+          for (const b of bucket) {
+            const h = b.h;
+            b.h = h * heightScale;
+            bladePath(b, sway(b, t, dt));
+            b.h = h;
+          }
           ctx!.fill();
         }
         while (fi < flowers.length && flowers[fi].band === band) {
           const f = flowers[fi++];
+          if (flowerAlpha < 0.02) {
+            sway(f, t, dt);
+            continue;
+          }
+          ctx!.globalAlpha = flowerAlpha;
           const a = sway(f, t, dt) * 0.8;
           const hx = f.x + Math.sin(a) * f.h;
           const hy = f.y - Math.cos(a) * f.h;
@@ -345,6 +427,7 @@ export function MeadowLife({ className }: { className?: string }) {
           ctx!.beginPath();
           ctx!.arc(hx, hy, f.r * 0.6, 0, Math.PI * 2);
           ctx!.fill();
+          ctx!.globalAlpha = 1;
         }
       }
 
@@ -374,7 +457,11 @@ export function MeadowLife({ className }: { className?: string }) {
           b.x += b.vx * dt;
           b.y += b.vy * dt;
         }
-        drawButterfly(b, t);
+        if (mix.sunny > 0.05) {
+          ctx!.globalAlpha = mix.sunny;
+          drawButterfly(b, t);
+          ctx!.globalAlpha = 1;
+        }
       }
 
       /* Petals shaken loose by a gust. */
@@ -396,6 +483,63 @@ export function MeadowLife({ className }: { className?: string }) {
         ctx!.restore();
       }
       petals = petals.filter((p) => p.life > 0);
+
+      /* Rain in front of the hills, splashing where it meets the meadow. */
+      if (mix.rainy > 0.01) {
+        const n = Math.round(drops.length * mix.rainy);
+        ctx!.strokeStyle = `rgba(228, 236, 246, ${0.55 * mix.rainy})`;
+        ctx!.lineWidth = 1.2;
+        ctx!.beginPath();
+        for (let i = 0; i < n; i++) {
+          const d = drops[i];
+          if (!reduceMotion) {
+            d.y += d.speed * dt;
+            d.x -= d.speed * dt * 0.22;
+            if (d.y >= d.ground) {
+              if (splashes.length < 160) splashes.push({ x: d.x, y: d.ground, life: 0.28 });
+              d.y = -d.len - Math.random() * 80;
+              d.x = Math.random() * (W + H * 0.22);
+            }
+          }
+          ctx!.moveTo(d.x, d.y);
+          ctx!.lineTo(d.x + d.len * 0.22, d.y - d.len);
+        }
+        ctx!.stroke();
+
+        ctx!.strokeStyle = `rgba(235, 242, 250, ${0.6 * mix.rainy})`;
+        ctx!.lineWidth = 1;
+        ctx!.beginPath();
+        for (const sp of splashes) {
+          sp.life -= dt;
+          const k = 1 - sp.life / 0.28;
+          ctx!.moveTo(sp.x + 2 + 7 * k, sp.y);
+          ctx!.ellipse(sp.x, sp.y, 2 + 7 * k, 1 + 2.2 * k, 0, 0, Math.PI * 2);
+        }
+        ctx!.stroke();
+        splashes = splashes.filter((sp) => sp.life > 0);
+      }
+
+      /* Snow falling in front of the hills and settling on the meadow. */
+      if (mix.snowy > 0.01) {
+        const n = Math.round(flakes.length * mix.snowy);
+        ctx!.fillStyle = `rgba(255, 255, 255, ${0.95 * mix.snowy})`;
+        ctx!.beginPath();
+        for (let i = 0; i < n; i++) {
+          const f = flakes[i];
+          if (!reduceMotion) {
+            f.y += f.speed * dt;
+            f.x += Math.sin(t * 0.9 + f.phase) * 20 * dt + 8 * dt;
+            if (f.y >= f.ground) {
+              f.y = -6 - Math.random() * 40;
+              f.x = Math.random() * W;
+            }
+            if (f.x > W + 6) f.x = -6;
+          }
+          ctx!.moveTo(f.x + f.r, f.y);
+          ctx!.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        }
+        ctx!.fill();
+      }
     }
 
     layout();
@@ -431,6 +575,16 @@ export function MeadowLife({ className }: { className?: string }) {
     };
     still();
 
+    const unsubscribeWeather = subscribeWeather(() => {
+      weather = getWeather();
+      /* Off screen or with reduced motion there is no loop to ease the
+         change in, so jump straight to the new weather. */
+      if (!running) {
+        for (const w of ["sunny", "rainy", "snowy"] as Weather[]) mix[w] = w === weather ? 1 : 0;
+        still();
+      }
+    });
+
     const resize = new ResizeObserver(() => {
       layout();
       still();
@@ -446,6 +600,7 @@ export function MeadowLife({ className }: { className?: string }) {
 
     if (reduceMotion) {
       return () => {
+        unsubscribeWeather();
         resize.disconnect();
         io.disconnect();
         document.removeEventListener("visibilitychange", sync);
@@ -486,7 +641,7 @@ export function MeadowLife({ className }: { className?: string }) {
           rot: Math.random() * 6,
           vr: (Math.random() - 0.5) * 10,
           life: 2.5 + Math.random() * 2,
-          color: petalColors[Math.floor(Math.random() * petalColors.length)],
+          color: gustColors[weather][Math.floor(Math.random() * gustColors[weather].length)],
         });
       }
     };
@@ -498,6 +653,7 @@ export function MeadowLife({ className }: { className?: string }) {
 
     return () => {
       cancelAnimationFrame(raf);
+      unsubscribeWeather();
       resize.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", sync);

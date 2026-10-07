@@ -31,7 +31,7 @@ export function Section({
 
 /*
  * Section kicker in the spec-sheet idiom: a zero-padded index, a slash, then the
- * label — "01 / SELECTED WORK". Mono caps at 11px, per 02 / TYPE.
+ * label — "01 / SELECTED WORK". Small caps at 11px.
  */
 export function Eyebrow({
   index,
@@ -43,7 +43,7 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <p className={cn("mono-label text-muted-foreground", className)}>
+    <p className={cn("caps-label text-muted-foreground", className)}>
       {index ? (
         <>
           <span className="text-faint">{index}</span>

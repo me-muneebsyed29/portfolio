@@ -94,12 +94,12 @@ export function NatureFinale({ children }: { children?: React.ReactNode }) {
         <div className="relative h-[30svh] min-h-[200px]">
           <div
             aria-hidden
-            className="pointer-events-none absolute bottom-6 left-[max(1.5rem,calc(50%-36rem))] hidden items-end gap-1 text-white sm:flex"
+            className="scene-hint pointer-events-none absolute bottom-6 left-[max(1.5rem,calc(50%-36rem))] hidden items-end gap-1 sm:flex"
           >
-            <p className="font-hand -rotate-3 text-[1.6rem] leading-none font-medium drop-shadow-[0_2px_8px_rgba(20,60,30,0.45)]">
+            <p className="font-hand -rotate-3 text-[1.6rem] leading-none font-medium">
               psst… click the meadow
             </p>
-            <CurlArrow className="w-12 translate-y-6 rotate-12" />
+            <CurlArrow className="w-12 translate-y-6 rotate-12 text-inherit" />
           </div>
         </div>
 

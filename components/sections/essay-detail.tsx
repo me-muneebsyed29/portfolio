@@ -34,7 +34,7 @@ function Block({ block }: { block: EssayBlock }) {
         <ul className="mt-8 border-t border-rule">
           {block.items.map((item, i) => (
             <li key={item} className="grid grid-cols-[2.5rem_1fr] border-b border-rule py-5">
-              <span className="mono-label pt-1 text-faint">
+              <span className="caps-label pt-1 text-faint">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="text-body text-foreground text-pretty">{item}</span>
@@ -63,13 +63,13 @@ export function EssayDetail({ essay, index }: { essay: Essay; index: number }) {
             <motion.div variants={fadeUp}>
               <Link
                 href="/#writing"
-                className="mono-label text-muted-foreground transition-colors hover:text-foreground"
+                className="caps-label text-muted-foreground transition-colors hover:text-foreground"
               >
                 Back to writing
               </Link>
             </motion.div>
 
-            <motion.p variants={fadeUp} className="mono-label mt-10 text-faint">
+            <motion.p variants={fadeUp} className="caps-label mt-10 text-faint">
               Essay {String(index + 1).padStart(2, "0")} · {published} · {essay.readingTime} read
             </motion.p>
 
@@ -110,8 +110,8 @@ export function EssayDetail({ essay, index }: { essay: Essay; index: number }) {
 
             <div className="mt-16 flex items-end justify-between border-t border-rule pt-6">
               <div>
-                <p className="mono-label text-foreground">Syed Muneeb Rehaman</p>
-                <p className="mono-label mt-2 text-faint">
+                <p className="caps-label text-foreground">Syed Muneeb Rehaman</p>
+                <p className="caps-label mt-2 text-faint">
                   {siteConfig.role} · {published}
                 </p>
               </div>

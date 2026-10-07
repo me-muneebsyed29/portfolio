@@ -5,7 +5,7 @@ import { useInView, animate, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /*
- * 02 / TYPE — FIGURES. The mono face and tabular figures come from `.figures`,
+ * Tabular figures come from `.figures`,
  * so a counting number never changes width mid-animation and columns of stats
  * stay aligned while they run.
  */

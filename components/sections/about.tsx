@@ -44,7 +44,7 @@ export function About() {
             className="mt-10 flex flex-wrap gap-x-10 gap-y-3 border-t border-rule pt-6"
           >
             {traits.map((trait) => (
-              <li key={trait} className="mono-label text-muted-foreground">
+              <li key={trait} className="caps-label text-muted-foreground">
                 {trait}
               </li>
             ))}
@@ -68,7 +68,7 @@ export function About() {
               className="object-contain object-bottom pt-5"
             />
           </div>
-          <figcaption className="mono-label mt-4 text-faint md:text-right">
+          <figcaption className="caps-label mt-4 text-faint md:text-right">
             Bengaluru, India · 2026
           </figcaption>
         </motion.figure>

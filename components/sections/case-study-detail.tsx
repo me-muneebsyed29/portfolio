@@ -23,13 +23,13 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
             <motion.div variants={fadeUp}>
               <Link
                 href="/#work"
-                className="mono-label text-muted-foreground transition-colors hover:text-foreground"
+                className="caps-label text-muted-foreground transition-colors hover:text-foreground"
               >
                 Back to work
               </Link>
             </motion.div>
 
-            <motion.p variants={fadeUp} className="mono-label mt-10 text-faint">
+            <motion.p variants={fadeUp} className="caps-label mt-10 text-faint">
               Case study {String(index + 1).padStart(2, "0")} · {study.category}
             </motion.p>
 
@@ -42,7 +42,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
 
             <motion.p
               variants={fadeUp}
-              className="mono-label mt-6 text-muted-foreground"
+              className="caps-label mt-6 text-muted-foreground"
             >
               {study.client}
             </motion.p>
@@ -59,7 +59,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
                   <dd
                     className={cn(
                       "font-bold leading-none",
-                      // A figure gets the mono face at full size; a qualitative
+                      // A figure gets tabular numbers at full size; a qualitative
                       // value is not data, so it sets smaller in the sans.
                       isFigure(metric.value)
                         ? "figures text-3xl"
@@ -69,7 +69,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
                   >
                     {metric.value}
                   </dd>
-                  <dt className="mono-label mt-4 text-muted-foreground">{metric.label}</dt>
+                  <dt className="caps-label mt-4 text-muted-foreground">{metric.label}</dt>
                 </div>
               ))}
             </motion.dl>
@@ -97,12 +97,12 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
             className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8"
           >
             <motion.section variants={fadeUp} className="md:col-span-4">
-              <h2 className="mono-label text-faint">Problem</h2>
+              <h2 className="caps-label text-faint">Problem</h2>
               <p className="mt-5 text-body text-foreground text-pretty">{study.problem}</p>
             </motion.section>
 
             <motion.section variants={fadeUp} className="md:col-span-4">
-              <h2 className="mono-label text-faint">Approach</h2>
+              <h2 className="caps-label text-faint">Approach</h2>
               <ul className="mt-5 space-y-4">
                 {study.approach.map((line) => (
                   <li key={line} className="text-caption text-muted-foreground text-pretty">
@@ -113,7 +113,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
             </motion.section>
 
             <motion.section variants={fadeUp} className="md:col-span-4">
-              <h2 className="mono-label text-faint">Execution</h2>
+              <h2 className="caps-label text-faint">Execution</h2>
               <ul className="mt-5 space-y-4">
                 {study.execution.map((line) => (
                   <li key={line} className="text-caption text-muted-foreground text-pretty">
@@ -131,7 +131,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
             viewport={viewportOnce}
             className="glass-card relative mt-14 rounded-3xl p-8 md:p-12"
           >
-            <h2 className="mono-label text-faint">Outcome</h2>
+            <h2 className="caps-label text-faint">Outcome</h2>
             <p className="mt-5 max-w-2xl text-xl font-semibold tracking-[-0.025em] text-balance text-foreground md:text-2xl">
               {study.outcome}
             </p>

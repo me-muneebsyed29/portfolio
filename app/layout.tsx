@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono, Caveat } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@/components/analytics";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-/* Brand sheet rev 02 / TYPE. Space Grotesk carries every word, JetBrains Mono
-   carries every number — no overlap and no exceptions. Rev 02 replaced
-   Instrument Sans in both roles; Space Mono was tested as the companion and
-   rejected, because the mono has to stay neutral when the number is the
-   argument. No third face exists — the signature mark is drawn, not typeset. */
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+/* The sky site's one typeface: Plus Jakarta Sans carries headlines, body,
+   labels and figures (with tabular numbers). Chosen over Manrope, DM Sans,
+   Onest and two serif pairings for being the softest of the clean sans faces,
+   which suits the daylight look. Loaded as a variable font, so every weight
+   is one file. */
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  /* 700 is the display weight; 400-600 cover body. */
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
+/* Only the B2C site still uses a mono, for its UI labels. */
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
@@ -96,7 +95,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${caveat.variable} h-full`}
+      className={`${jakarta.variable} ${jetbrainsMono.variable} ${caveat.variable} h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">

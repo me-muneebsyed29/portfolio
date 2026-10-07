@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /*
- * 01 / WORDMARK. Space Grotesk 700, tracking −0.025em, all caps, no space
+ * 01 / WORDMARK. Plus Jakarta Sans 700, tracking −0.025em, all caps, no space
  * between the name and the period.
  *
  * The period is the only place the accent appears in a mark, and it is dropped

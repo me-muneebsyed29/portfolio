@@ -15,7 +15,7 @@ export function Footer() {
             <p className="text-[15px] text-foreground">
               <Wordmark variant="full" />
             </p>
-            <p className="mono-label mt-1.5 text-muted-foreground">
+            <p className="caps-label mt-1.5 text-muted-foreground">
               {siteConfig.role} · Bengaluru
             </p>
           </div>
@@ -36,7 +36,7 @@ export function Footer() {
           >
             LinkedIn
           </a>
-          <p className="mono-label text-faint">© {new Date().getFullYear()}</p>
+          <p className="caps-label text-faint">© {new Date().getFullYear()}</p>
         </div>
       </div>
     </footer>

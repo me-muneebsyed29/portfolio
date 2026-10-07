@@ -30,7 +30,7 @@ function Row({ item, index }: { item: Testimonial; index: number }) {
       transition={{ delay: Math.min(index, 4) * 0.07 }}
       className="grid grid-cols-1 gap-x-8 gap-y-6 border-b border-rule py-10 md:grid-cols-12"
     >
-      <p className="mono-label text-faint md:col-span-1">
+      <p className="caps-label text-faint md:col-span-1">
         {String(index + 1).padStart(2, "0")}
       </p>
 
@@ -60,7 +60,7 @@ function Row({ item, index }: { item: Testimonial; index: number }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={bodyId}
-            className="mono-label mt-6 rounded-full border border-white bg-white/70 px-4 py-2 text-muted-foreground transition-colors hover:bg-white hover:text-foreground"
+            className="caps-label mt-6 rounded-full border border-white bg-white/70 px-4 py-2 text-muted-foreground transition-colors hover:bg-white hover:text-foreground"
           >
             {open ? "Show less" : "Read in full"}
           </button>
@@ -73,12 +73,12 @@ function Row({ item, index }: { item: Testimonial; index: number }) {
             <p className="figures text-2xl font-bold leading-none text-cadmium">
               {item.metric.value}
             </p>
-            <p className="mono-label mt-2 text-faint">{item.metric.label}</p>
+            <p className="caps-label mt-2 text-faint">{item.metric.label}</p>
           </div>
         )}
-        <p className="mono-label text-foreground">{item.name}</p>
-        <p className="mono-label mt-2 text-faint">{item.role}</p>
-        <p className="mono-label mt-1 text-faint">{item.company}</p>
+        <p className="caps-label text-foreground">{item.name}</p>
+        <p className="caps-label mt-2 text-faint">{item.role}</p>
+        <p className="caps-label mt-1 text-faint">{item.company}</p>
       </figcaption>
     </motion.figure>
   );

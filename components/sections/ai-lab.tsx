@@ -32,14 +32,14 @@ export function AiLab() {
               <span className="figures text-caption font-medium text-faint">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="mono-label rounded-full bg-primary/10 px-2.5 py-1 text-cadmium-sm">
+              <span className="caps-label rounded-full bg-primary/10 px-2.5 py-1 text-cadmium-sm">
                 {project.status}
               </span>
             </div>
             <h3 className="mt-7 text-lg font-semibold tracking-[-0.025em] text-foreground">
               {project.name}
             </h3>
-            <p className="mono-label mt-3 text-muted-foreground">{project.tagline}</p>
+            <p className="caps-label mt-3 text-muted-foreground">{project.tagline}</p>
             <p className="mt-5 text-caption text-muted-foreground text-pretty">
               {project.description}
             </p>

@@ -7,7 +7,7 @@ import { essays } from "@/data/writing";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 /* A ledger of rows, not cards: index, title, standfirst, reading time. Reading
-   time is a figure, so it takes the mono face like every other number. */
+   time is a figure, so it takes tabular numbers like every other number. */
 export function Writing() {
   return (
     <Section id="writing">
@@ -27,7 +27,7 @@ export function Writing() {
               href={`/writing/${essay.slug}`}
               className="group -mx-4 grid grid-cols-1 gap-x-8 gap-y-3 rounded-2xl border-b border-rule px-4 py-7 transition-colors duration-200 hover:bg-white/60 md:grid-cols-12 md:items-baseline"
             >
-              <p className="mono-label text-faint md:col-span-1">
+              <p className="caps-label text-faint md:col-span-1">
                 {String(i + 1).padStart(2, "0")}
               </p>
               <h3 className="text-lg font-semibold tracking-[-0.025em] text-balance text-foreground md:col-span-5">

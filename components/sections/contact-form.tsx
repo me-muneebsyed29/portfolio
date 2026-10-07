@@ -46,13 +46,13 @@ export function ContactForm() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="name" className="mono-label text-faint">
+          <Label htmlFor="name" className="caps-label text-faint">
             Name
           </Label>
           <Input id="name" name="name" placeholder="Your name" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email" className="mono-label text-faint">
+          <Label htmlFor="email" className="caps-label text-faint">
             Email
           </Label>
           <Input id="email" name="email" type="email" placeholder="you@company.com" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
@@ -60,14 +60,14 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="company" className="mono-label text-faint">
+        <Label htmlFor="company" className="caps-label text-faint">
           Company
         </Label>
         <Input id="company" name="company" placeholder="Your company" className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message" className="mono-label text-faint">
+        <Label htmlFor="message" className="caps-label text-faint">
           Message
         </Label>
         <Textarea
@@ -84,7 +84,7 @@ export function ContactForm() {
         type="submit"
         size="lg"
         disabled={status === "sending"}
-        className="mono-label h-12 w-full rounded-full"
+        className="caps-label h-12 w-full rounded-full"
       >
         {status === "sending" && "Sending…"}
         {status === "success" && "Message sent"}

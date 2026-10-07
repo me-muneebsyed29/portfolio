@@ -44,7 +44,7 @@ const stats: { figure: string; label: string; accent?: boolean }[] = [
   { figure: "3.3×", label: "Avg. client ROAS" },
 ];
 
-/* Qualitative credentials carry no figure, so they sit in a mono caps line
+/* Qualitative credentials carry no figure, so they sit in a small caps line
    rather than in the stat strip — a cell with an empty number is not a cell.
    The market list sits here so the figure above it evidences itself. */
 const credentials = [
@@ -115,7 +115,7 @@ export function Hero() {
                   className="object-cover object-top"
                 />
               </span>
-              <p className="mono-label w-fit rounded-full bg-white/70 px-3 py-1.5 text-muted-foreground">
+              <p className="caps-label w-fit rounded-full bg-white/70 px-3 py-1.5 text-muted-foreground">
                 {siteConfig.role} · Bengaluru
               </p>
             </motion.div>
@@ -141,7 +141,7 @@ export function Hero() {
                 render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
                 nativeButton={false}
                 size="lg"
-                className="mono-label h-12 rounded-full px-7 shadow-[0_10px_24px_-10px_rgba(22,104,227,0.8)]"
+                className="caps-label h-12 rounded-full px-7 shadow-[0_10px_24px_-10px_rgba(22,104,227,0.8)]"
               >
                 Book a Call
               </Button>
@@ -150,7 +150,7 @@ export function Hero() {
                 nativeButton={false}
                 size="lg"
                 variant="outline"
-                className="mono-label h-12 rounded-full border-white bg-white/80 px-7 hover:bg-white"
+                className="caps-label h-12 rounded-full border-white bg-white/80 px-7 hover:bg-white"
               >
                 View Case Studies
               </Button>
@@ -167,7 +167,7 @@ export function Hero() {
                   variants={fadeUp}
                   className="glass-card flex flex-col-reverse justify-between rounded-2xl px-4 pt-4 pb-3.5"
                 >
-                  <dt className="mono-label mt-2.5 text-muted-foreground">{item.label}</dt>
+                  <dt className="caps-label mt-2.5 text-muted-foreground">{item.label}</dt>
                   <dd
                     className={cn(
                       "figures text-[1.75rem] font-bold leading-none",
@@ -182,7 +182,7 @@ export function Hero() {
 
             <motion.ul variants={fadeUp} className="mt-7 flex flex-wrap gap-x-6 gap-y-2">
               {credentials.map((item) => (
-                <li key={item} className="mono-label text-faint">
+                <li key={item} className="caps-label text-faint">
                   {item}
                 </li>
               ))}

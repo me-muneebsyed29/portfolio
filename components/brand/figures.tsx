@@ -190,7 +190,7 @@ function Drawing({ id, accent }: { id: FigureId; accent: string }) {
 
 /*
  * "An unlabelled diagram is decoration, which is the thing you're avoiding." —
- * every figure carries a mono caps caption, so the caption is part of the
+ * every figure carries a small caps caption, so the caption is part of the
  * component rather than something a caller can forget.
  *
  * Sizes are deliberately restricted to the two the sheet allows: `hero` at
@@ -221,7 +221,7 @@ export function Figure({
       >
         <Drawing id={id} accent={accent} />
       </svg>
-      <figcaption className="mono-label mt-4 text-faint">
+      <figcaption className="caps-label mt-4 text-faint">
         Fig. {figureIndex[id]} · {figureNames[id]}
         {caption ? <span className="text-muted-foreground"> — {caption}</span> : null}
       </figcaption>

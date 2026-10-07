@@ -6,6 +6,9 @@ import { mulberry32, ridgePath, ridgeY, ridges, SCENE_H, SCENE_W, type Ridge } f
  * far layers are bluer and paler (air between you and them), near layers are
  * saturated and dark at the base, lit yellow-green along the ridge where the
  * sun from the top right catches them.
+ *
+ * Every gradient stop reads a --h-* variable from globals.css, so the same
+ * hills turn grey-green in the rain and white under snow, fading between them.
  */
 
 type TreeKind = "round" | "cypress";
@@ -48,7 +51,7 @@ function TreeShape({ tree }: { tree: Tree }) {
       className="tree-sway"
       style={{ "--sway-duration": `${tree.sway}s` } as React.CSSProperties}
     >
-      <ellipse cx={tree.x + 6 * s} cy={tree.y + 1} rx={16 * s} ry={3.5 * s} fill="#2c6b2a" opacity={0.25} />
+      <ellipse cx={tree.x + 6 * s} cy={tree.y + 1} rx={16 * s} ry={3.5 * s} style={{ fill: "var(--h-canopy-2)" }} opacity={0.25} />
       <rect x={tree.x - 2.2 * s} y={tree.y - 16 * s} width={4.4 * s} height={17 * s} rx={1.5 * s} fill="#6b4a2e" />
       {tree.kind === "round" ? (
         <>
@@ -82,32 +85,32 @@ export function HillDefs() {
     <svg aria-hidden width="0" height="0" className="absolute">
       <defs>
         <linearGradient id="g-horizon" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#e4f2ff" stopOpacity="0" />
-          <stop offset="1" stopColor="#e4f2ff" stopOpacity="0.9" />
+          <stop offset="0" style={{ stopColor: "var(--h-horizon)" }} stopOpacity="0" />
+          <stop offset="1" style={{ stopColor: "var(--h-horizon)" }} stopOpacity="0.9" />
         </linearGradient>
         <linearGradient id="g-mountains" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#7fa9da" />
-          <stop offset="0.35" stopColor="#9dbfe6" />
-          <stop offset="0.6" stopColor="#c3dbf3" />
+          <stop offset="0" style={{ stopColor: "var(--h-mtn-0)" }} />
+          <stop offset="0.35" style={{ stopColor: "var(--h-mtn-1)" }} />
+          <stop offset="0.6" style={{ stopColor: "var(--h-mtn-2)" }} />
         </linearGradient>
         <linearGradient id="g-far" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#a6d1ad" />
-          <stop offset="0.4" stopColor="#9cc7b0" />
+          <stop offset="0" style={{ stopColor: "var(--h-far-0)" }} />
+          <stop offset="0.4" style={{ stopColor: "var(--h-far-1)" }} />
         </linearGradient>
         <linearGradient id="g-mid" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#a5d873" />
-          <stop offset="0.12" stopColor="#82c25f" />
-          <stop offset="0.45" stopColor="#5ea64c" />
+          <stop offset="0" style={{ stopColor: "var(--h-mid-0)" }} />
+          <stop offset="0.12" style={{ stopColor: "var(--h-mid-1)" }} />
+          <stop offset="0.45" style={{ stopColor: "var(--h-mid-2)" }} />
         </linearGradient>
         <linearGradient id="g-near" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#9fd567" />
-          <stop offset="0.1" stopColor="#6fbc4f" />
-          <stop offset="0.6" stopColor="#3f8c36" />
+          <stop offset="0" style={{ stopColor: "var(--h-near-0)" }} />
+          <stop offset="0.1" style={{ stopColor: "var(--h-near-1)" }} />
+          <stop offset="0.6" style={{ stopColor: "var(--h-near-2)" }} />
         </linearGradient>
         <linearGradient id="g-meadow" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#7cc251" />
-          <stop offset="0.4" stopColor="#4d9e3c" />
-          <stop offset="1" stopColor="#2b7529" />
+          <stop offset="0" style={{ stopColor: "var(--h-meadow-0)" }} />
+          <stop offset="0.4" style={{ stopColor: "var(--h-meadow-1)" }} />
+          <stop offset="1" style={{ stopColor: "var(--h-meadow-2)" }} />
         </linearGradient>
         <linearGradient id="g-haze" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#ffffff" stopOpacity="0" />
@@ -115,14 +118,14 @@ export function HillDefs() {
           <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
         <radialGradient id="canopy" cx="0.35" cy="0.3" r="0.75">
-          <stop offset="0" stopColor="#b6e37f" />
-          <stop offset="0.55" stopColor="#5fae45" />
-          <stop offset="1" stopColor="#3a8333" />
+          <stop offset="0" style={{ stopColor: "var(--h-canopy-0)" }} />
+          <stop offset="0.55" style={{ stopColor: "var(--h-canopy-1)" }} />
+          <stop offset="1" style={{ stopColor: "var(--h-canopy-2)" }} />
         </radialGradient>
         <radialGradient id="canopy-dark" cx="0.35" cy="0.3" r="0.8">
-          <stop offset="0" stopColor="#8cc96a" />
-          <stop offset="0.6" stopColor="#3f8a3c" />
-          <stop offset="1" stopColor="#2a6b2c" />
+          <stop offset="0" style={{ stopColor: "var(--h-canopy-dark-0)" }} />
+          <stop offset="0.6" style={{ stopColor: "var(--h-canopy-dark-1)" }} />
+          <stop offset="1" style={{ stopColor: "var(--h-canopy-dark-2)" }} />
         </radialGradient>
       </defs>
     </svg>

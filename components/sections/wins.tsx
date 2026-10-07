@@ -41,7 +41,7 @@ export function Wins() {
               )}
             />
             <div className="mt-8">
-              <p className="mono-label text-foreground">{win.label}</p>
+              <p className="caps-label text-foreground">{win.label}</p>
               <p className="mt-3 text-caption text-muted-foreground text-pretty">{win.detail}</p>
             </div>
           </motion.div>

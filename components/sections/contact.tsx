@@ -42,7 +42,7 @@ export function Contact() {
                 rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                 className="-mx-3 flex items-baseline justify-between gap-6 rounded-xl border-b border-rule px-3 py-5 transition-colors duration-200 hover:bg-white/60"
               >
-                <dt className="mono-label text-faint">{link.label}</dt>
+                <dt className="caps-label text-faint">{link.label}</dt>
                 <dd className="text-caption text-foreground">{link.value}</dd>
               </a>
             ))}

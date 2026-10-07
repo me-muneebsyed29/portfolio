@@ -27,7 +27,7 @@ export function Companies() {
               variants={fadeUp}
               className="grid grid-cols-1 gap-x-8 gap-y-5 border-b border-rule py-7 last:border-b-0 md:grid-cols-12"
             >
-              <p className="mono-label pt-1 text-faint md:col-span-2">{group.label}</p>
+              <p className="caps-label pt-1 text-faint md:col-span-2">{group.label}</p>
               <ul className="flex flex-wrap gap-x-8 gap-y-5 md:col-span-10">
                 {group.tools.map((tool) => (
                   <li
@@ -35,7 +35,7 @@ export function Companies() {
                     className="flex items-center gap-2.5 text-faint transition-colors duration-200 hover:text-foreground"
                   >
                     <PlatformLogo id={tool.id} className="size-5 shrink-0" />
-                    <span className="mono-label">{tool.name}</span>
+                    <span className="caps-label">{tool.name}</span>
                   </li>
                 ))}
               </ul>

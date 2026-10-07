@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { Precipitation } from "./precipitation";
 
 /*
  * The fixed sky behind the whole B2B site. Three cloud depths drift sideways
@@ -13,6 +14,10 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
  *
  * Each cloud's `x` is both its reduced-motion resting place and the phase of
  * its drift loop, so the static sky and the moving one look like the same sky.
+ *
+ * Weather is mostly CSS: one gradient per weather fades in over the others,
+ * the clouds take --cloud-filter (grey and heavy for rain, pale for snow) and
+ * the sun haze takes --sun-opacity. Rain and snow are a canvas above the clouds.
  */
 type Cloud = {
   src: number;
@@ -86,21 +91,33 @@ export function SkyBackdrop() {
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {/* Zenith to horizon. Kept to three close blues so it reads as sky, not
-          as a gradient treatment. */}
+      {/* Zenith to horizon. Kept to three close tones per weather so it reads
+          as sky, not as a gradient treatment. */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#1f7fe8_0%,#3d97f0_38%,#79bbf7_78%,#a9d5fd_100%)]" />
+      <div
+        data-weather="rainy"
+        className="sky-layer absolute inset-0 bg-[linear-gradient(180deg,#4a5b73_0%,#66788f_40%,#8b9bb0_80%,#a6b3c3_100%)]"
+      />
+      <div
+        data-weather="snowy"
+        className="sky-layer absolute inset-0 bg-[linear-gradient(180deg,#8fa7c2_0%,#b2c3d7_40%,#d5e0ec_80%,#e9eff6_100%)]"
+      />
       {/* Sun haze, top right, where the light on the clouds comes from. */}
-      <div className="absolute -top-[20vh] -right-[10vw] h-[70vh] w-[70vh] rounded-full bg-[radial-gradient(circle,rgba(255,250,225,0.55)_0%,rgba(255,250,225,0.18)_35%,transparent_70%)]" />
+      <div className="absolute -top-[20vh] -right-[10vw] h-[70vh] w-[70vh] rounded-full bg-[radial-gradient(circle,rgba(255,250,225,0.55)_0%,rgba(255,250,225,0.18)_35%,transparent_70%)] opacity-(--sun-opacity) transition-opacity duration-1000" />
 
-      <motion.div className="absolute inset-x-0 top-0 h-[140vh]" style={{ y: reduceMotion ? 0 : farY }}>
-        <CloudLayer clouds={far} />
-      </motion.div>
-      <motion.div className="absolute inset-x-0 top-0 h-[170vh]" style={{ y: reduceMotion ? 0 : midY }}>
-        <CloudLayer clouds={mid} />
-      </motion.div>
-      <motion.div className="absolute inset-x-0 top-0 h-[220vh]" style={{ y: reduceMotion ? 0 : nearY }}>
-        <CloudLayer clouds={near} />
-      </motion.div>
+      <div className="absolute inset-0 [filter:var(--cloud-filter)] transition-[filter] duration-1000">
+        <motion.div className="absolute inset-x-0 top-0 h-[140vh]" style={{ y: reduceMotion ? 0 : farY }}>
+          <CloudLayer clouds={far} />
+        </motion.div>
+        <motion.div className="absolute inset-x-0 top-0 h-[170vh]" style={{ y: reduceMotion ? 0 : midY }}>
+          <CloudLayer clouds={mid} />
+        </motion.div>
+        <motion.div className="absolute inset-x-0 top-0 h-[220vh]" style={{ y: reduceMotion ? 0 : nearY }}>
+          <CloudLayer clouds={near} />
+        </motion.div>
+      </div>
+
+      <Precipitation />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Wordmark } from "@/components/brand/wordmark";
+import { WeatherToggle } from "@/components/sky/weather-toggle";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -65,17 +66,19 @@ export function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <WeatherToggle />
           <Button
             render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
             nativeButton={false}
             size="sm"
-            className="mono-label h-10 rounded-full px-5"
+            className="caps-label h-10 rounded-full px-5"
           >
             Book a Call
           </Button>
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
+          <WeatherToggle />
           <Sheet>
             <SheetTrigger
               render={<Button variant="ghost" size="icon-lg" className="rounded-full" aria-label="Open menu" />}
@@ -114,7 +117,7 @@ export function Nav() {
                     <Button
                       render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
                       nativeButton={false}
-                      className="mono-label h-12 w-full rounded-full"
+                      className="caps-label h-12 w-full rounded-full"
                     />
                   }
                 >

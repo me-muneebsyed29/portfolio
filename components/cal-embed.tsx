@@ -124,7 +124,7 @@ export function CalEmbed() {
           <Button
             onClick={openBooking}
             size="lg"
-            className="mono-label h-12 rounded-full border-2 border-white px-6 shadow-[0_14px_30px_-12px_rgba(22,104,227,0.8)]"
+            className="caps-label h-12 rounded-full border-2 border-white px-6 shadow-[0_14px_30px_-12px_rgba(22,104,227,0.8)]"
           >
             Book a Call
           </Button>

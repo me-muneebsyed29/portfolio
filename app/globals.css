@@ -62,7 +62,7 @@
   --color-improved: var(--improved);
   --color-broken: var(--broken);
 
-  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
 
@@ -290,6 +290,134 @@
 /* Paint the document the mid-sky colour so overscroll never flashes white. */
 body:has(.sky) {
   background-color: #5aa9f2;
+  transition: background-color 1.2s ease;
+}
+
+/*
+ * Weather. The sunny values above are the default; rainy and snowy override
+ * the glass tint, the cloud treatment and the landscape palette. Hill and tree
+ * gradients read these variables through their <stop>s, which transition, so
+ * the landscape fades between seasons instead of snapping.
+ */
+:root:has(.sky) {
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --cloud-filter: none;
+  --sun-opacity: 1;
+
+  --h-horizon: #e4f2ff;
+  --h-mtn-0: #7fa9da;
+  --h-mtn-1: #9dbfe6;
+  --h-mtn-2: #c3dbf3;
+  --h-far-0: #a6d1ad;
+  --h-far-1: #9cc7b0;
+  --h-mid-0: #a5d873;
+  --h-mid-1: #82c25f;
+  --h-mid-2: #5ea64c;
+  --h-near-0: #9fd567;
+  --h-near-1: #6fbc4f;
+  --h-near-2: #3f8c36;
+  --h-meadow-0: #7cc251;
+  --h-meadow-1: #4d9e3c;
+  --h-meadow-2: #2b7529;
+  --h-canopy-0: #b6e37f;
+  --h-canopy-1: #5fae45;
+  --h-canopy-2: #3a8333;
+  --h-canopy-dark-0: #8cc96a;
+  --h-canopy-dark-1: #3f8a3c;
+  --h-canopy-dark-2: #2a6b2c;
+}
+
+:root[data-weather="rainy"]:has(.sky) {
+  --glass-bg: rgba(242, 246, 251, 0.64);
+  --cloud-filter: brightness(0.7) saturate(0.35) contrast(1.05);
+  --sun-opacity: 0;
+
+  --h-horizon: #c9d2de;
+  --h-mtn-0: #66798f;
+  --h-mtn-1: #7c8ea4;
+  --h-mtn-2: #a2b0c1;
+  --h-far-0: #7d978a;
+  --h-far-1: #768f85;
+  --h-mid-0: #7f9e63;
+  --h-mid-1: #678953;
+  --h-mid-2: #4d7243;
+  --h-near-0: #7a9c59;
+  --h-near-1: #5b8446;
+  --h-near-2: #3a6232;
+  --h-meadow-0: #6a974c;
+  --h-meadow-1: #497a3a;
+  --h-meadow-2: #2d5b29;
+  --h-canopy-0: #8fb26a;
+  --h-canopy-1: #4f873d;
+  --h-canopy-2: #2f672d;
+  --h-canopy-dark-0: #6f9758;
+  --h-canopy-dark-1: #356c34;
+  --h-canopy-dark-2: #245727;
+}
+
+:root[data-weather="snowy"]:has(.sky) {
+  --glass-bg: rgba(255, 255, 255, 0.66);
+  --cloud-filter: brightness(0.96) saturate(0.25);
+  --sun-opacity: 0.35;
+
+  --h-horizon: #f3f7fb;
+  --h-mtn-0: #c5d4e6;
+  --h-mtn-1: #dbe5f1;
+  --h-mtn-2: #eaf0f7;
+  --h-far-0: #e6eef6;
+  --h-far-1: #d6e2ee;
+  --h-mid-0: #ffffff;
+  --h-mid-1: #eef3f9;
+  --h-mid-2: #d8e3ee;
+  --h-near-0: #ffffff;
+  --h-near-1: #eff4f9;
+  --h-near-2: #d2deea;
+  --h-meadow-0: #fbfdff;
+  --h-meadow-1: #e7eef6;
+  --h-meadow-2: #cddae7;
+  --h-canopy-0: #ffffff;
+  --h-canopy-1: #8fb68a;
+  --h-canopy-2: #3c7346;
+  --h-canopy-dark-0: #ffffff;
+  --h-canopy-dark-1: #6b9874;
+  --h-canopy-dark-2: #2e6038;
+}
+
+:root[data-weather="rainy"] body:has(.sky) {
+  background-color: #74859b;
+}
+
+:root[data-weather="snowy"] body:has(.sky) {
+  background-color: #b8c8da;
+}
+
+/* The meadow hint is chalk on green, and on snow it switches to ink. */
+.scene-hint {
+  color: #ffffff;
+  filter: drop-shadow(0 2px 8px rgba(20, 60, 30, 0.45));
+  transition: color 1.2s ease;
+}
+
+:root[data-weather="snowy"] .scene-hint {
+  color: #34496b;
+  filter: none;
+}
+
+.sky stop {
+  transition: stop-color 1.2s ease;
+}
+
+/* One sky gradient per weather, stacked; the active one fades in. */
+.sky-layer {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+:root:not([data-weather]) .sky-layer[data-weather="sunny"],
+:root[data-weather="sunny"] .sky-layer[data-weather="sunny"],
+:root[data-weather="rainy"] .sky-layer[data-weather="rainy"],
+:root[data-weather="snowy"] .sky-layer[data-weather="snowy"] {
+  opacity: 1;
 }
 
 /*
@@ -301,7 +429,7 @@ body:has(.sky) {
 .b2c {
   color-scheme: dark;
 
-  /* The B2B site moved to Space Grotesk with the rev 02 brand system; the B2C
+  /* The B2B site sets in Plus Jakarta Sans as part of the sky system; the B2C
      sub-brand is deliberately not on that system, so it keeps Figtree. Loaded in
      app/b2c/layout.tsx so the B2B site never pays for a font it doesn't render. */
   font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
@@ -365,21 +493,19 @@ body:has(.b2c) {
     font-feature-settings: "ss02" on;
   }
 
-  /* 02 / TYPE — FIGURES: "Every number, everywhere." Any rendered figure gets
-     the mono face and tabular lining so columns of numbers align on the decimal. */
+  /* Rendered figures: tabular lining numbers, so a counting figure never
+     changes width mid-animation and columns of stats line up. */
   .figures {
-    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.02em;
   }
 
-  /* Mono caps label: 11px / 0.16em. Kickers, metric labels, table headers. */
-  .mono-label {
-    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  /* Small caps label: 11px / 0.14em. Kickers, metric labels, buttons. */
+  .caps-label {
     font-size: 0.6875rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.4;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
@@ -402,7 +528,8 @@ body:has(.b2c) {
   /* The translucent foreground. Blur and saturation keep the sky reading
      through it as colour and movement while the type stays crisp on top. */
   .glass {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--glass-bg, rgba(255, 255, 255, 0.6));
+    transition: background-color 1.2s ease;
     border: 1px solid rgba(255, 255, 255, 0.75);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.9),
@@ -516,4 +643,82 @@ body:has(.b2c) {
   to {
     transform: rotate(1.6deg);
   }
+}
+
+/*
+ * Paper plane cursor (components/sky/plane-cursor.tsx). The native pointer is
+ * hidden only once the plane has mounted on a mouse device, and text fields
+ * keep the I-beam so typing still shows where the caret goes.
+ */
+html.plane-cursor,
+html.plane-cursor * {
+  cursor: none !important;
+}
+
+html.plane-cursor
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea, [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+.plane-cursor-el {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  will-change: transform;
+}
+
+.plane-cursor-el[data-visible="true"] {
+  opacity: 1;
+}
+
+.plane-cursor-el[data-hidden="true"] {
+  opacity: 0;
+}
+
+.plane-cursor-svg {
+  transform-origin: 29px 11px;
+  transition: transform 0.18s ease;
+  filter: drop-shadow(0 3px 4px rgba(11, 29, 58, 0.25));
+}
+
+.plane-cursor-el[data-hover="true"] .plane-cursor-svg {
+  transform: scale(1.22);
+}
+
+.plane-cursor-el[data-pressed="true"] .plane-cursor-svg {
+  transform: scale(0.86);
+}
+
+.plane-cursor-svg path {
+  transition: fill 0.18s ease;
+}
+
+.plane-wing-top {
+  fill: #ffffff;
+}
+
+.plane-wing-bottom {
+  fill: #dbe8f8;
+}
+
+.plane-fold {
+  fill: #b5cceb;
+}
+
+.plane-outline {
+  fill: none;
+  stroke: #0b1d3a;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.plane-cursor-el[data-hover="true"] .plane-wing-top {
+  fill: #1668e3;
+}
+
+.plane-cursor-el[data-hover="true"] .plane-wing-bottom {
+  fill: #3f86ef;
+}
+
+.plane-cursor-el[data-hover="true"] .plane-fold {
+  fill: #0f4fb3;
 }

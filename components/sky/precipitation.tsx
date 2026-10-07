@@ -34,7 +34,7 @@ export function Precipitation({ className }: { className?: string }) {
     let flakes: Flake[] = [];
     let weather: Weather = getWeather();
     /* 0..1 strength of each kind, eased toward the current weather. */
-    let rain = weather === "rainy" ? 1 : 0;
+    let rain = weather === "cloudy" ? 1 : 0;
     let snow = weather === "snowy" ? 1 : 0;
 
     function layout() {
@@ -112,7 +112,7 @@ export function Precipitation({ className }: { className?: string }) {
       last = now;
       clock += dt;
       const ease = Math.min(1, dt * 1.4);
-      rain += ((weather === "rainy" ? 1 : 0) - rain) * ease;
+      rain += ((weather === "cloudy" ? 1 : 0) - rain) * ease;
       snow += ((weather === "snowy" ? 1 : 0) - snow) * ease;
       draw(clock, dt);
       if (weather === "sunny" && rain < 0.01 && snow < 0.01) {
@@ -125,7 +125,7 @@ export function Precipitation({ className }: { className?: string }) {
 
     const sync = () => {
       if (reduceMotion) {
-        rain = weather === "rainy" ? 1 : 0;
+        rain = weather === "cloudy" ? 1 : 0;
         snow = weather === "snowy" ? 1 : 0;
         draw(0, 0);
         return;

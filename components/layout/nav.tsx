@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Menu } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Wordmark } from "@/components/brand/wordmark";
-import { WeatherToggle } from "@/components/sky/weather-toggle";
+import { WeatherCaption, WeatherToggle } from "@/components/sky/weather-toggle";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -45,20 +46,20 @@ export function Nav() {
           scrolled && "bg-white/75!"
         )}
       >
-        <a
-          href="#top"
+        <Link
+          href="/"
           className="text-[17px] text-foreground transition-opacity hover:opacity-70"
-          aria-label={`${siteConfig.name} — home`}
+          aria-label={`${siteConfig.name}, home`}
         >
           <Wordmark />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-caption uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-[0.95rem] font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
             </a>
@@ -66,19 +67,37 @@ export function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <WeatherToggle />
+          <div className="relative">
+            <WeatherToggle />
+            {/* The chalk caption hangs under the toggle on the open sky, and
+                tucks away once copy starts scrolling underneath. */}
+            <WeatherCaption
+              className={cn(
+                "absolute top-[calc(100%+1rem)] right-0 transition-opacity duration-300",
+                scrolled && "opacity-0"
+              )}
+            />
+          </div>
           <Button
             render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
             nativeButton={false}
             size="sm"
             className="caps-label h-10 rounded-full px-5"
           >
-            Book a Call
+            Book a call
           </Button>
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
-          <WeatherToggle />
+          <div className="relative">
+            <WeatherToggle />
+            <WeatherCaption
+              className={cn(
+                "absolute top-[calc(100%+0.9rem)] right-0 text-[1.05rem] transition-opacity duration-300",
+                scrolled && "opacity-0"
+              )}
+            />
+          </div>
           <Sheet>
             <SheetTrigger
               render={<Button variant="ghost" size="icon-lg" className="rounded-full" aria-label="Open menu" />}
@@ -121,7 +140,7 @@ export function Nav() {
                     />
                   }
                 >
-                  Book a Call
+                  Book a call
                 </SheetClose>
               </div>
             </SheetContent>

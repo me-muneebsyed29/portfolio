@@ -6,4 +6,4 @@ export const WEATHER_STORAGE_KEY = "sky-weather";
 
 /* Runs inline at the top of the page body, before anything paints, so a
    visitor who left it raining doesn't get a flash of sunshine on reload. */
-export const WEATHER_SCRIPT = `try{var w=localStorage.getItem("${WEATHER_STORAGE_KEY}");if(w==="rainy"||w==="snowy")document.documentElement.dataset.weather=w}catch(e){}`;
+export const WEATHER_SCRIPT = `try{var w=localStorage.getItem("${WEATHER_STORAGE_KEY}");if(w==="cloudy"||w==="snowy")document.documentElement.dataset.weather=w}catch(e){}`;

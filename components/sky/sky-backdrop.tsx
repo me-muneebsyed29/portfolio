@@ -95,7 +95,7 @@ export function SkyBackdrop() {
           as sky, not as a gradient treatment. */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#1f7fe8_0%,#3d97f0_38%,#79bbf7_78%,#a9d5fd_100%)]" />
       <div
-        data-weather="rainy"
+        data-weather="cloudy"
         className="sky-layer absolute inset-0 bg-[linear-gradient(180deg,#4a5b73_0%,#66788f_40%,#8b9bb0_80%,#a6b3c3_100%)]"
       />
       <div
@@ -109,10 +109,12 @@ export function SkyBackdrop() {
         <motion.div className="absolute inset-x-0 top-0 h-[140vh]" style={{ y: reduceMotion ? 0 : farY }}>
           <CloudLayer clouds={far} />
         </motion.div>
-        <motion.div className="absolute inset-x-0 top-0 h-[170vh]" style={{ y: reduceMotion ? 0 : midY }}>
+        {/* Phones get a lighter, emptier sky so copy never sits on a busy
+            patch: the near clouds go and the middle ones fade back. */}
+        <motion.div className="absolute inset-x-0 top-0 h-[170vh] max-md:opacity-50" style={{ y: reduceMotion ? 0 : midY }}>
           <CloudLayer clouds={mid} />
         </motion.div>
-        <motion.div className="absolute inset-x-0 top-0 h-[220vh]" style={{ y: reduceMotion ? 0 : nearY }}>
+        <motion.div className="absolute inset-x-0 top-0 hidden h-[220vh] md:block" style={{ y: reduceMotion ? 0 : nearY }}>
           <CloudLayer clouds={near} />
         </motion.div>
       </div>

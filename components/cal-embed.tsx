@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/site-config";
 import { EASE } from "@/lib/motion";
 
 /*
- * Floating Book a Call, opening Cal.com's booking popup in place.
+ * Floating Book a call, opening Cal.com's booking popup in place.
  *
  * Cal's own floatingButton renders inside a closed shadow root that only takes a
  * fill colour and a label, so the button is ours (the same blue pill and mono
@@ -88,10 +88,12 @@ export function CalEmbed() {
     });
   }, []);
 
-  /* The hero already has a Book a Call; the floating one appears once that has
-     scrolled out of view, so the first screen never shows the CTA twice. */
+  /* Desktop: the hero already has a booking button, so the floating one
+     appears once that has scrolled out of view. Phones: the pill is always
+     there, one thumb away, as the sky direction doc asks. */
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6);
+    const phone = window.matchMedia("(max-width: 767px)");
+    const onScroll = () => setVisible(phone.matches || window.scrollY > window.innerHeight * 0.6);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -119,14 +121,14 @@ export function CalEmbed() {
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.4, ease: EASE }}
           /* z-40 keeps it under the header and the mobile menu sheet (z-50). */
-          className="fixed right-4 bottom-4 z-40 md:right-8 md:bottom-8"
+          className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center md:inset-x-auto md:right-8 md:bottom-8"
         >
           <Button
             onClick={openBooking}
             size="lg"
-            className="caps-label h-12 rounded-full border-2 border-white px-6 shadow-[0_14px_30px_-12px_rgba(22,104,227,0.8)]"
+            className="caps-label pointer-events-auto h-12 rounded-full border-2 border-white px-6 shadow-[0_14px_30px_-12px_rgba(22,104,227,0.8)]"
           >
-            Book a Call
+            Book a call
           </Button>
         </motion.div>
       )}

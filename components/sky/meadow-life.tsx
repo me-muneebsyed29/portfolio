@@ -73,7 +73,7 @@ const bladePalettes: Record<Weather, string[][]> = {
     ["#5aa544", "#66ad47", "#529c40"],
     ["#6cb84a", "#7fc452", "#5fae45"],
   ],
-  rainy: [
+  cloudy: [
     ["#35663a", "#3a6a3c", "#305e34"],
     ["#3f7438", "#467b3b", "#3b6e36"],
     ["#4b8540", "#548c42", "#46803d"],
@@ -99,7 +99,7 @@ const petalColors = ["#ffffff", "#ffd84d", "#ff9fb5", "#c9b6ff", "#fff3b0"];
 /* What a gust throws up in each weather: petals, spray, powder snow. */
 const gustColors: Record<Weather, string[]> = {
   sunny: petalColors,
-  rainy: ["#e3edf8", "#c9daec", "#f4f8fc"],
+  cloudy: ["#e3edf8", "#c9daec", "#f4f8fc"],
   snowy: ["#ffffff", "#f1f6fb", "#e4edf6"],
 };
 const wingColors = ["#ffcf3f", "#ff9f5a", "#7cc0ff"];
@@ -136,7 +136,7 @@ export function MeadowLife({ className }: { className?: string }) {
     let splashes: Splash[] = [];
     let weather: Weather = getWeather();
     /* How much of each weather is showing, 0..1, eased toward `weather`. */
-    const mix: Record<Weather, number> = { sunny: 0, rainy: 0, snowy: 0 };
+    const mix: Record<Weather, number> = { sunny: 0, cloudy: 0, snowy: 0 };
     mix[weather] = 1;
     let nextFlock = 4;
     const pointer = { x: -9999, y: -9999, active: false };
@@ -329,12 +329,12 @@ export function MeadowLife({ className }: { className?: string }) {
       /* Birds, behind everything else in the scene. */
       if (!reduceMotion) {
         const ease = Math.min(1, dt * 1.4);
-        for (const w of ["sunny", "rainy", "snowy"] as Weather[]) mix[w] += ((w === weather ? 1 : 0) - mix[w]) * ease;
+        for (const w of ["sunny", "cloudy", "snowy"] as Weather[]) mix[w] += ((w === weather ? 1 : 0) - mix[w]) * ease;
 
         nextFlock -= dt;
         if (nextFlock <= 0) {
           /* Birds sit out the rain. */
-          if (mix.rainy < 0.5) spawnFlock();
+          if (mix.cloudy < 0.5) spawnFlock();
           nextFlock = 9 + Math.random() * 8;
         }
       }
@@ -377,7 +377,7 @@ export function MeadowLife({ className }: { className?: string }) {
       /* Grass and flowers, back band to front band. Snow buries most of each
          blade, so blades are drawn shorter as the snow comes in. */
       const heightScale = 1 - 0.55 * mix.snowy;
-      const flowerAlpha = mix.sunny + 0.85 * mix.rainy;
+      const flowerAlpha = mix.sunny + 0.85 * mix.cloudy;
       let fi = 0;
       for (let band = 0; band < BANDS; band++) {
         for (let shade = 0; shade < SHADES; shade++) {
@@ -385,7 +385,7 @@ export function MeadowLife({ className }: { className?: string }) {
           const rgb = [0, 1, 2].map((c) =>
             Math.round(
               rgbPalettes.sunny[band][shade][c] * mix.sunny +
-                rgbPalettes.rainy[band][shade][c] * mix.rainy +
+                rgbPalettes.cloudy[band][shade][c] * mix.cloudy +
                 rgbPalettes.snowy[band][shade][c] * mix.snowy
             )
           );
@@ -485,9 +485,9 @@ export function MeadowLife({ className }: { className?: string }) {
       petals = petals.filter((p) => p.life > 0);
 
       /* Rain in front of the hills, splashing where it meets the meadow. */
-      if (mix.rainy > 0.01) {
-        const n = Math.round(drops.length * mix.rainy);
-        ctx!.strokeStyle = `rgba(228, 236, 246, ${0.55 * mix.rainy})`;
+      if (mix.cloudy > 0.01) {
+        const n = Math.round(drops.length * mix.cloudy);
+        ctx!.strokeStyle = `rgba(228, 236, 246, ${0.55 * mix.cloudy})`;
         ctx!.lineWidth = 1.2;
         ctx!.beginPath();
         for (let i = 0; i < n; i++) {
@@ -506,7 +506,7 @@ export function MeadowLife({ className }: { className?: string }) {
         }
         ctx!.stroke();
 
-        ctx!.strokeStyle = `rgba(235, 242, 250, ${0.6 * mix.rainy})`;
+        ctx!.strokeStyle = `rgba(235, 242, 250, ${0.6 * mix.cloudy})`;
         ctx!.lineWidth = 1;
         ctx!.beginPath();
         for (const sp of splashes) {
@@ -580,7 +580,7 @@ export function MeadowLife({ className }: { className?: string }) {
       /* Off screen or with reduced motion there is no loop to ease the
          change in, so jump straight to the new weather. */
       if (!running) {
-        for (const w of ["sunny", "rainy", "snowy"] as Weather[]) mix[w] = w === weather ? 1 : 0;
+        for (const w of ["sunny", "cloudy", "snowy"] as Weather[]) mix[w] = w === weather ? 1 : 0;
         still();
       }
     });

@@ -1,31 +1,31 @@
 import { Hero } from "@/components/sections/hero";
-import { Wins } from "@/components/sections/wins";
-import { Companies } from "@/components/sections/companies";
-import { Philosophy } from "@/components/sections/philosophy";
-import { CaseStudies } from "@/components/sections/case-studies";
-import { Testimonials } from "@/components/sections/testimonials";
-import { AiLab } from "@/components/sections/ai-lab";
-import { Writing } from "@/components/sections/writing";
-import { About } from "@/components/sections/about";
+import { Brands } from "@/components/sections/brands";
+import { Work } from "@/components/sections/work";
+import { HowIWork } from "@/components/sections/how-i-work";
+import { KindWords } from "@/components/sections/kind-words";
+import { Lab } from "@/components/sections/lab";
+import { FieldNotes } from "@/components/sections/field-notes";
+import { Hello } from "@/components/sections/hello";
 import { Contact } from "@/components/sections/contact";
-import { GlassSheet } from "@/components/sky/glass-sheet";
 import { NatureFinale } from "@/components/sky/nature-finale";
 
+/*
+ * Page order from the sky direction doc: proof before philosophy. Real
+ * numbers within one scroll, a case study within two, and the personal bit
+ * as the warm-up right before the ask.
+ */
 export default function Home() {
   return (
     <>
       <Hero />
-      <GlassSheet>
-        <Wins />
-        <Companies />
-        <Philosophy />
-        <CaseStudies />
-        <Testimonials />
-        <AiLab />
-        <Writing />
-        <About />
-      </GlassSheet>
+      <Brands />
+      <Work />
+      <HowIWork />
+      <KindWords />
+      <Lab />
+      <FieldNotes />
       <NatureFinale>
+        <Hello />
         <Contact />
       </NatureFinale>
     </>

@@ -48,7 +48,7 @@ function Doodle({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-40px" }}
-      className={cn("pointer-events-none text-white", className)}
+      className={cn("chalk pointer-events-none", className)}
     >
       {children}
     </motion.svg>
@@ -152,7 +152,7 @@ export function HandList({
       whileInView="show"
       viewport={{ once: true }}
       variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
-      className={cn("pointer-events-none -rotate-6 text-white", className)}
+      className={cn("chalk pointer-events-none -rotate-6", className)}
     >
       <ul className="font-hand text-[1.6rem] leading-[1.05] font-medium tracking-wide uppercase">
         {items.map((item) => (

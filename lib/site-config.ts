@@ -1,9 +1,10 @@
 export const siteConfig = {
   name: "Muneeb Syed",
-  role: "AI-first Growth Operator",
-  title: "Muneeb Syed — AI-first Growth Systems for B2B SaaS",
+  /* One name everywhere: "Muneeb Syed" in type, "Muneeb" in casual lines. */
+  role: "Growth operator",
+  title: "Muneeb Syed · Growth operator for B2B SaaS",
   description:
-    "Helping B2B SaaS companies build predictable pipeline through paid media, GTM systems, experimentation, and AI.",
+    "I help B2B SaaS teams turn ad spend into pipeline they can plan around. Sharper systems, faster tests, and AI doing the grunt work.",
   /* The www host, because that is the one that answers 200 — the apex
      308-redirects to it. Pointing canonicals, the sitemap and robots at the apex
      meant every URL Google fetched was a redirect, and it split signals between
@@ -17,10 +18,12 @@ export const siteConfig = {
   linkedin: "https://www.linkedin.com/in/muneebsyed29",
   twitter: "",
   bookingUrl: "https://cal.com/muneebsyed29/30min",
+  /* Rooted at "/" so they also work from case study and essay pages. Contact
+     is the Book a call button; About is the last scroll. */
   nav: [
-    { label: "Work", href: "#work" },
-    { label: "Writing", href: "#writing" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Work", href: "/#work" },
+    { label: "How I work", href: "/#how-i-work" },
+    { label: "Lab", href: "/#lab" },
+    { label: "Writing", href: "/#writing" },
   ],
 } as const;

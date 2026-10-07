@@ -11,7 +11,9 @@ const WEB3FORMS_ACCESS_KEY = "5a81973b-6946-4089-829c-2370d3d97b5a";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-export function ContactForm() {
+/* Copy from the sky direction doc. `idPrefix` keeps ids unique when the
+   phone and desktop versions of the form are both in the page. */
+export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -46,34 +48,34 @@ export function ContactForm() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="name" className="caps-label text-faint">
-            Name
+          <Label htmlFor={`${idPrefix}name`} className="caps-label text-faint">
+            Your name
           </Label>
-          <Input id="name" name="name" placeholder="Your name" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
+          <Input id={`${idPrefix}name`} name="name" placeholder="Muneeb" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email" className="caps-label text-faint">
-            Email
+          <Label htmlFor={`${idPrefix}email`} className="caps-label text-faint">
+            Work email
           </Label>
-          <Input id="email" name="email" type="email" placeholder="you@company.com" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
+          <Input id={`${idPrefix}email`} name="email" type="email" placeholder="you@company.com" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="company" className="caps-label text-faint">
+        <Label htmlFor={`${idPrefix}company`} className="caps-label text-faint">
           Company
         </Label>
-        <Input id="company" name="company" placeholder="Your company" className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
+        <Input id={`${idPrefix}company`} name="company" placeholder="Where you work" className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message" className="caps-label text-faint">
-          Message
+        <Label htmlFor={`${idPrefix}message`} className="caps-label text-faint">
+          What’s going on?
         </Label>
         <Textarea
-          id="message"
+          id={`${idPrefix}message`}
           name="message"
-          placeholder="What's on your mind?"
+          placeholder="We spend $20K a month on LinkedIn and CAC keeps climbing…"
           required
           rows={5}
           className="rounded-xl border-white bg-white/80 focus-visible:bg-white"
@@ -87,19 +89,19 @@ export function ContactForm() {
         className="caps-label h-12 w-full rounded-full"
       >
         {status === "sending" && "Sending…"}
-        {status === "success" && "Message sent"}
-        {status === "idle" && "Send message"}
+        {status === "success" && "Sent"}
+        {status === "idle" && "Send it"}
         {status === "error" && "Try again"}
       </Button>
 
       {status === "success" && (
         <p className="text-caption text-muted-foreground">
-          Thanks — I&apos;ll get back to you shortly.
+          Got it. I&apos;ll get back to you soon.
         </p>
       )}
       {status === "error" && (
         <p className="text-caption text-destructive">
-          Something went wrong. Try emailing {siteConfig.email} directly.
+          That didn&apos;t go through. Email me at {siteConfig.email} instead.
         </p>
       )}
     </form>

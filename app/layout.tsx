@@ -37,11 +37,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
-    template: `%s — ${siteConfig.name}`,
+    template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
     "B2B SaaS growth",
+    "growth operator",
     "paid media",
     "AI GTM",
     "growth marketing",

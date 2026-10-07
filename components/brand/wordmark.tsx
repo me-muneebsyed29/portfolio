@@ -24,7 +24,7 @@ export function Wordmark({
 
   if (variant === "full") {
     // The full mark has no period, so there is nothing for the accent to sit on.
-    return <span className={base}>Syed Muneeb Rehaman</span>;
+    return <span className={base}>Muneeb Syed</span>;
   }
 
   return (

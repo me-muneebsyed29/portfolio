@@ -294,7 +294,7 @@ body:has(.sky) {
 }
 
 /*
- * Weather. The sunny values above are the default; rainy and snowy override
+ * Weather. The sunny values above are the default; cloudy and snowy override
  * the glass tint, the cloud treatment and the landscape palette. Hill and tree
  * gradients read these variables through their <stop>s, which transition, so
  * the landscape fades between seasons instead of snapping.
@@ -327,7 +327,7 @@ body:has(.sky) {
   --h-canopy-dark-2: #2a6b2c;
 }
 
-:root[data-weather="rainy"]:has(.sky) {
+:root[data-weather="cloudy"]:has(.sky) {
   --glass-bg: rgba(242, 246, 251, 0.64);
   --cloud-filter: brightness(0.7) saturate(0.35) contrast(1.05);
   --sun-opacity: 0;
@@ -383,12 +383,28 @@ body:has(.sky) {
   --h-canopy-dark-2: #2e6038;
 }
 
-:root[data-weather="rainy"] body:has(.sky) {
+:root[data-weather="cloudy"] body:has(.sky) {
   background-color: #74859b;
 }
 
 :root[data-weather="snowy"] body:has(.sky) {
   background-color: #b8c8da;
+}
+
+/* Chalk writing on the sky: white, with a soft shadow so it holds on any
+   patch of cloud. On the pale snow sky it switches to ink. */
+.chalk {
+  color: var(--chalk-ink, #ffffff);
+  filter: drop-shadow(0 1px 6px rgba(10, 40, 90, 0.35));
+  transition: color 1.2s ease;
+}
+
+:root[data-weather="snowy"] {
+  --chalk-ink: #34496b;
+}
+
+:root[data-weather="snowy"] .chalk {
+  filter: none;
 }
 
 /* The meadow hint is chalk on green, and on snow it switches to ink. */
@@ -415,7 +431,7 @@ body:has(.sky) {
 
 :root:not([data-weather]) .sky-layer[data-weather="sunny"],
 :root[data-weather="sunny"] .sky-layer[data-weather="sunny"],
-:root[data-weather="rainy"] .sky-layer[data-weather="rainy"],
+:root[data-weather="cloudy"] .sky-layer[data-weather="cloudy"],
 :root[data-weather="snowy"] .sky-layer[data-weather="snowy"] {
   opacity: 1;
 }
@@ -721,4 +737,166 @@ html.plane-cursor
 
 .plane-cursor-el[data-hover="true"] .plane-fold {
   fill: #0f4fb3;
+}
+
+/*
+ * Brands wall (components/sections/brands.tsx). At rest every mark is white
+ * at 70% and bobs gently; hover or keyboard focus lifts one 4px, shows its
+ * real colours, blooms a cloud puff behind it and dims the rest to 40%.
+ */
+.brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  color: var(--chalk-ink, #ffffff);
+  opacity: 0.7;
+  outline: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-float {
+  position: relative;
+  display: inline-flex;
+  animation: brand-bob 6s ease-in-out infinite;
+  animation-delay: var(--bob-delay, 0s);
+}
+
+.brand-word {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  filter: drop-shadow(0 1px 6px rgba(10, 40, 90, 0.3));
+}
+
+.brand-logo {
+  filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgba(10, 40, 90, 0.3));
+  transition: filter 0.25s ease;
+}
+
+.brand-puff {
+  position: absolute;
+  inset: -0.9rem -1.4rem;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.35) 55%, transparent);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-note {
+  position: absolute;
+  bottom: calc(100% + 0.6rem);
+  left: 50%;
+  z-index: 5;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0.55rem 0.8rem 0.6rem;
+  background: #ffd84d;
+  color: #3a2a00;
+  font-family: var(--font-caveat), cursive;
+  font-size: 1.15rem;
+  line-height: 1.1;
+  text-align: left;
+  box-shadow: 0 12px 22px -12px rgba(120, 80, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px) rotate(-3deg) scale(0.92);
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand:hover,
+.brand:focus-visible,
+.brand.is-active {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.brand:hover .brand-logo,
+.brand:focus-visible .brand-logo,
+.brand.is-active .brand-logo {
+  filter: none;
+}
+
+.brand:hover .brand-word,
+.brand:focus-visible .brand-word,
+.brand.is-active .brand-word {
+  color: var(--foreground);
+  filter: none;
+}
+
+.brand:hover .brand-puff,
+.brand:focus-visible .brand-puff,
+.brand.is-active .brand-puff {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.brand:hover .brand-note,
+.brand:focus-visible .brand-note,
+.brand.is-active .brand-note {
+  opacity: 1;
+  transform: translate(-50%, 0) rotate(-3deg) scale(1);
+}
+
+.brand-wall:has(.brand:hover, .brand:focus-visible, .brand.is-active)
+  .brand:not(:hover):not(:focus-visible):not(.is-active) {
+  opacity: 0.4;
+}
+
+/* On the pale snow sky the white tint washes out, so logos go navy. */
+:root[data-weather="snowy"] .brand-logo {
+  filter: brightness(0) opacity(0.75);
+}
+
+:root[data-weather="snowy"] .brand-word {
+  filter: none;
+}
+
+.brand-marquee {
+  animation: brand-marquee 48s linear infinite;
+}
+
+.brand-marquee-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes brand-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes brand-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Reduced motion: no bob, no lift, no drift. Colour change and note only. */
+@media (prefers-reduced-motion: reduce) {
+  .brand-float,
+  .brand-marquee {
+    animation: none;
+  }
+
+  .brand:hover,
+  .brand:focus-visible,
+  .brand.is-active {
+    transform: none;
+  }
 }

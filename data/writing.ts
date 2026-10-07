@@ -1,5 +1,3 @@
-import type { FigureId } from "@/components/brand/figures";
-
 /*
  * Essays are stored as typed blocks rather than markdown: it keeps the renderer
  * free of a parser dependency, and it means a pull quote or a stat line can only
@@ -18,24 +16,19 @@ export type Essay = {
   standfirst: string;
   readingTime: string;
   date: string;
-  /* Every essay opens on a figure from the illustration set. */
-  figure: FigureId;
-  figureCaption: string;
   body: EssayBlock[];
 };
 
 export const essays: Essay[] = [
   {
     slug: "paid-media-needs-an-operating-system",
-    title: "Paid Media Needs an Operating System",
+    title: "Paid media needs an operating system",
     excerpt:
-      "Most accounts are a pile of campaigns, not a system. Here's the difference, and why it compounds.",
+      "Most accounts are a pile of campaigns. Here’s what a system looks like instead.",
     standfirst:
       "Two accounts can spend the same money on the same channels and end up in completely different places. The difference is almost never the campaigns.",
     readingTime: "6 min",
     date: "2026-07-14",
-    figure: "flagged-row",
-    figureCaption: "The line item nobody read",
     body: [
       {
         type: "p",
@@ -99,15 +92,13 @@ export const essays: Essay[] = [
 
   {
     slug: "ai-changes-demand-generation",
-    title: "AI Changes Demand Generation",
+    title: "AI changes demand gen",
     excerpt:
-      "Not by replacing marketers — by collapsing the cost of testing until speed of learning becomes the moat.",
+      "Not by replacing marketers. By making tests so cheap that learning speed becomes the moat.",
     standfirst:
       "The interesting question was never whether AI can write an ad. It is what happens to a team when producing the fortieth variant costs the same as the first.",
     readingTime: "7 min",
     date: "2026-06-02",
-    figure: "delta",
-    figureCaption: "Before and after the cost of a test collapsed",
     body: [
       {
         type: "p",
@@ -171,15 +162,13 @@ export const essays: Essay[] = [
 
   {
     slug: "building-growth-systems",
-    title: "Building Growth Systems",
+    title: "Building growth systems",
     excerpt:
-      "A practical framework for treating growth as inputs and outputs instead of a list of tactics.",
+      "Treat growth as inputs and outputs, not a list of tactics.",
     standfirst:
       "Tactics do not survive a change in market conditions. Systems do, because a system knows what it is for.",
     readingTime: "6 min",
     date: "2026-04-21",
-    figure: "gap",
-    figureCaption: "Two systems facing each other and not touching",
     body: [
       {
         type: "p",
@@ -238,15 +227,13 @@ export const essays: Essay[] = [
 
   {
     slug: "optimize-revenue-not-clicks",
-    title: "Optimize Revenue, Not Clicks",
+    title: "Optimize revenue, not clicks",
     excerpt:
-      "Why the metrics most teams optimize for are several steps removed from the number that actually matters.",
+      "The metrics most teams chase sit several steps away from revenue.",
     standfirst:
       "Every metric in an ad account is a proxy. The question is how many steps sit between the proxy and the money.",
     readingTime: "5 min",
     date: "2026-03-09",
-    figure: "narrowing",
-    figureCaption: "Volume in, less volume out, and where it happens",
     body: [
       {
         type: "p",

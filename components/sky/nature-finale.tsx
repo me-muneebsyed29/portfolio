@@ -11,7 +11,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { Footer } from "@/components/layout/footer";
-import { GlassSheet } from "@/components/sky/glass-sheet";
 import { CurlArrow } from "@/components/sky/doodles";
 import { HillDefs, MeadowLayer, MidHillsLayer, MountainsLayer, NearHillLayer } from "./hills";
 import { MeadowLife } from "./meadow-life";
@@ -88,7 +87,7 @@ export function NatureFinale({ children }: { children?: React.ReactNode }) {
       </div>
 
       <div className="relative pt-6 md:pt-10">
-        {children ? <GlassSheet>{children}</GlassSheet> : null}
+        {children}
 
         {/* Room for the mountains to show between the copy and the footer. */}
         <div className="relative h-[30svh] min-h-[200px]">

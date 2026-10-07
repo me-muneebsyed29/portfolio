@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { caseStudies } from "@/data/case-studies";
 import { CaseStudyDetail } from "@/components/sections/case-study-detail";
-import { GlassSheet } from "@/components/sky/glass-sheet";
 import { NatureFinale } from "@/components/sky/nature-finale";
 
 export function generateStaticParams() {
@@ -18,8 +17,8 @@ export async function generateMetadata({
   const study = caseStudies.find((s) => s.slug === slug);
   if (!study) return {};
   return {
-    title: study.client,
-    description: study.summary,
+    title: study.headline,
+    description: study.oneLine,
   };
 }
 
@@ -34,9 +33,7 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <GlassSheet className="mt-24 md:mt-28">
-        <CaseStudyDetail study={caseStudies[index]} index={index} />
-      </GlassSheet>
+      <CaseStudyDetail study={caseStudies[index]} />
       <NatureFinale />
     </>
   );

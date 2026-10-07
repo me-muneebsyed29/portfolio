@@ -4,22 +4,22 @@ import { useSyncExternalStore } from "react";
 import { WEATHER_STORAGE_KEY } from "./weather-script";
 
 /*
- * The sky site's weather: sunny, rainy or snowy. Lives on <html data-weather>
+ * The sky site's weather: sunny, cloudy or snowy. Lives on <html data-weather>
  * so CSS can restyle the sky, clouds, glass and hills without React, and in
  * this tiny store so the canvases (rain, snow, the meadow) can follow along.
  *
  * The visitor's choice is remembered in localStorage and applied by an inline
- * script before first paint (lib/weather-script.ts), so a rainy visitor never
+ * script before first paint (lib/weather-script.ts), so a cloudy visitor never
  * sees a flash of sunshine on reload.
  */
-export type Weather = "sunny" | "rainy" | "snowy";
+export type Weather = "sunny" | "cloudy" | "snowy";
 
-export const WEATHERS: Weather[] = ["sunny", "rainy", "snowy"];
+export const WEATHERS: Weather[] = ["sunny", "cloudy", "snowy"];
 
 const listeners = new Set<() => void>();
 
 function isWeather(value: unknown): value is Weather {
-  return value === "sunny" || value === "rainy" || value === "snowy";
+  return value === "sunny" || value === "cloudy" || value === "snowy";
 }
 
 export function getWeather(): Weather {

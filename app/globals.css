@@ -224,6 +224,75 @@
 }
 
 /*
+ * Sky system (B2B site). Daylight only: a blue sky behind everything, white
+ * glass in front of it carrying the copy, and a live landscape at the end of
+ * the scroll. Visual source is the LinkedIn banner and the 3D avatar.
+ *
+ * Scoped on :root:has(.sky) rather than on the .sky wrapper itself, so content
+ * that portals to <body> (the mobile menu sheet, tooltips) inherits the tokens.
+ *
+ * Ink is a deep navy rather than black, so type reads as part of the sky. The
+ * accent is the banner's "Boost" button blue; the sticky-note yellow is a
+ * highlighter only and never carries text on its own.
+ */
+:root:has(.sky) {
+  color-scheme: light;
+
+  --background: #eef6ff;
+  --foreground: #0b1d3a;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-foreground: #0b1d3a;
+  --popover: #ffffff;
+  --popover-foreground: #0b1d3a;
+  --well: rgba(255, 255, 255, 0.45);
+  --panel: rgba(255, 255, 255, 0.6);
+  --surface: rgba(255, 255, 255, 0.6);
+
+  --primary: #1668e3;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(255, 255, 255, 0.7);
+  --secondary-foreground: #0b1d3a;
+  --muted: rgba(255, 255, 255, 0.6);
+  /* Measured against the glass as it renders over mid-sky (about #e4effc):
+     muted 8.1:1, faint 4.8:1. */
+  --muted-foreground: #34496b;
+  --faint: #566a8a;
+  --accent: rgba(255, 255, 255, 0.8);
+  --accent-foreground: #0b1d3a;
+  --destructive: #c2391b;
+
+  --rule: rgba(11, 29, 58, 0.1);
+  --border: rgba(11, 29, 58, 0.12);
+  --border-strong: rgba(11, 29, 58, 0.24);
+  --input: rgba(11, 29, 58, 0.16);
+  --ring: #1668e3;
+
+  /* The old cadmium slots now carry the sky blue, so every component that
+     spends "the one accent" picks it up without a rename. */
+  --cadmium: #1668e3;
+  --cadmium-sm: #1458c4;
+  --grid: rgba(11, 29, 58, 0.06);
+  --improved: #2f7a4c;
+  --broken: #a3642a;
+
+  --highlight: #ffd84d;
+  --chalk: #ffffff;
+
+  --chart-1: #0b1d3a;
+  --chart-2: #1668e3;
+  --chart-3: #34496b;
+  --chart-4: #a3642a;
+  --chart-5: #566a8a;
+
+  --radius: 1rem;
+}
+
+/* Paint the document the mid-sky colour so overscroll never flashes white. */
+body:has(.sky) {
+  background-color: #5aa9f2;
+}
+
+/*
  * B2C sub-brand (b2c.muneebsyed29.com).
  * Scoped token override rather than a second stylesheet — the shadcn components
  * all read these vars, so the whole primitive library re-skins from this block.
@@ -323,6 +392,85 @@ body:has(.b2c) {
     background-size: 40px 40px;
   }
 
+  /* Handwritten annotations, the chalk-marker voice from the banner. Display
+     sizes only: it is decoration around the copy, never the copy itself. */
+  .font-hand {
+    font-family: var(--font-caveat), ui-rounded, cursive;
+    letter-spacing: 0.01em;
+  }
+
+  /* The translucent foreground. Blur and saturation keep the sky reading
+     through it as colour and movement while the type stays crisp on top. */
+  .glass {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 30px 80px -30px rgba(16, 64, 140, 0.45);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+
+  /* Cards sitting on the glass: a step more opaque, like the floating UI
+     widgets in the banner. */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 14px 34px -18px rgba(16, 64, 140, 0.4);
+  }
+
+  /* Phones re-blur the moving sky on a smaller GPU budget: a shorter radius
+     looks nearly the same at that size and costs far less. */
+  @media (max-width: 767px) {
+    .glass {
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      backdrop-filter: blur(14px) saturate(1.4);
+    }
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background: rgba(255, 255, 255, 0.86);
+    }
+  }
+
+  /* Visitors who ask the OS for less transparency get solid panes. */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background: rgba(255, 255, 255, 0.94);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* Highlighter stroke behind a word, the sticky-note yellow at marker
+     opacity. Sits under the bottom half of the line like a real pen pass. */
+  .marker {
+    background-image: linear-gradient(transparent 58%, rgba(255, 216, 77, 0.75) 58%, rgba(255, 216, 77, 0.75) 92%, transparent 92%);
+    padding-inline: 0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .animate-drift {
+    animation: drift var(--drift-duration, 180s) linear infinite;
+    animation-delay: var(--drift-delay, 0s);
+  }
+
+  /* Trees in the finale lean with the wind from their base, never their
+     centre. */
+  .tree-sway {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: sway var(--sway-duration, 6s) ease-in-out infinite alternate;
+  }
+
+  .animate-bob {
+    animation: bob 7s ease-in-out infinite;
+  }
+
   .noise-overlay {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC45Ii8+PC9zdmc+");
     background-repeat: repeat;
@@ -337,5 +485,35 @@ body:has(.b2c) {
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+/* Clouds cross the full viewport plus their own width, so a loop never shows
+   a cloud popping in or out at the edge. */
+@keyframes drift {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1.5deg);
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(-1.2deg);
+  }
+  to {
+    transform: rotate(1.6deg);
   }
 }

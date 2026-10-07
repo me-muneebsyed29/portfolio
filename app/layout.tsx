@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@/components/analytics";
 import { siteConfig } from "@/lib/site-config";
@@ -22,6 +22,15 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+  display: "swap",
+});
+
+/* The sky redesign's handwritten voice: the chalk-marker notes from the banner.
+   Annotation only, so two weights are enough. */
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["500", "700"],
   display: "swap",
 });
 
@@ -87,7 +96,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${caveat.variable} h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
@@ -95,9 +104,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Each site tree owns its own ThemeProvider: the B2B portfolio is
-            dark by default with a toggle, B2C is always dark with none. A
-            single root provider could only impose one of those. */}
+        {/* Each site tree owns its own look: the B2B portfolio is the
+            daylight sky system, B2C is always dark. Neither has a toggle. */}
         <Analytics />
         <TooltipProvider>{children}</TooltipProvider>
       </body>

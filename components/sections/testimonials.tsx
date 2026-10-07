@@ -60,7 +60,7 @@ function Row({ item, index }: { item: Testimonial; index: number }) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={bodyId}
-            className="mono-label mt-6 border border-rule px-3 py-2 text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+            className="mono-label mt-6 rounded-full border border-white bg-white/70 px-4 py-2 text-muted-foreground transition-colors hover:bg-white hover:text-foreground"
           >
             {open ? "Show less" : "Read in full"}
           </button>
@@ -92,7 +92,7 @@ export function Testimonials() {
       <Eyebrow index="04">Testimonials</Eyebrow>
       <SectionTitle className="mt-5 max-w-xl">What people say.</SectionTitle>
 
-      <div className="mt-14 border-t border-rule">
+      <div className="mt-12 border-t border-rule">
         {testimonials.map((item, i) => (
           <Row key={item.name} item={item} index={i} />
         ))}

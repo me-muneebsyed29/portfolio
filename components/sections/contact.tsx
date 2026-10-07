@@ -14,7 +14,7 @@ const links = [
 
 export function Contact() {
   return (
-    <Section id="contact">
+    <Section id="contact" ruled={false}>
       <motion.div
         variants={staggerContainer(0.09)}
         initial="hidden"
@@ -40,7 +40,7 @@ export function Contact() {
                 href={link.href}
                 target={link.href.startsWith("http") ? "_blank" : undefined}
                 rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                className="flex items-baseline justify-between gap-6 border-b border-rule py-5 transition-colors duration-200 hover:bg-panel"
+                className="-mx-3 flex items-baseline justify-between gap-6 rounded-xl border-b border-rule px-3 py-5 transition-colors duration-200 hover:bg-white/60"
               >
                 <dt className="mono-label text-faint">{link.label}</dt>
                 <dd className="text-caption text-foreground">{link.value}</dd>
@@ -50,7 +50,7 @@ export function Contact() {
         </div>
 
         <motion.div variants={fadeUp} className="md:col-span-5 md:col-start-8">
-          <div className="border-2 border-rule bg-panel p-7 md:p-8">
+          <div className="glass-card rounded-3xl p-7 md:p-8">
             <ContactForm />
           </div>
         </motion.div>

@@ -49,13 +49,13 @@ export function ContactForm() {
           <Label htmlFor="name" className="mono-label text-faint">
             Name
           </Label>
-          <Input id="name" name="name" placeholder="Your name" required />
+          <Input id="name" name="name" placeholder="Your name" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="email" className="mono-label text-faint">
             Email
           </Label>
-          <Input id="email" name="email" type="email" placeholder="you@company.com" required />
+          <Input id="email" name="email" type="email" placeholder="you@company.com" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
         </div>
       </div>
 
@@ -63,21 +63,28 @@ export function ContactForm() {
         <Label htmlFor="company" className="mono-label text-faint">
           Company
         </Label>
-        <Input id="company" name="company" placeholder="Your company" />
+        <Input id="company" name="company" placeholder="Your company" className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="message" className="mono-label text-faint">
           Message
         </Label>
-        <Textarea id="message" name="message" placeholder="What's on your mind?" required rows={5} />
+        <Textarea
+          id="message"
+          name="message"
+          placeholder="What's on your mind?"
+          required
+          rows={5}
+          className="rounded-xl border-white bg-white/80 focus-visible:bg-white"
+        />
       </div>
 
       <Button
         type="submit"
         size="lg"
         disabled={status === "sending"}
-        className="mono-label h-11 w-full"
+        className="mono-label h-12 w-full rounded-full"
       >
         {status === "sending" && "Sending…"}
         {status === "success" && "Message sent"}

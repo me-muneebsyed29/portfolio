@@ -19,13 +19,13 @@ export function Writing() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-14 border-t border-rule"
+        className="mt-12 border-t border-rule"
       >
         {essays.map((essay, i) => (
           <motion.div key={essay.slug} variants={fadeUp}>
             <Link
               href={`/writing/${essay.slug}`}
-              className="group grid grid-cols-1 gap-x-8 gap-y-3 border-b border-rule py-7 transition-colors duration-200 hover:bg-panel md:grid-cols-12 md:items-baseline"
+              className="group -mx-4 grid grid-cols-1 gap-x-8 gap-y-3 rounded-2xl border-b border-rule px-4 py-7 transition-colors duration-200 hover:bg-white/60 md:grid-cols-12 md:items-baseline"
             >
               <p className="mono-label text-faint md:col-span-1">
                 {String(i + 1).padStart(2, "0")}

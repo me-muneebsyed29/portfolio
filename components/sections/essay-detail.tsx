@@ -57,7 +57,7 @@ export function EssayDetail({ essay, index }: { essay: Essay; index: number }) {
 
   return (
     <article>
-      <section className="pt-28 pb-14">
+      <section className="pt-12 pb-14 md:pt-16">
         <Container>
           <motion.div variants={staggerContainer(0.09)} initial="hidden" animate="show">
             <motion.div variants={fadeUp}>
@@ -82,20 +82,20 @@ export function EssayDetail({ essay, index }: { essay: Essay; index: number }) {
 
             <motion.p
               variants={fadeUp}
-              className="mt-8 max-w-2xl border-t-2 border-rule pt-8 text-xl text-muted-foreground text-pretty"
+              className="mt-8 max-w-2xl border-t border-rule pt-8 text-xl text-muted-foreground text-pretty"
             >
               {essay.standfirst}
             </motion.p>
 
             {/* The figure explains what the argument proves, so it leads. */}
-            <motion.div variants={fadeUp} className="mt-14">
+            <motion.div variants={fadeUp} className="glass-card mt-12 w-fit rounded-3xl p-6">
               <Figure id={essay.figure} caption={essay.figureCaption} size="hero" />
             </motion.div>
           </motion.div>
         </Container>
       </section>
 
-      <div className="border-t-2 border-rule">
+      <div className="border-t border-rule">
         <Container className="py-14 md:py-22">
           <motion.div
             variants={fadeUp}
@@ -108,7 +108,7 @@ export function EssayDetail({ essay, index }: { essay: Essay; index: number }) {
               <Block key={i} block={block} />
             ))}
 
-            <div className="mt-16 flex items-end justify-between border-t-2 border-rule pt-6">
+            <div className="mt-16 flex items-end justify-between border-t border-rule pt-6">
               <div>
                 <p className="mono-label text-foreground">Syed Muneeb Rehaman</p>
                 <p className="mono-label mt-2 text-faint">

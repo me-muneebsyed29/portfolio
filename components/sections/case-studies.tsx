@@ -8,8 +8,8 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn, isFigure } from "@/lib/utils";
 
 /*
- * The index stays fully achromatic. Cadmium is reserved for the stat strip on
- * each study's own page, where there is one frame and one number to argue —
+ * The index stays in ink. The accent blue is reserved for the stat strip on
+ * each study's own page, where there is one frame and one number to argue;
  * three accent figures side by side here would break the one-per-frame rule.
  */
 export function CaseStudies() {
@@ -30,13 +30,13 @@ export function CaseStudies() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-14 grid grid-cols-1 gap-px border-t-2 border-rule bg-rule lg:grid-cols-3"
+        className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-3"
       >
         {caseStudies.map((study, i) => (
-          <motion.div key={study.slug} variants={fadeUp}>
+          <motion.div key={study.slug} variants={fadeUp} className="h-full">
             <Link
               href={`/work/${study.slug}`}
-              className="group flex h-full flex-col justify-between bg-background p-7 transition-colors duration-200 hover:bg-panel"
+              className="glass-card group flex h-full flex-col justify-between rounded-3xl p-7 transition-[transform,background-color] duration-300 hover:-translate-y-1 hover:bg-white/90"
             >
               <div>
                 <div className="flex items-baseline justify-between gap-4">
@@ -69,8 +69,11 @@ export function CaseStudies() {
                     </div>
                   ))}
                 </dl>
-                <span className="mono-label mt-7 inline-block text-muted-foreground transition-colors group-hover:text-foreground">
+                <span className="mono-label mt-7 inline-flex items-center gap-2 text-primary">
                   Read case study
+                  <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
                 </span>
               </div>
             </Link>

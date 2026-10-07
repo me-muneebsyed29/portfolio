@@ -8,9 +8,9 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
- * The four-cell stat strip from the Applications sheet: one cell in cadmium —
- * the one this section is about — and the rest stay chalk even though they are
- * also good numbers. Cells are divided by rules, not gaps.
+ * Four floating cards on the glass, like the UI widgets in the banner. One
+ * figure takes the sky blue (the one this section is about); the rest stay ink
+ * even though they are also good numbers.
  */
 export function Wins() {
   return (
@@ -23,22 +23,13 @@ export function Wins() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-14 grid grid-cols-1 gap-px border-t-2 border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4"
+        className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {wins.map((win, i) => (
+        {wins.map((win) => (
           <motion.div
             key={win.label}
             variants={fadeUp}
-            className={cn(
-              "flex min-h-[224px] flex-col justify-between bg-background pt-7 pr-6 pb-6",
-              /* A cell with a rule to its left needs padding to clear it; a cell
-                 that starts a row must stay flush with the container edge, or
-                 the strip stops aligning with the heading above it. The grid is
-                 1 / 2 / 4 columns, so which cells start a row changes with the
-                 breakpoint — hence the index maths rather than a static class. */
-              i % 2 !== 0 && "sm:pl-6",
-              i % 4 === 0 ? "lg:pl-0" : "lg:pl-6"
-            )}
+            className="glass-card flex min-h-[220px] flex-col justify-between rounded-3xl p-6"
           >
             <AnimatedCounter
               value={win.value}

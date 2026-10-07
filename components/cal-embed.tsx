@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site-config";
 import { EASE } from "@/lib/motion";
@@ -11,14 +10,9 @@ import { EASE } from "@/lib/motion";
  * Floating Book a Call, opening Cal.com's booking popup in place.
  *
  * Cal's own floatingButton renders inside a closed shadow root that only takes a
- * fill colour and a label: rounded, drop-shadowed, its own type. None of that
- * survives 03 / STRUCTURE (radius 0, no shadows) or 02 / TYPE, so the button is
- * ours — the same primary Button and mono label as the nav CTA — and Cal only
- * supplies the modal it opens.
- *
- * The popup is themed to match: it follows the site's light/dark mode, and the
- * brand colour is ink on chalk, chalk on graphite. Cadmium stays out of it — the
- * page behind already carries the frame's one accent.
+ * fill colour and a label, so the button is ours (the same blue pill and mono
+ * label as the nav CTA) and Cal only supplies the modal it opens. The popup runs
+ * in light mode with the sky blue as its brand colour, to match the page.
  */
 
 const NAMESPACE = "30min";
@@ -80,23 +74,19 @@ function ensureCal(): CalApi {
 }
 
 export function CalEmbed() {
-  const { resolvedTheme } = useTheme();
   const [visible, setVisible] = useState(false);
 
-  /* Loads embed.js after hydration and re-themes the popup whenever the site
-     theme flips. */
+  /* Loads embed.js after hydration. */
   useEffect(() => {
-    const theme = resolvedTheme === "light" ? "light" : "dark";
     ensureCal().ns[NAMESPACE]("ui", {
-      theme,
+      theme: "light",
       layout: "month_view",
       hideEventTypeDetails: false,
       cssVarsPerTheme: {
-        light: { "cal-brand": "#1a1a1a", "cal-brand-text": "#f2f2f0" },
-        dark: { "cal-brand": "#f2f2f0", "cal-brand-text": "#1a1a1a" },
+        light: { "cal-brand": "#1668e3", "cal-brand-text": "#ffffff" },
       },
     });
-  }, [resolvedTheme]);
+  }, []);
 
   /* The hero already has a Book a Call; the floating one appears once that has
      scrolled out of view, so the first screen never shows the CTA twice. */
@@ -134,7 +124,7 @@ export function CalEmbed() {
           <Button
             onClick={openBooking}
             size="lg"
-            className="mono-label h-11 border-2 border-background px-6"
+            className="mono-label h-12 rounded-full border-2 border-white px-6 shadow-[0_14px_30px_-12px_rgba(22,104,227,0.8)]"
           >
             Book a Call
           </Button>

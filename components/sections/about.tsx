@@ -3,21 +3,17 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Section, Eyebrow } from "@/components/layout/section";
-import { Monogram } from "@/components/brand/monogram";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const traits = ["Builder", "Growth Operator", "Father", "Bengaluru"];
 
 /*
  * Copy leads and the portrait follows, so the kicker and statement start on the
- * same left edge as every other section on the page. With the portrait first the
- * whole block began 436px in, which broke the flush-left rule the system is
- * built on and left the short text column stranded beside a taller image.
+ * same left edge as every other section on the page.
  *
- * The portrait takes the frame treatment images get here: squared off in a well,
- * 1px rule, no crop to a shape and no shadow, monogram stamping the corner. The
- * photo is baked to greyscale, like the figures: the frame stays achromatic and
- * the page keeps its one cadmium accent.
+ * The portrait is the 3D avatar's head on a little window of sky, the same
+ * blue the page is set in, so it reads as a porthole through the glass. The
+ * studio headshot stays in use for link previews and structured data.
  */
 export function About() {
   return (
@@ -56,17 +52,21 @@ export function About() {
         </div>
 
         <motion.figure variants={fadeUp} className="md:col-span-4 md:col-start-9">
-          <div className="relative aspect-square w-full max-w-[260px] border border-rule bg-well md:ml-auto">
+          <div className="relative aspect-square w-full max-w-[260px] overflow-hidden rounded-[2rem] border-4 border-white bg-[linear-gradient(180deg,#2d8aec,#8cc8fb)] shadow-[0_24px_50px_-24px_rgba(16,64,140,0.6)] md:ml-auto">
+            {/* eslint-disable-next-line @next/next/no-img-element -- decorative sprite */}
+            <img
+              src="/sky/cloud-4.webp"
+              alt=""
+              aria-hidden
+              className="absolute -bottom-4 -left-10 w-[90%] opacity-90"
+            />
             <Image
-              src="/portrait.jpg"
-              alt="Portrait of Muneeb Syed"
+              src="/sky/avatar-head.webp"
+              alt="Illustrated portrait of Muneeb Syed"
               fill
               sizes="260px"
-              className="object-cover"
+              className="object-contain object-bottom pt-5"
             />
-            {/* Fixed to the dark-mode label grey: the photo is dark in both
-                themes, and the light-mode label value vanishes against it. */}
-            <Monogram size={24} className="absolute right-2.5 bottom-2.5 text-[#a8a8a2]" />
           </div>
           <figcaption className="mono-label mt-4 text-faint md:text-right">
             Bengaluru, India · 2026

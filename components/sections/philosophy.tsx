@@ -7,9 +7,9 @@ import { philosophy } from "@/data/philosophy";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 /*
- * Numbered rows on the 12-column grid, divided by rules, each with a marginal
- * figure at the 200px size the sheet allows. The figures carry cadmium because
- * no row here has an accent number for them to compete with.
+ * Numbered rows on the 12-column grid, divided by hairlines, each with its
+ * marginal figure on a small white card. The figures carry the accent blue
+ * because no row here has an accent number for them to compete with.
  */
 export function Philosophy() {
   return (
@@ -22,7 +22,7 @@ export function Philosophy() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-14 border-t border-rule"
+        className="mt-12 border-t border-rule"
       >
         {philosophy.map((item, i) => (
           <motion.article
@@ -39,7 +39,7 @@ export function Philosophy() {
               </h3>
               <p className="mt-5 text-body text-muted-foreground text-pretty">{item.body}</p>
             </div>
-            <div className="md:col-span-5 md:col-start-8 md:justify-self-end">
+            <div className="glass-card w-fit rounded-2xl p-5 md:col-span-5 md:col-start-8 md:justify-self-end">
               <Figure id={item.figure} />
             </div>
           </motion.article>

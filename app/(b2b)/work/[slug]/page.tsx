@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { caseStudies } from "@/data/case-studies";
 import { CaseStudyDetail } from "@/components/sections/case-study-detail";
+import { GlassSheet } from "@/components/sky/glass-sheet";
+import { NatureFinale } from "@/components/sky/nature-finale";
 
 export function generateStaticParams() {
   return caseStudies.map((study) => ({ slug: study.slug }));
@@ -30,5 +32,12 @@ export default async function CaseStudyPage({
   const index = caseStudies.findIndex((s) => s.slug === slug);
   if (index === -1) notFound();
 
-  return <CaseStudyDetail study={caseStudies[index]} index={index} />;
+  return (
+    <>
+      <GlassSheet className="mt-24 md:mt-28">
+        <CaseStudyDetail study={caseStudies[index]} index={index} />
+      </GlassSheet>
+      <NatureFinale />
+    </>
+  );
 }

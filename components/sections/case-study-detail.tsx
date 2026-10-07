@@ -10,14 +10,14 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn, isFigure } from "@/lib/utils";
 
 /*
- * Applications sheet 03 / CASE STUDY HEADER, on the 1128px content column:
- * mono kicker, then the finding as a 44px statement, then a stat strip with one
- * cadmium cell. Order is fixed, everything flush left, no arrows or shadows.
+ * Case study header on the glass: mono kicker, then the finding as a 44px
+ * statement, then a stat strip of cards with one accent figure. Everything
+ * flush left.
  */
 export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: number }) {
   return (
     <article>
-      <section className="pt-28 pb-14">
+      <section className="pt-12 pb-14 md:pt-16">
         <Container>
           <motion.div variants={staggerContainer(0.09)} initial="hidden" animate="show">
             <motion.div variants={fadeUp}>
@@ -49,17 +49,12 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
 
             <motion.dl
               variants={fadeUp}
-              className="mt-12 grid grid-cols-2 gap-px border-t-2 border-rule bg-rule sm:grid-cols-3"
+              className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3"
             >
-              {study.metrics.map((metric, i) => (
+              {study.metrics.map((metric) => (
                 <div
                   key={metric.label}
-                  className={cn(
-                    "flex min-h-[104px] flex-col justify-between bg-background pt-6 pr-6 pb-1",
-                    /* 2 columns, then 3 from sm — see the note in wins.tsx. */
-                    i % 2 !== 0 && "pl-6",
-                    i % 3 === 0 ? "sm:pl-0" : "sm:pl-6"
-                  )}
+                  className="glass-card flex min-h-[112px] flex-col justify-between rounded-2xl p-5"
                 >
                   <dd
                     className={cn(
@@ -80,7 +75,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
             </motion.dl>
 
             {/* Achromatic: the strip above already spends this frame's accent. */}
-            <motion.div variants={fadeUp} className="mt-14">
+            <motion.div variants={fadeUp} className="glass-card mt-12 w-fit rounded-3xl p-6">
               <Figure
                 id={study.figure}
                 caption={study.figureCaption}
@@ -92,7 +87,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
         </Container>
       </section>
 
-      <div className="border-t-2 border-rule">
+      <div className="border-t border-rule">
         <Container className="py-14 md:py-22">
           <motion.div
             variants={staggerContainer(0.09)}
@@ -134,7 +129,7 @@ export function CaseStudyDetail({ study, index }: { study: CaseStudy; index: num
             initial="hidden"
             whileInView="show"
             viewport={viewportOnce}
-            className="relative mt-14 border-2 border-rule bg-panel p-8 md:p-12"
+            className="glass-card relative mt-14 rounded-3xl p-8 md:p-12"
           >
             <h2 className="mono-label text-faint">Outcome</h2>
             <p className="mt-5 max-w-2xl text-xl font-semibold tracking-[-0.025em] text-balance text-foreground md:text-2xl">

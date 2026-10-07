@@ -8,20 +8,26 @@ import { AiLab } from "@/components/sections/ai-lab";
 import { Writing } from "@/components/sections/writing";
 import { About } from "@/components/sections/about";
 import { Contact } from "@/components/sections/contact";
+import { GlassSheet } from "@/components/sky/glass-sheet";
+import { NatureFinale } from "@/components/sky/nature-finale";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Wins />
-      <Companies />
-      <Philosophy />
-      <CaseStudies />
-      <Testimonials />
-      <AiLab />
-      <Writing />
-      <About />
-      <Contact />
+      <GlassSheet>
+        <Wins />
+        <Companies />
+        <Philosophy />
+        <CaseStudies />
+        <Testimonials />
+        <AiLab />
+        <Writing />
+        <About />
+      </GlassSheet>
+      <NatureFinale>
+        <Contact />
+      </NatureFinale>
     </>
   );
 }

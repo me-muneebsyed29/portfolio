@@ -2,10 +2,9 @@ import { cn } from "@/lib/utils";
 import { Container } from "@/components/layout/container";
 
 /*
- * 03 / STRUCTURE. Spacing steps are 8 / 16 / 24 / 40 / 56 / 88; sections run at
- * the 56 step on mobile and 88 on desktop. Sections are separated by a 2px rule
- * rather than whitespace alone, which is what makes the page read as a spec
- * sheet instead of a landing page.
+ * Spacing steps are 8 / 16 / 24 / 40 / 56 / 88; sections run at the 56 step on
+ * mobile and 88 on desktop. On the glass sheet, sections part on a hairline
+ * rather than a heavy rule, so the pane still reads as one surface.
  */
 export function Section({
   id,
@@ -23,7 +22,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={cn("py-14 md:py-22", ruled && "border-t-2 border-rule", className)}
+      className={cn("py-14 md:py-22", ruled && "border-t border-rule", className)}
     >
       <Container className={containerClassName}>{children}</Container>
     </section>
@@ -58,8 +57,8 @@ export function Eyebrow({
   );
 }
 
-/* Section H2 — 28px, tracking −0.025em. The system deliberately keeps section
-   headings small; rules and mono labels carry the hierarchy, not type size. */
+/* Section H2. A step larger than the old spec-sheet 28px: on glass there are no
+   heavy rules left to carry the hierarchy, so the heading does. */
 export function SectionTitle({
   children,
   className,
@@ -68,6 +67,13 @@ export function SectionTitle({
   className?: string;
 }) {
   return (
-    <h2 className={cn("text-section font-bold text-balance", className)}>{children}</h2>
+    <h2
+      className={cn(
+        "text-[2rem] leading-[1.1] font-bold tracking-[-0.025em] text-balance md:text-[2.5rem]",
+        className
+      )}
+    >
+      {children}
+    </h2>
   );
 }

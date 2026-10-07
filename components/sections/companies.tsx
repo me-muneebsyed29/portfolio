@@ -13,7 +13,7 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
  */
 export function Companies() {
   return (
-    <section className="border-t-2 border-rule py-14">
+    <section className="border-t border-rule py-14">
       <Container>
         <motion.div
           variants={staggerContainer(0.08)}

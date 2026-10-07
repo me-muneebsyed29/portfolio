@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { essays } from "@/data/writing";
 import { EssayDetail } from "@/components/sections/essay-detail";
+import { GlassSheet } from "@/components/sky/glass-sheet";
+import { NatureFinale } from "@/components/sky/nature-finale";
 
 export function generateStaticParams() {
   return essays.map((essay) => ({ slug: essay.slug }));
@@ -37,5 +39,12 @@ export default async function EssayPage({
   const index = essays.findIndex((e) => e.slug === slug);
   if (index === -1) notFound();
 
-  return <EssayDetail essay={essays[index]} index={index} />;
+  return (
+    <>
+      <GlassSheet className="mt-24 md:mt-28">
+        <EssayDetail essay={essays[index]} index={index} />
+      </GlassSheet>
+      <NatureFinale />
+    </>
+  );
 }

@@ -12,6 +12,10 @@ export type EssayBlock =
 export type Essay = {
   slug: string;
   title: string;
+  /* Search and social. seoTitle stays under ~46 characters; the root
+     template adds " · Muneeb Syed". */
+  seoTitle: string;
+  seoDescription: string;
   excerpt: string;
   standfirst: string;
   readingTime: string;
@@ -23,6 +27,9 @@ export const essays: Essay[] = [
   {
     slug: "paid-media-needs-an-operating-system",
     title: "Paid media needs an operating system",
+    seoTitle: "Why paid media needs an operating system",
+    seoDescription:
+      "Most ad accounts are a pile of campaigns. What a paid media operating system looks like, and why it compounds when campaigns alone don’t.",
     excerpt:
       "Most accounts are a pile of campaigns. Here’s what a system looks like instead.",
     standfirst:
@@ -93,6 +100,9 @@ export const essays: Essay[] = [
   {
     slug: "ai-changes-demand-generation",
     title: "AI changes demand gen",
+    seoTitle: "How AI changes B2B demand generation",
+    seoDescription:
+      "AI won’t replace B2B marketers. It makes testing so cheap that learning speed becomes the moat. What that changes for demand gen teams.",
     excerpt:
       "Not by replacing marketers. By making tests so cheap that learning speed becomes the moat.",
     standfirst:
@@ -163,6 +173,9 @@ export const essays: Essay[] = [
   {
     slug: "building-growth-systems",
     title: "Building growth systems",
+    seoTitle: "Building growth systems, not tactics",
+    seoDescription:
+      "Tactics break when the market shifts. Systems don’t. How to treat B2B SaaS growth as inputs and outputs instead of a list of tactics.",
     excerpt:
       "Treat growth as inputs and outputs, not a list of tactics.",
     standfirst:
@@ -228,6 +241,9 @@ export const essays: Essay[] = [
   {
     slug: "optimize-revenue-not-clicks",
     title: "Optimize revenue, not clicks",
+    seoTitle: "Optimize ad spend for revenue, not clicks",
+    seoDescription:
+      "Every metric in an ad account is a proxy. How many steps sit between the number you optimize and the money, and why that gap matters.",
     excerpt:
       "The metrics most teams chase sit several steps away from revenue.",
     standfirst:

@@ -10,6 +10,10 @@
  */
 export type CaseStudy = {
   slug: string;
+  /* Search and social: seoTitle under ~46 characters (the root template adds
+     " · Muneeb Syed"), seoDescription around 150. */
+  seoTitle: string;
+  seoDescription: string;
   client: string;
   tag: string;
   headline: string;
@@ -27,6 +31,9 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     slug: "devtools-saas-cac",
+    seoTitle: "Case study: CAC down 65% for a DevTools SaaS",
+    seoDescription:
+      "How I cut CAC 65% in two quarters for a Series B DevTools SaaS by rebuilding creative testing and cutting wasted audiences, with trials steady.",
     client: "Series B DevTools SaaS",
     tag: "Paid media · Testing",
     headline: "CAC down 65%. Trials held steady.",
@@ -55,6 +62,9 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "vertical-saas-scale",
+    seoTitle: "Case study: scaling SaaS paid media 7x",
+    seoDescription:
+      "How a post-seed vertical SaaS went from €4K to €30K a month in paid media over nine months while revenue efficiency improved 40%.",
     client: "Vertical SaaS scale-up",
     tag: "Paid media · Systems",
     headline: "€4K to €30K a month, and more efficient at the end.",
@@ -82,6 +92,9 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "enterprise-abm",
+    seoTitle: "Case study: enterprise ABM on a $25M+ budget",
+    seoDescription:
+      "How I built and ran an account-based marketing program for an enterprise fintech across a $25M+ media budget on Google, Meta and LinkedIn.",
     client: "Enterprise fintech",
     tag: "ABM · Enterprise",
     headline: "Account-based marketing at enterprise scale.",

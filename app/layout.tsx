@@ -32,12 +32,11 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  /* Google ignores this tag; kept short for the engines that still read it. */
   keywords: [
+    "B2B SaaS paid media",
+    "paid media consultant",
     "B2B SaaS growth",
-    "growth operator",
-    "paid media",
-    "AI GTM",
-    "growth marketing",
     "demand generation",
     "performance marketing",
   ],
@@ -45,6 +44,7 @@ export const metadata: Metadata = {
   creator: siteConfig.name,
   openGraph: {
     type: "website",
+    locale: "en_US",
     url: siteConfig.url,
     title: siteConfig.title,
     description: siteConfig.description,

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { caseStudies } from "@/data/case-studies";
 import { CaseStudyDetail } from "@/components/sections/case-study-detail";
@@ -18,12 +19,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const study = caseStudies.find((s) => s.slug === slug);
   if (!study) return {};
-  return {
-    title: study.headline,
-    description: study.oneLine,
-    /* Self-referencing canonical; see the note in writing/[slug]/page.tsx. */
-    alternates: { canonical: `/work/${study.slug}` },
-  };
+  return pageMetadata({
+    title: study.seoTitle,
+    description: study.seoDescription,
+    path: `/work/${study.slug}`,
+    type: "article",
+  });
 }
 
 export default async function CaseStudyPage({

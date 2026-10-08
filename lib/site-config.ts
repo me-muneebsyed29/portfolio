@@ -2,7 +2,9 @@ export const siteConfig = {
   name: "Muneeb Syed",
   /* One name everywhere: "Muneeb Syed" in type, "Muneeb" in casual lines. */
   role: "Growth operator",
-  title: "Muneeb Syed · Growth operator for B2B SaaS",
+  /* The search title. "Growth operator" is the voice on the page, but people
+     search for paid media and growth help, so the title leads with that. */
+  title: "Muneeb Syed · B2B SaaS paid media and growth consultant",
   description:
     "I help B2B SaaS teams turn ad spend into pipeline they can plan around. Sharper systems, faster tests, and AI doing the grunt work.",
   /* The www host, because that is the one that answers 200 — the apex

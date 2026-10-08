@@ -56,20 +56,23 @@ export function ChalkNote({ className, children }: { className?: string; childre
 export function SectionHead({
   title,
   sub,
+  as: Heading = "h2",
   className,
   children,
 }: {
   title: React.ReactNode;
   sub?: React.ReactNode;
+  /* h1 when the section is the page itself, like /writing. */
+  as?: "h1" | "h2";
   className?: string;
   children?: React.ReactNode;
 }) {
   return (
     <div className={cn("flex flex-col gap-4 md:flex-row md:items-end md:justify-between", className)}>
       <div className="max-w-2xl">
-        <h2 className="text-[2rem] leading-[1.08] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[2.6rem]">
+        <Heading className="text-[2rem] leading-[1.08] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[2.6rem]">
           {title}
-        </h2>
+        </Heading>
         {sub ? <p className="mt-3 max-w-xl text-body text-muted-foreground text-pretty">{sub}</p> : null}
       </div>
       {children}

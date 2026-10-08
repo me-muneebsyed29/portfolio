@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { essays } from "@/data/writing";
 import { EssayDetail } from "@/components/sections/essay-detail";
+import { MoreNotes } from "@/components/sections/related";
 import { NatureFinale } from "@/components/sky/nature-finale";
+import { JsonLd, breadcrumbs, essaySchema } from "@/lib/structured-data";
 
 export function generateStaticParams() {
   return essays.map((essay) => ({ slug: essay.slug }));
@@ -42,9 +44,19 @@ export default async function EssayPage({
   const index = essays.findIndex((e) => e.slug === slug);
   if (index === -1) notFound();
 
+  const essay = essays[index];
+
   return (
     <>
-      <EssayDetail essay={essays[index]} />
+      <JsonLd data={essaySchema(essay)} />
+      <JsonLd
+        data={breadcrumbs([
+          { name: "Field notes", path: "/writing" },
+          { name: essay.title, path: `/writing/${essay.slug}` },
+        ])}
+      />
+      <EssayDetail essay={essay} />
+      <MoreNotes exclude={essay.slug} />
       <NatureFinale />
     </>
   );

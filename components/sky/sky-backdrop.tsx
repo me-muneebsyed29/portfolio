@@ -74,6 +74,8 @@ function CloudLayer({ clouds }: { clouds: Cloud[] }) {
             src={`/sky/cloud-${cloud.src}.webp`}
             alt=""
             draggable={false}
+            decoding="async"
+            fetchPriority="low"
             className="block h-auto w-full select-none"
           />
         </div>

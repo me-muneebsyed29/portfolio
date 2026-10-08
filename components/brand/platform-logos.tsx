@@ -51,7 +51,7 @@ function Initials({ text }: { text: string }) {
         y="12.6"
         textAnchor="middle"
         dominantBaseline="central"
-        fontFamily="var(--font-jetbrains-mono), monospace"
+        fontFamily="var(--font-jakarta), sans-serif"
         fontSize={text.length > 2 ? "7.6" : "9.6"}
         fontWeight="500"
         fill="currentColor"

@@ -18,6 +18,7 @@ import { essays } from "@/data/writing";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${siteConfig.url}/`, lastModified: new Date() },
+    { url: `${siteConfig.url}/writing`, lastModified: new Date() },
     ...caseStudies.map((study) => ({
       url: `${siteConfig.url}/work/${study.slug}`,
       lastModified: new Date(),

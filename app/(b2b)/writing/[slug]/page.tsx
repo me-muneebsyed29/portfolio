@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { essays } from "@/data/writing";
 import { EssayDetail } from "@/components/sections/essay-detail";
@@ -18,21 +19,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const essay = essays.find((e) => e.slug === slug);
   if (!essay) return {};
-
-  return {
-    title: essay.title,
-    description: essay.excerpt,
-    /* Each page names itself as canonical. Inheriting the root layout's
-       canonical pointed every essay at the homepage, which tells Google not
-       to index it. Relative, so metadataBase makes it absolute. */
-    alternates: { canonical: `/writing/${essay.slug}` },
-    openGraph: {
-      type: "article",
-      title: essay.title,
-      description: essay.excerpt,
-      publishedTime: essay.date,
-    },
-  };
+  return pageMetadata({
+    title: essay.seoTitle,
+    description: essay.seoDescription,
+    path: `/writing/${essay.slug}`,
+    type: "article",
+    publishedTime: essay.date,
+  });
 }
 
 export default async function EssayPage({

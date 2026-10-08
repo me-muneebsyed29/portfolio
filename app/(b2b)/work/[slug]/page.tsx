@@ -19,6 +19,8 @@ export async function generateMetadata({
   return {
     title: study.headline,
     description: study.oneLine,
+    /* Self-referencing canonical; see the note in writing/[slug]/page.tsx. */
+    alternates: { canonical: `/work/${study.slug}` },
   };
 }
 

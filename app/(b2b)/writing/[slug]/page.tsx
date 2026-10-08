@@ -20,6 +20,10 @@ export async function generateMetadata({
   return {
     title: essay.title,
     description: essay.excerpt,
+    /* Each page names itself as canonical. Inheriting the root layout's
+       canonical pointed every essay at the homepage, which tells Google not
+       to index it. Relative, so metadataBase makes it absolute. */
+    alternates: { canonical: `/writing/${essay.slug}` },
     openGraph: {
       type: "article",
       title: essay.title,

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono, Caveat } from "next/font/google";
+import { Plus_Jakarta_Sans, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@/components/analytics";
 import { siteConfig } from "@/lib/site-config";
@@ -13,14 +13,6 @@ import "./globals.css";
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
-  display: "swap",
-});
-
-/* Only the B2C site still uses a mono, for its UI labels. */
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -72,22 +64,6 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: siteConfig.name,
-  jobTitle: siteConfig.role,
-  url: siteConfig.url,
-  image: `${siteConfig.url}/portrait.jpg`,
-  email: siteConfig.email,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Bengaluru",
-    addressCountry: "IN",
-  },
-  sameAs: [siteConfig.linkedin].filter(Boolean),
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -96,14 +72,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${jetbrainsMono.variable} ${caveat.variable} h-full`}
+      className={`${jakarta.variable} ${caveat.variable} h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         {/* Each site tree owns its own look: the B2B portfolio is the
             daylight sky system, B2C is always dark. Neither has a toggle. */}
         <Analytics />

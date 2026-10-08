@@ -217,7 +217,6 @@ export function Hero() {
                 alt="Illustrated portrait of Muneeb Syed"
                 width={560}
                 height={775}
-                priority
                 sizes="340px"
                 className="h-auto w-full drop-shadow-[0_30px_40px_rgba(12,60,140,0.35)]"
               />

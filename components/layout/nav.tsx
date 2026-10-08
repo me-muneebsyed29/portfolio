@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Menu } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -12,17 +13,15 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Container } from "@/components/layout/container";
 import { Wordmark } from "@/components/brand/wordmark";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { WeatherCaption, WeatherToggle } from "@/components/sky/weather-toggle";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 /*
- * Site header per the Marks sheet: short wordmark at 17px, flush left, with the
- * URL closing the bar. On scroll the header takes the ground colour and a 2px
- * rule — the system's separator — rather than the blur-and-shadow treatment it
- * forbids.
+ * A floating glass pill rather than a bar, so the sky stays visible across the
+ * top of the page. It firms up a little once the page scrolls and copy starts
+ * passing underneath it.
  */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -39,26 +38,28 @@ export function Nav() {
       initial={{ y: -16, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-200",
-        scrolled ? "border-b-2 border-rule bg-background" : "border-b-2 border-transparent"
-      )}
+      className="fixed inset-x-0 top-3 z-50 px-3 sm:px-5 md:top-4"
     >
-      <Container className="flex h-16 items-center justify-between gap-8">
-        <a
-          href="#top"
+      <div
+        className={cn(
+          "glass mx-auto flex h-14 w-full max-w-[1240px] items-center justify-between gap-8 rounded-full pr-2 pl-6 transition-colors duration-300 md:pr-2.5 md:pl-7",
+          scrolled && "bg-white/75!"
+        )}
+      >
+        <Link
+          href="/"
           className="text-[17px] text-foreground transition-opacity hover:opacity-70"
-          aria-label={`${siteConfig.name} — home`}
+          aria-label={`${siteConfig.name}, home`}
         >
           <Wordmark />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
           {siteConfig.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-caption uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-[0.95rem] font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
             </a>
@@ -66,26 +67,46 @@ export function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <ThemeToggle />
+          <div className="relative">
+            <WeatherToggle />
+            {/* The chalk caption hangs under the toggle on the open sky, and
+                tucks away once copy starts scrolling underneath. */}
+            <WeatherCaption
+              className={cn(
+                "absolute top-[calc(100%+1rem)] right-0 transition-opacity duration-300",
+                scrolled && "opacity-0"
+              )}
+            />
+          </div>
           <Button
             render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
             nativeButton={false}
             size="sm"
-            className="mono-label h-9 px-4"
+            className="caps-label h-10 rounded-full px-5"
           >
-            Book a Call
+            Book a call
           </Button>
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
-          <ThemeToggle />
+          <div className="relative">
+            <WeatherToggle />
+            <WeatherCaption
+              className={cn(
+                "absolute top-[calc(100%+0.9rem)] right-0 text-[1.05rem] transition-opacity duration-300",
+                scrolled && "opacity-0"
+              )}
+            />
+          </div>
           <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon" aria-label="Open menu" />}>
+            <SheetTrigger
+              render={<Button variant="ghost" size="icon-lg" className="rounded-full" aria-label="Open menu" />}
+            >
               <Menu className="size-5" />
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full border-l-2 border-rule bg-background sm:max-w-sm"
+              className="w-full border-l border-white/80 bg-white/80 backdrop-blur-2xl sm:max-w-sm"
             >
               <SheetHeader className="px-6 pt-6">
                 <SheetTitle className="text-left text-[17px] text-foreground">
@@ -115,17 +136,17 @@ export function Nav() {
                     <Button
                       render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
                       nativeButton={false}
-                      className="mono-label h-11 w-full"
+                      className="caps-label h-12 w-full rounded-full"
                     />
                   }
                 >
-                  Book a Call
+                  Book a call
                 </SheetClose>
               </div>
             </SheetContent>
           </Sheet>
         </div>
-      </Container>
+      </div>
     </motion.header>
   );
 }

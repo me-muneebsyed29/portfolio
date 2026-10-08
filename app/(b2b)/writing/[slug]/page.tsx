@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { essays } from "@/data/writing";
 import { EssayDetail } from "@/components/sections/essay-detail";
+import { NatureFinale } from "@/components/sky/nature-finale";
 
 export function generateStaticParams() {
   return essays.map((essay) => ({ slug: essay.slug }));
@@ -19,6 +20,10 @@ export async function generateMetadata({
   return {
     title: essay.title,
     description: essay.excerpt,
+    /* Each page names itself as canonical. Inheriting the root layout's
+       canonical pointed every essay at the homepage, which tells Google not
+       to index it. Relative, so metadataBase makes it absolute. */
+    alternates: { canonical: `/writing/${essay.slug}` },
     openGraph: {
       type: "article",
       title: essay.title,
@@ -37,5 +42,10 @@ export default async function EssayPage({
   const index = essays.findIndex((e) => e.slug === slug);
   if (index === -1) notFound();
 
-  return <EssayDetail essay={essays[index]} index={index} />;
+  return (
+    <>
+      <EssayDetail essay={essays[index]} />
+      <NatureFinale />
+    </>
+  );
 }

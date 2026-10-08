@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /*
- * 01 / WORDMARK. Space Grotesk 700, tracking −0.025em, all caps, no space
+ * 01 / WORDMARK. Plus Jakarta Sans 700, tracking −0.025em, all caps, no space
  * between the name and the period.
  *
  * The period is the only place the accent appears in a mark, and it is dropped
@@ -24,7 +24,7 @@ export function Wordmark({
 
   if (variant === "full") {
     // The full mark has no period, so there is nothing for the accent to sit on.
-    return <span className={base}>Syed Muneeb Rehaman</span>;
+    return <span className={base}>Muneeb Syed</span>;
   }
 
   return (

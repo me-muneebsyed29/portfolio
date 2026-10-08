@@ -4,13 +4,13 @@ export type Tool = { id: PlatformId; name: string };
 export type ToolGroup = { label: string; tools: Tool[] };
 
 /*
- * The stack, grouped the way the work is actually divided. Client logos are
- * absent by necessity — the case studies are anonymised under NDA — so this wall
- * is the platforms and tools rather than the customers.
+ * "The stack I fly with": the platforms and tools, in three lanes grouped the
+ * way the work is actually divided. Client brands live on their own wall
+ * (data/brands.ts).
  */
 export const toolGroups: ToolGroup[] = [
   {
-    label: "Ad platforms",
+    label: "Ads",
     tools: [
       { id: "google-ads", name: "Google Ads" },
       { id: "meta", name: "Meta Ads" },
@@ -24,7 +24,7 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    label: "Data & GTM",
+    label: "Data and GTM",
     tools: [
       { id: "ga4", name: "GA4" },
       { id: "gtm", name: "Tag Manager" },
@@ -40,7 +40,7 @@ export const toolGroups: ToolGroup[] = [
     ],
   },
   {
-    label: "Build & automate",
+    label: "Build and automate",
     tools: [
       { id: "n8n", name: "n8n" },
       { id: "zapier", name: "Zapier" },

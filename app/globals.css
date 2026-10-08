@@ -62,7 +62,7 @@
   --color-improved: var(--improved);
   --color-broken: var(--broken);
 
-  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
 
@@ -224,6 +224,219 @@
 }
 
 /*
+ * Sky system (B2B site). Daylight only: a blue sky behind everything, white
+ * glass in front of it carrying the copy, and a live landscape at the end of
+ * the scroll. Visual source is the LinkedIn banner and the 3D avatar.
+ *
+ * Scoped on :root:has(.sky) rather than on the .sky wrapper itself, so content
+ * that portals to <body> (the mobile menu sheet, tooltips) inherits the tokens.
+ *
+ * Ink is a deep navy rather than black, so type reads as part of the sky. The
+ * accent is the banner's "Boost" button blue; the sticky-note yellow is a
+ * highlighter only and never carries text on its own.
+ */
+:root:has(.sky) {
+  color-scheme: light;
+
+  --background: #eef6ff;
+  --foreground: #0b1d3a;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-foreground: #0b1d3a;
+  --popover: #ffffff;
+  --popover-foreground: #0b1d3a;
+  --well: rgba(255, 255, 255, 0.45);
+  --panel: rgba(255, 255, 255, 0.6);
+  --surface: rgba(255, 255, 255, 0.6);
+
+  --primary: #1668e3;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(255, 255, 255, 0.7);
+  --secondary-foreground: #0b1d3a;
+  --muted: rgba(255, 255, 255, 0.6);
+  /* Measured against the glass as it renders over mid-sky (about #e4effc):
+     muted 8.1:1, faint 4.8:1. */
+  --muted-foreground: #34496b;
+  --faint: #566a8a;
+  --accent: rgba(255, 255, 255, 0.8);
+  --accent-foreground: #0b1d3a;
+  --destructive: #c2391b;
+
+  --rule: rgba(11, 29, 58, 0.1);
+  --border: rgba(11, 29, 58, 0.12);
+  --border-strong: rgba(11, 29, 58, 0.24);
+  --input: rgba(11, 29, 58, 0.16);
+  --ring: #1668e3;
+
+  /* The old cadmium slots now carry the sky blue, so every component that
+     spends "the one accent" picks it up without a rename. */
+  --cadmium: #1668e3;
+  --cadmium-sm: #1458c4;
+  --grid: rgba(11, 29, 58, 0.06);
+  --improved: #2f7a4c;
+  --broken: #a3642a;
+
+  --highlight: #ffd84d;
+  --chalk: #ffffff;
+
+  --chart-1: #0b1d3a;
+  --chart-2: #1668e3;
+  --chart-3: #34496b;
+  --chart-4: #a3642a;
+  --chart-5: #566a8a;
+
+  --radius: 1rem;
+}
+
+/* Paint the document the mid-sky colour so overscroll never flashes white. */
+body:has(.sky) {
+  background-color: #5aa9f2;
+  transition: background-color 1.2s ease;
+}
+
+/*
+ * Weather. The sunny values above are the default; cloudy and snowy override
+ * the glass tint, the cloud treatment and the landscape palette. Hill and tree
+ * gradients read these variables through their <stop>s, which transition, so
+ * the landscape fades between seasons instead of snapping.
+ */
+:root:has(.sky) {
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --cloud-filter: none;
+  --sun-opacity: 1;
+
+  --h-horizon: #e4f2ff;
+  --h-mtn-0: #7fa9da;
+  --h-mtn-1: #9dbfe6;
+  --h-mtn-2: #c3dbf3;
+  --h-far-0: #a6d1ad;
+  --h-far-1: #9cc7b0;
+  --h-mid-0: #a5d873;
+  --h-mid-1: #82c25f;
+  --h-mid-2: #5ea64c;
+  --h-near-0: #9fd567;
+  --h-near-1: #6fbc4f;
+  --h-near-2: #3f8c36;
+  --h-meadow-0: #7cc251;
+  --h-meadow-1: #4d9e3c;
+  --h-meadow-2: #2b7529;
+  --h-canopy-0: #b6e37f;
+  --h-canopy-1: #5fae45;
+  --h-canopy-2: #3a8333;
+  --h-canopy-dark-0: #8cc96a;
+  --h-canopy-dark-1: #3f8a3c;
+  --h-canopy-dark-2: #2a6b2c;
+}
+
+:root[data-weather="cloudy"]:has(.sky) {
+  --glass-bg: rgba(242, 246, 251, 0.64);
+  --cloud-filter: brightness(0.7) saturate(0.35) contrast(1.05);
+  --sun-opacity: 0;
+
+  --h-horizon: #c9d2de;
+  --h-mtn-0: #66798f;
+  --h-mtn-1: #7c8ea4;
+  --h-mtn-2: #a2b0c1;
+  --h-far-0: #7d978a;
+  --h-far-1: #768f85;
+  --h-mid-0: #7f9e63;
+  --h-mid-1: #678953;
+  --h-mid-2: #4d7243;
+  --h-near-0: #7a9c59;
+  --h-near-1: #5b8446;
+  --h-near-2: #3a6232;
+  --h-meadow-0: #6a974c;
+  --h-meadow-1: #497a3a;
+  --h-meadow-2: #2d5b29;
+  --h-canopy-0: #8fb26a;
+  --h-canopy-1: #4f873d;
+  --h-canopy-2: #2f672d;
+  --h-canopy-dark-0: #6f9758;
+  --h-canopy-dark-1: #356c34;
+  --h-canopy-dark-2: #245727;
+}
+
+:root[data-weather="snowy"]:has(.sky) {
+  --glass-bg: rgba(255, 255, 255, 0.66);
+  --cloud-filter: brightness(0.96) saturate(0.25);
+  --sun-opacity: 0.35;
+
+  --h-horizon: #f3f7fb;
+  --h-mtn-0: #c5d4e6;
+  --h-mtn-1: #dbe5f1;
+  --h-mtn-2: #eaf0f7;
+  --h-far-0: #e6eef6;
+  --h-far-1: #d6e2ee;
+  --h-mid-0: #ffffff;
+  --h-mid-1: #eef3f9;
+  --h-mid-2: #d8e3ee;
+  --h-near-0: #ffffff;
+  --h-near-1: #eff4f9;
+  --h-near-2: #d2deea;
+  --h-meadow-0: #fbfdff;
+  --h-meadow-1: #e7eef6;
+  --h-meadow-2: #cddae7;
+  --h-canopy-0: #ffffff;
+  --h-canopy-1: #8fb68a;
+  --h-canopy-2: #3c7346;
+  --h-canopy-dark-0: #ffffff;
+  --h-canopy-dark-1: #6b9874;
+  --h-canopy-dark-2: #2e6038;
+}
+
+:root[data-weather="cloudy"] body:has(.sky) {
+  background-color: #74859b;
+}
+
+:root[data-weather="snowy"] body:has(.sky) {
+  background-color: #b8c8da;
+}
+
+/* Chalk writing on the sky: white, with a soft shadow so it holds on any
+   patch of cloud. On the pale snow sky it switches to ink. */
+.chalk {
+  color: var(--chalk-ink, #ffffff);
+  filter: drop-shadow(0 1px 6px rgba(10, 40, 90, 0.35));
+  transition: color 1.2s ease;
+}
+
+:root[data-weather="snowy"] {
+  --chalk-ink: #34496b;
+}
+
+:root[data-weather="snowy"] .chalk {
+  filter: none;
+}
+
+/* The meadow hint is chalk on green, and on snow it switches to ink. */
+.scene-hint {
+  color: #ffffff;
+  filter: drop-shadow(0 2px 8px rgba(20, 60, 30, 0.45));
+  transition: color 1.2s ease;
+}
+
+:root[data-weather="snowy"] .scene-hint {
+  color: #34496b;
+  filter: none;
+}
+
+.sky stop {
+  transition: stop-color 1.2s ease;
+}
+
+/* One sky gradient per weather, stacked; the active one fades in. */
+.sky-layer {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+:root:not([data-weather]) .sky-layer[data-weather="sunny"],
+:root[data-weather="sunny"] .sky-layer[data-weather="sunny"],
+:root[data-weather="cloudy"] .sky-layer[data-weather="cloudy"],
+:root[data-weather="snowy"] .sky-layer[data-weather="snowy"] {
+  opacity: 1;
+}
+
+/*
  * B2C sub-brand (b2c.muneebsyed29.com).
  * Scoped token override rather than a second stylesheet — the shadcn components
  * all read these vars, so the whole primitive library re-skins from this block.
@@ -232,7 +445,7 @@
 .b2c {
   color-scheme: dark;
 
-  /* The B2B site moved to Space Grotesk with the rev 02 brand system; the B2C
+  /* The B2B site sets in Plus Jakarta Sans as part of the sky system; the B2C
      sub-brand is deliberately not on that system, so it keeps Figtree. Loaded in
      app/b2c/layout.tsx so the B2B site never pays for a font it doesn't render. */
   font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
@@ -296,21 +509,19 @@ body:has(.b2c) {
     font-feature-settings: "ss02" on;
   }
 
-  /* 02 / TYPE — FIGURES: "Every number, everywhere." Any rendered figure gets
-     the mono face and tabular lining so columns of numbers align on the decimal. */
+  /* Rendered figures: tabular lining numbers, so a counting figure never
+     changes width mid-animation and columns of stats line up. */
   .figures {
-    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.02em;
   }
 
-  /* Mono caps label: 11px / 0.16em. Kickers, metric labels, table headers. */
-  .mono-label {
-    font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  /* Small caps label: 11px / 0.14em. Kickers, metric labels, buttons. */
+  .caps-label {
     font-size: 0.6875rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.4;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
@@ -321,6 +532,86 @@ body:has(.b2c) {
       linear-gradient(to right, var(--grid) 1px, transparent 1px),
       linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+
+  /* Handwritten annotations, the chalk-marker voice from the banner. Display
+     sizes only: it is decoration around the copy, never the copy itself. */
+  .font-hand {
+    font-family: var(--font-caveat), ui-rounded, cursive;
+    letter-spacing: 0.01em;
+  }
+
+  /* The translucent foreground. Blur and saturation keep the sky reading
+     through it as colour and movement while the type stays crisp on top. */
+  .glass {
+    background: var(--glass-bg, rgba(255, 255, 255, 0.6));
+    transition: background-color 1.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 30px 80px -30px rgba(16, 64, 140, 0.45);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+
+  /* Cards sitting on the glass: a step more opaque, like the floating UI
+     widgets in the banner. */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 14px 34px -18px rgba(16, 64, 140, 0.4);
+  }
+
+  /* Phones re-blur the moving sky on a smaller GPU budget: a shorter radius
+     looks nearly the same at that size and costs far less. */
+  @media (max-width: 767px) {
+    .glass {
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      backdrop-filter: blur(14px) saturate(1.4);
+    }
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background: rgba(255, 255, 255, 0.86);
+    }
+  }
+
+  /* Visitors who ask the OS for less transparency get solid panes. */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background: rgba(255, 255, 255, 0.94);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* Highlighter stroke behind a word, the sticky-note yellow at marker
+     opacity. Sits under the bottom half of the line like a real pen pass. */
+  .marker {
+    background-image: linear-gradient(transparent 58%, rgba(255, 216, 77, 0.75) 58%, rgba(255, 216, 77, 0.75) 92%, transparent 92%);
+    padding-inline: 0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  .animate-drift {
+    animation: drift var(--drift-duration, 180s) linear infinite;
+    animation-delay: var(--drift-delay, 0s);
+  }
+
+  /* Trees in the finale lean with the wind from their base, never their
+     centre. */
+  .tree-sway {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: sway var(--sway-duration, 6s) ease-in-out infinite alternate;
+  }
+
+  .animate-bob {
+    animation: bob 7s ease-in-out infinite;
   }
 
   .noise-overlay {
@@ -337,5 +628,275 @@ body:has(.b2c) {
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+/* Clouds cross the full viewport plus their own width, so a loop never shows
+   a cloud popping in or out at the edge. */
+@keyframes drift {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1.5deg);
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(-1.2deg);
+  }
+  to {
+    transform: rotate(1.6deg);
+  }
+}
+
+/*
+ * Paper plane cursor (components/sky/plane-cursor.tsx). The native pointer is
+ * hidden only once the plane has mounted on a mouse device, and text fields
+ * keep the I-beam so typing still shows where the caret goes.
+ */
+html.plane-cursor,
+html.plane-cursor * {
+  cursor: none !important;
+}
+
+html.plane-cursor
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), textarea, [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+.plane-cursor-el {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  will-change: transform;
+}
+
+.plane-cursor-el[data-visible="true"] {
+  opacity: 1;
+}
+
+.plane-cursor-el[data-hidden="true"] {
+  opacity: 0;
+}
+
+.plane-cursor-svg {
+  transform-origin: 29px 11px;
+  transition: transform 0.18s ease;
+  filter: drop-shadow(0 3px 4px rgba(11, 29, 58, 0.25));
+}
+
+.plane-cursor-el[data-hover="true"] .plane-cursor-svg {
+  transform: scale(1.22);
+}
+
+.plane-cursor-el[data-pressed="true"] .plane-cursor-svg {
+  transform: scale(0.86);
+}
+
+.plane-cursor-svg path {
+  transition: fill 0.18s ease;
+}
+
+.plane-wing-top {
+  fill: #ffffff;
+}
+
+.plane-wing-bottom {
+  fill: #dbe8f8;
+}
+
+.plane-fold {
+  fill: #b5cceb;
+}
+
+.plane-outline {
+  fill: none;
+  stroke: #0b1d3a;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.plane-cursor-el[data-hover="true"] .plane-wing-top {
+  fill: #1668e3;
+}
+
+.plane-cursor-el[data-hover="true"] .plane-wing-bottom {
+  fill: #3f86ef;
+}
+
+.plane-cursor-el[data-hover="true"] .plane-fold {
+  fill: #0f4fb3;
+}
+
+/*
+ * Brands wall (components/sections/brands.tsx). At rest every mark is white
+ * at 70% and bobs gently; hover or keyboard focus lifts one 4px, shows its
+ * real colours, blooms a cloud puff behind it and dims the rest to 40%.
+ */
+.brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  color: var(--chalk-ink, #ffffff);
+  opacity: 0.7;
+  outline: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-float {
+  position: relative;
+  display: inline-flex;
+  animation: brand-bob 6s ease-in-out infinite;
+  animation-delay: var(--bob-delay, 0s);
+}
+
+.brand-word {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  filter: drop-shadow(0 1px 6px rgba(10, 40, 90, 0.3));
+}
+
+.brand-logo {
+  filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgba(10, 40, 90, 0.3));
+  transition: filter 0.25s ease;
+}
+
+.brand-puff {
+  position: absolute;
+  inset: -0.9rem -1.4rem;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.35) 55%, transparent);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-note {
+  position: absolute;
+  bottom: calc(100% + 0.6rem);
+  left: 50%;
+  z-index: 5;
+  width: max-content;
+  max-width: 13rem;
+  padding: 0.55rem 0.8rem 0.6rem;
+  background: #ffd84d;
+  color: #3a2a00;
+  font-family: var(--font-caveat), cursive;
+  font-size: 1.15rem;
+  line-height: 1.1;
+  text-align: left;
+  box-shadow: 0 12px 22px -12px rgba(120, 80, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px) rotate(-3deg) scale(0.92);
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand:hover,
+.brand:focus-visible,
+.brand.is-active {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.brand:hover .brand-logo,
+.brand:focus-visible .brand-logo,
+.brand.is-active .brand-logo {
+  filter: none;
+}
+
+.brand:hover .brand-word,
+.brand:focus-visible .brand-word,
+.brand.is-active .brand-word {
+  color: var(--foreground);
+  filter: none;
+}
+
+.brand:hover .brand-puff,
+.brand:focus-visible .brand-puff,
+.brand.is-active .brand-puff {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.brand:hover .brand-note,
+.brand:focus-visible .brand-note,
+.brand.is-active .brand-note {
+  opacity: 1;
+  transform: translate(-50%, 0) rotate(-3deg) scale(1);
+}
+
+.brand-wall:has(.brand:hover, .brand:focus-visible, .brand.is-active)
+  .brand:not(:hover):not(:focus-visible):not(.is-active) {
+  opacity: 0.4;
+}
+
+/* On the pale snow sky the white tint washes out, so logos go navy. */
+:root[data-weather="snowy"] .brand-logo {
+  filter: brightness(0) opacity(0.75);
+}
+
+:root[data-weather="snowy"] .brand-word {
+  filter: none;
+}
+
+.brand-marquee {
+  animation: brand-marquee 48s linear infinite;
+}
+
+.brand-marquee-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes brand-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes brand-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Reduced motion: no bob, no lift, no drift. Colour change and note only. */
+@media (prefers-reduced-motion: reduce) {
+  .brand-float,
+  .brand-marquee {
+    animation: none;
+  }
+
+  .brand:hover,
+  .brand:focus-visible,
+  .brand.is-active {
+    transform: none;
   }
 }

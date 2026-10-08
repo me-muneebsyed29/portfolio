@@ -5,20 +5,24 @@ import { siteConfig } from "@/lib/site-config";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const alt = siteConfig.title;
 
 /*
- * Applications sheet 04 / DECK COVER: "Cover carries no accent." Graphite
- * ground, chalk statement, mono caps details, monogram bottom-right. The first
- * cadmium number belongs on a data frame, not here.
- *
- * The greyscale portrait runs full-bleed down the right edge, split from the
- * type by the system's 2px rule, so a shared link carries a face.
+ * The link preview, per the sky direction doc: a sunny sky, the floating
+ * head, the hero headline on glass, and "more pipeline, less BS" in chalk.
+ * Fonts and images are read from assets/ so the image builds offline.
  */
-const PORTRAIT_WIDTH = 400;
+const asset = (path: string) => readFile(join(process.cwd(), "assets", path));
+const dataUrl = (buf: Buffer) => `data:image/png;base64,${buf.toString("base64")}`;
 
 export default async function OpengraphImage() {
-  const portrait = await readFile(join(process.cwd(), "public/portrait.jpg"));
-  const portraitSrc = `data:image/jpeg;base64,${portrait.toString("base64")}`;
+  const [head, cloud, jakarta800, jakarta600, caveat] = await Promise.all([
+    asset("og-head.png"),
+    asset("og-cloud.png"),
+    asset("fonts/plus-jakarta-sans-latin-800-normal.woff"),
+    asset("fonts/plus-jakarta-sans-latin-600-normal.woff"),
+    asset("fonts/caveat-latin-700-normal.woff"),
+  ]);
 
   return new ImageResponse(
     <div
@@ -26,92 +30,81 @@ export default async function OpengraphImage() {
         width: "100%",
         height: "100%",
         display: "flex",
-        background: "#1A1A1A",
+        position: "relative",
+        background: "linear-gradient(180deg, #1f7fe8 0%, #3d97f0 40%, #79bbf7 80%, #a9d5fd 100%)",
+        fontFamily: "Jakarta",
       }}
     >
+      <img src={dataUrl(cloud)} alt="" width={700} height={300} style={{ position: "absolute", left: -120, bottom: -60, opacity: 0.95 }} />
+
       <div
         style={{
-          flex: 1,
-          height: "100%",
+          position: "absolute",
+          top: 44,
+          left: 64,
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          color: "#F2F2F0",
-          padding: "64px",
-          fontFamily: "sans-serif",
+          fontFamily: "Caveat",
+          fontSize: 40,
+          color: "#ffffff",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            fontSize: 15,
-            letterSpacing: "2.4px",
-            textTransform: "uppercase",
-            color: "#A8A8A2",
-          }}
-        >
-          <span>Syed Muneeb Rehaman</span>
-          <span>{siteConfig.role}</span>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            fontSize: 50,
-            fontWeight: 700,
-            lineHeight: 1.08,
-            letterSpacing: "-1.3px",
-          }}
-        >
-          Building AI-first growth systems that turn paid media into predictable
-          pipeline.
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", height: 2, background: "#3D3D3A" }} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              paddingTop: 24,
-              fontSize: 15,
-              letterSpacing: "2.4px",
-              textTransform: "uppercase",
-              color: "#A8A8A2",
-            }}
-          >
-            <span>muneebsyed29.com</span>
-            <span
-              style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.5px" }}
-            >
-              SM
-            </span>
-          </div>
-        </div>
+        paid media · growth · AI
       </div>
+
       <div
         style={{
+          position: "absolute",
+          left: 56,
+          top: 120,
+          width: 700,
           display: "flex",
-          width: 2,
-          height: "100%",
-          background: "#3D3D3A",
+          flexDirection: "column",
+          padding: "44px 48px",
+          borderRadius: 40,
+          background: "rgba(255,255,255,0.82)",
+          border: "2px solid rgba(255,255,255,0.95)",
+          color: "#0b1d3a",
         }}
-      />
-      <img
-        src={portraitSrc}
-        alt=""
-        width={PORTRAIT_WIDTH}
-        height={size.height}
+      >
+        <div style={{ display: "flex", fontSize: 18, fontWeight: 600, letterSpacing: 2.4, color: "#34496b", textTransform: "uppercase" }}>
+          Growth operator for B2B SaaS · Bengaluru
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", marginTop: 22, fontSize: 62, fontWeight: 800, lineHeight: 1.05, letterSpacing: -2 }}>
+          I turn ad spend into pipeline you can plan
+          <span style={{ background: "#ffd84d", padding: "0 6px", marginLeft: 14 }}>around.</span>
+        </div>
+        <div style={{ display: "flex", marginTop: 26, fontSize: 24, fontWeight: 600, color: "#34496b" }}>
+          {siteConfig.name} · muneebsyed29.com
+        </div>
+      </div>
+
+      <img src={dataUrl(head)} alt="" width={300} height={415} style={{ position: "absolute", right: 84, top: 120 }} />
+
+      <div
         style={{
-          width: PORTRAIT_WIDTH,
-          height: size.height,
-          objectFit: "cover",
+          position: "absolute",
+          right: 60,
+          top: 40,
+          display: "flex",
+          flexDirection: "column",
+          fontFamily: "Caveat",
+          fontSize: 40,
+          lineHeight: 1,
+          color: "#ffffff",
+          transform: "rotate(4deg)",
         }}
-      />
+      >
+        <span>more pipeline,</span>
+        <span>less BS :)</span>
+      </div>
     </div>,
-    size,
+    {
+      ...size,
+      fonts: [
+        { name: "Jakarta", data: jakarta800, weight: 800, style: "normal" },
+        { name: "Jakarta", data: jakarta600, weight: 600, style: "normal" },
+        { name: "Caveat", data: caveat, weight: 700, style: "normal" },
+      ],
+    },
   );
 }

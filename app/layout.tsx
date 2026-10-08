@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@/components/analytics";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-/* Brand sheet rev 02 / TYPE. Space Grotesk carries every word, JetBrains Mono
-   carries every number — no overlap and no exceptions. Rev 02 replaced
-   Instrument Sans in both roles; Space Mono was tested as the companion and
-   rejected, because the mono has to stay neutral when the number is the
-   argument. No third face exists — the signature mark is drawn, not typeset. */
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+/* The sky site's one typeface: Plus Jakarta Sans carries headlines, body,
+   labels and figures (with tabular numbers). Chosen over Manrope, DM Sans,
+   Onest and two serif pairings for being the softest of the clean sans faces,
+   which suits the daylight look. Loaded as a variable font, so every weight
+   is one file. */
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  /* 700 is the display weight; 400-600 cover body. */
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
+/* Only the B2C site still uses a mono, for its UI labels. */
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
@@ -25,15 +24,25 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+/* The sky redesign's handwritten voice: the chalk-marker notes from the banner.
+   Annotation only, so two weights are enough. */
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
-    template: `%s — ${siteConfig.name}`,
+    template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
     "B2B SaaS growth",
+    "growth operator",
     "paid media",
     "AI GTM",
     "growth marketing",
@@ -87,7 +96,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${jakarta.variable} ${jetbrainsMono.variable} ${caveat.variable} h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
@@ -95,9 +104,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Each site tree owns its own ThemeProvider: the B2B portfolio is
-            dark by default with a toggle, B2C is always dark with none. A
-            single root provider could only impose one of those. */}
+        {/* Each site tree owns its own look: the B2B portfolio is the
+            daylight sky system, B2C is always dark. Neither has a toggle. */}
         <Analytics />
         <TooltipProvider>{children}</TooltipProvider>
       </body>

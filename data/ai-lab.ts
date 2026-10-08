@@ -1,47 +1,14 @@
 export type LabProject = {
+  /* No "AI" in the names: the section heading already says it. */
   name: string;
-  tagline: string;
-  description: string;
-  status: "Experiment" | "In build";
+  oneLiner: string;
+  status: "Testing" | "In build";
 };
 
-/* No icons here by design: the illustration system allows six drawn figures and
-   nothing else — "no metaphors", and explicitly no chart or rocket icons. Cards
-   are indexed in mono instead, which is how the spec sheets number things. */
 export const labProjects: LabProject[] = [
-  {
-    name: "AI Creative Analyzer",
-    tagline: "Scores ad creative before it spends a dollar",
-    description:
-      "Ingests ad copy and creative, predicts fatigue and hook strength against historical performance patterns.",
-    status: "Experiment",
-  },
-  {
-    name: "AI Media Buyer",
-    tagline: "Reallocates budget across channels daily",
-    description:
-      "A rules-plus-model layer that shifts spend toward what's working without waiting for a weekly review.",
-    status: "In build",
-  },
-  {
-    name: "AI Campaign Planner",
-    tagline: "Turns a growth goal into a media plan",
-    description:
-      "Takes a target CAC and pipeline number and outputs a channel mix, budget curve, and testing calendar.",
-    status: "Experiment",
-  },
-  {
-    name: "AI Attribution",
-    tagline: "Separates lift from noise",
-    description:
-      "Blends MMM and incrementality testing to explain what's actually driving pipeline, channel by channel.",
-    status: "In build",
-  },
-  {
-    name: "AI Landing Page Auditor",
-    tagline: "Finds conversion leaks in seconds",
-    description:
-      "Crawls a landing page against CRO heuristics and flags friction points before a test is even set up.",
-    status: "Experiment",
-  },
+  { name: "Creative Analyzer", oneLiner: "Scores an ad before it spends a dollar.", status: "Testing" },
+  { name: "Media Buyer", oneLiner: "Moves budget to what’s working, every day.", status: "In build" },
+  { name: "Campaign Planner", oneLiner: "Give it a target CAC. Get a media plan back.", status: "Testing" },
+  { name: "Attribution", oneLiner: "Separates real lift from noise.", status: "In build" },
+  { name: "Landing Page Auditor", oneLiner: "Finds the leaks before you run a test.", status: "Testing" },
 ];

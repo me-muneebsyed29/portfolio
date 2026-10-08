@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { caseStudies } from "@/data/case-studies";
 import { CaseStudyDetail } from "@/components/sections/case-study-detail";
+import { NatureFinale } from "@/components/sky/nature-finale";
 
 export function generateStaticParams() {
   return caseStudies.map((study) => ({ slug: study.slug }));
@@ -16,8 +17,10 @@ export async function generateMetadata({
   const study = caseStudies.find((s) => s.slug === slug);
   if (!study) return {};
   return {
-    title: study.client,
-    description: study.summary,
+    title: study.headline,
+    description: study.oneLine,
+    /* Self-referencing canonical; see the note in writing/[slug]/page.tsx. */
+    alternates: { canonical: `/work/${study.slug}` },
   };
 }
 
@@ -30,5 +33,10 @@ export default async function CaseStudyPage({
   const index = caseStudies.findIndex((s) => s.slug === slug);
   if (index === -1) notFound();
 
-  return <CaseStudyDetail study={caseStudies[index]} index={index} />;
+  return (
+    <>
+      <CaseStudyDetail study={caseStudies[index]} />
+      <NatureFinale />
+    </>
+  );
 }

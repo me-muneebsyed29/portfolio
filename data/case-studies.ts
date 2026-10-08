@@ -1,106 +1,110 @@
-import type { FigureId } from "@/components/brand/figures";
-
-// Placeholder case studies structured for easy real-content swaps later —
-// replace `client`, `logo`, copy, and `metrics` with confirmed details/screenshots per engagement.
+/*
+ * The three case studies. Clients stay anonymous until they can be named; when
+ * one can, put the brand in `client` and the card and story page pick it up.
+ *
+ * Card copy (tag, headline, oneLine, metrics) is what the homepage shows. The
+ * story page follows the template from the sky direction doc: setup, what was
+ * broken, what I changed, what moved, and an optional lesson that renders as
+ * a handwritten note. Every fact here comes from the original write-ups;
+ * nothing was added to fill a section.
+ */
 export type CaseStudy = {
   slug: string;
   client: string;
-  category: string;
-  summary: string;
-  problem: string;
-  approach: string[];
-  execution: string[];
-  outcome: string;
-  /* Applications sheet, 03 / CASE STUDY HEADER: the stat strip carries exactly
-     one cadmium cell — the number the study is about. The rest stay chalk even
-     when they are also good numbers. */
-  metrics: { label: string; value: string; accent?: boolean }[];
-  /* The opening figure. It runs achromatic on these pages: the stat strip above
-     it already carries the frame's one accent. */
-  figure: FigureId;
-  figureCaption: string;
+  tag: string;
+  headline: string;
+  oneLine: string;
+  /* Two metrics, the first is the accent and the one on the sticky note. */
+  metrics: { value: string; label: string }[];
+  setup: string;
+  broken: string[];
+  changed: string[];
+  moved: string;
+  /* One lesson, in Muneeb's words. Left out until he writes it. */
+  lesson?: string;
 };
 
 export const caseStudies: CaseStudy[] = [
   {
     slug: "devtools-saas-cac",
     client: "Series B DevTools SaaS",
-    category: "Paid Media · Experimentation",
-    summary: "Cut CAC by 65% by rebuilding the creative testing engine and pruning underperforming audiences.",
-    problem:
-      "CAC had crept up 3 quarters in a row as the team scaled spend without a structured way to test creative or audiences. Every campaign was a one-off; nothing compounded.",
-    approach: [
-      "Rebuilt the account structure around a creative-testing framework with clear statistical thresholds.",
-      "Introduced a weekly experiment cadence across hooks, formats, and landing pages.",
-      "Shifted budget from broad prospecting to intent-rich retargeting and lookalikes informed by product usage data.",
-    ],
-    execution: [
-      "Shipped 40+ creative variants across Meta and LinkedIn in the first quarter.",
-      "Built a lightweight AI pipeline to generate and score ad copy variants before they reached spend.",
-      "Instrumented attribution to tie ad-level spend to trial activation, not just clicks.",
-    ],
-    outcome:
-      "CAC dropped 65% over two quarters while trial volume held steady, freeing budget to reinvest into the channels that were actually compounding.",
+    tag: "Paid media · Testing",
+    headline: "CAC down 65%. Trials held steady.",
+    oneLine: "Rebuilt the creative testing engine and cut the audiences that were burning money.",
     metrics: [
-      { label: "CAC", value: "-65%", accent: true },
-      { label: "Trial volume", value: "Steady" },
-      { label: "Time to result", value: "2 quarters" },
+      { value: "-65%", label: "CAC" },
+      { value: "Steady", label: "Trial volume" },
     ],
-    figure: "outlier",
-    figureCaption: "The one variant carrying the account",
+    setup:
+      "A Series B developer tools company buying product trials on Meta and LinkedIn, and scaling that spend quarter on quarter.",
+    broken: [
+      "CAC had crept up three quarters in a row.",
+      "Spend grew with no structured way to test creative or audiences.",
+      "Every campaign was a one-off, so nothing compounded.",
+    ],
+    changed: [
+      "Rebuilt the account around a creative testing framework with clear statistical thresholds.",
+      "Set a weekly experiment cadence across hooks, formats and landing pages.",
+      "Shipped 40+ creative variants across Meta and LinkedIn in the first quarter.",
+      "Built a small AI pipeline to write and score ad copy before it reached spend.",
+      "Moved budget from broad prospecting to retargeting and lookalikes built on product usage data.",
+      "Tied ad-level spend to trial activation, not clicks.",
+    ],
+    moved:
+      "CAC fell 65% over two quarters while trial volume held steady. That freed budget to put back into the channels that were actually compounding.",
   },
   {
     slug: "vertical-saas-scale",
-    client: "Vertical SaaS Scale-up",
-    category: "Paid Media · Growth Systems",
-    summary: "Scaled monthly spend from €4K to €30K while improving revenue efficiency by 40%.",
-    problem:
-      "The company had proof paid media worked at a small budget but no system for scaling it without efficiency collapsing — a common wall for post-seed SaaS.",
-    approach: [
-      "Modeled unit economics first: payback period, LTV, and sales cycle by segment.",
-      "Sequenced budget increases against measurable saturation signals, not a fixed monthly target.",
-      "Layered in an AI-assisted media buying workflow to reallocate budget across channels daily.",
-    ],
-    execution: [
-      "Scaled spend 7x across Google and LinkedIn over 9 months in deliberate, tested increments.",
-      "Built channel-level efficiency dashboards the founder could read in under a minute.",
-      "Ran continuous incrementality tests to separate genuine lift from attribution noise.",
-    ],
-    outcome:
-      "Spend scaled 7x without efficiency collapsing — revenue efficiency actually improved 40% as the system matured.",
+    client: "Vertical SaaS scale-up",
+    tag: "Paid media · Systems",
+    headline: "€4K to €30K a month, and more efficient at the end.",
+    oneLine: "Scaled monthly spend 7x while revenue efficiency climbed 40%.",
     metrics: [
-      { label: "Spend scaled", value: "7×", accent: true },
-      { label: "Revenue efficiency", value: "+40%" },
-      { label: "Timeframe", value: "9 months" },
+      { value: "7x", label: "Spend" },
+      { value: "+40%", label: "Revenue efficiency" },
     ],
-    figure: "delta",
-    figureCaption: "Spend at 7x, efficiency held",
+    setup:
+      "A post-seed vertical SaaS company with proof that paid media worked at about €4K a month.",
+    broken: [
+      "Paid media worked on a small budget, but there was no system for scaling it.",
+      "Pushing budget up risked efficiency collapsing, the usual wall after seed.",
+    ],
+    changed: [
+      "Modelled unit economics first: payback period, LTV and sales cycle by segment.",
+      "Raised budget against measured saturation signals, not a fixed monthly target.",
+      "Added an AI-assisted buying workflow that moved budget across channels daily.",
+      "Scaled spend across Google and LinkedIn over nine months in tested steps.",
+      "Built channel dashboards the founder could read in under a minute.",
+      "Ran incrementality tests to separate real lift from attribution noise.",
+    ],
+    moved:
+      "Monthly spend went from €4K to €30K over nine months, and revenue efficiency improved 40% instead of collapsing.",
   },
   {
     slug: "enterprise-abm",
-    client: "Enterprise Fintech",
-    category: "ABM · Enterprise GTM",
-    summary: "Built and ran an account-based marketing program across a $25M+ enterprise media budget.",
-    problem:
-      "Enterprise sales cycles were long and multi-threaded, but marketing was still running demand gen as if every lead was self-serve — creating volume without pipeline quality.",
-    approach: [
-      "Segmented target accounts by deal size and buying-committee complexity.",
-      "Designed a multi-channel ABM motion combining LinkedIn, programmatic display, and direct outreach triggers.",
-      "Aligned marketing and sales on a shared account scoring model instead of separate MQL/SQL definitions.",
-    ],
-    execution: [
-      "Coordinated media execution across Google, Meta, and LinkedIn under one enterprise budget.",
-      "Built account-level reporting that sales leadership actually used in pipeline reviews.",
-      "Ran quarterly account-tier reviews to reallocate spend toward accounts showing real buying intent.",
-    ],
-    outcome:
-      "The program became the template for enterprise GTM across the org, with marketing-sourced pipeline in target accounts becoming a standing line item in QBRs.",
+    client: "Enterprise fintech",
+    tag: "ABM · Enterprise",
+    headline: "Account-based marketing at enterprise scale.",
+    oneLine: "Built and ran the ABM program across a $25M+ media budget.",
     metrics: [
-      { label: "Media managed", value: "$25M+", accent: true },
-      { label: "Program", value: "Enterprise ABM" },
-      { label: "Channels", value: "Google, Meta, LinkedIn" },
+      { value: "$25M+", label: "Budget" },
+      { value: "Full ABM", label: "Program" },
     ],
-    figure: "gap",
-    figureCaption: "Marketing and sales scoring different things",
+    setup:
+      "An enterprise fintech company with long, multi-threaded sales cycles and a $25M+ media budget across Google, Meta and LinkedIn.",
+    broken: [
+      "Marketing ran demand gen as if every lead were self-serve.",
+      "That created volume without pipeline quality.",
+      "Marketing and sales scored leads against different definitions.",
+    ],
+    changed: [
+      "Segmented target accounts by deal size and buying-committee complexity.",
+      "Designed one ABM motion across LinkedIn, programmatic display and direct outreach triggers.",
+      "Replaced separate MQL and SQL definitions with one shared account score.",
+      "Built account-level reporting that sales leadership used in pipeline reviews.",
+      "Reviewed account tiers every quarter and moved spend toward real buying intent.",
+    ],
+    moved:
+      "The program became the template for enterprise GTM across the company, and marketing-sourced pipeline in target accounts became a standing line in QBRs.",
   },
 ];

@@ -1,29 +1,22 @@
-import { Container } from "@/components/layout/container";
-import { Wordmark } from "@/components/brand/wordmark";
-import { Monogram } from "@/components/brand/monogram";
+import { ChalkNote } from "@/components/sky/sky-section";
 import { siteConfig } from "@/lib/site-config";
 
-/* The full wordmark closes the page, per "Full name: letterhead, deck cover,
-   case study header, site footer." Contact lines are mono, flush left. */
+/* A slim pane of glass floating over the hills in the nature finale. Slim on
+   purpose: the landscape is the last thing the page has to say. */
 export function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="border-t-2 border-rule py-14">
-      <Container>
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
-          <div>
-            <p className="text-[17px] text-foreground">
-              <Wordmark variant="full" />
-            </p>
-            <p className="mono-label mt-3 text-muted-foreground">
-              {siteConfig.role} · Bengaluru
-            </p>
-          </div>
+    <footer className="px-3 sm:px-5">
+      <div className="mx-auto max-w-[1240px]">
+        <ChalkNote className="mr-6 mb-3 ml-auto rotate-2 md:mr-10">thanks for scrolling this far</ChalkNote>
+        <div className="glass flex flex-col gap-5 rounded-[1.75rem] px-6 py-5 md:flex-row md:items-center md:justify-between md:rounded-full md:px-8">
+          <p className="text-caption text-muted-foreground">
+            <strong className="font-bold text-foreground">{siteConfig.name}</strong> · {siteConfig.role} ·{" "}
+            Bengaluru
+          </p>
 
-          <div className="flex flex-col gap-3 text-caption md:items-end">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-caption">
+            <a href={`mailto:${siteConfig.email}`} className="text-muted-foreground transition-colors hover:text-foreground">
               {siteConfig.email}
             </a>
             <a
@@ -34,16 +27,15 @@ export function Footer() {
             >
               LinkedIn
             </a>
+            <a href="#" className="font-semibold text-primary">
+              Back up to the clouds ↑
+            </a>
+            <p className="text-faint">
+              © {year} {siteConfig.name}
+            </p>
           </div>
         </div>
-
-        <div className="mt-14 flex items-end justify-between border-t border-rule pt-6">
-          <p className="mono-label text-faint">
-            © {new Date().getFullYear()} · Muneebsyed29.com
-          </p>
-          <Monogram size={24} className="text-muted-foreground" />
-        </div>
-      </Container>
+      </div>
     </footer>
   );
 }

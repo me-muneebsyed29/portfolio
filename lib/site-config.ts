@@ -13,8 +13,9 @@ export const siteConfig = {
      two hostnames. If you'd rather the apex be canonical, flip the redirect in
      Vercel → Domains first, then change this back. */
   url: "https://www.muneebsyed29.com",
-  /* Public by design — it ships in the page source of every GA4 site. */
-  gaMeasurementId: "G-06DS8V2DMQ",
+  /* Google Tag Manager container. Public by design: it ships in the page
+     source. GA4 (G-06DS8V2DMQ) and every other tag are managed inside it. */
+  gtmId: "GTM-TJJSN2RR",
   email: "hello@muneebsyed29.com",
   location: "Bengaluru, India",
   linkedin: "https://www.linkedin.com/in/muneebsyed29",

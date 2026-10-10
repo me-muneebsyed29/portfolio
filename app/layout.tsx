@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Analytics } from "@/components/analytics";
+import { GtmHead, GtmNoScript } from "@/components/gtm";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -75,10 +75,13 @@ export default function RootLayout({
       className={`${jakarta.variable} ${caveat.variable} h-full`}
       suppressHydrationWarning
     >
+      <head>
+        <GtmHead />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <GtmNoScript />
         {/* Each site tree owns its own look: the B2B portfolio is the
             daylight sky system, B2C is always dark. Neither has a toggle. */}
-        <Analytics />
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>

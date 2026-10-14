@@ -12,6 +12,8 @@ export type Testimonial = {
   metric?: { value: string; label: string };
   /* A brand from the Brands wall, tagged on the note. */
   brand?: string;
+  /* The case study this person's quote is about, linked from the note. */
+  caseStudy?: string;
 };
 
 /* Order is the order on the wall: the number first, then the brand name. */
@@ -25,9 +27,10 @@ export const testimonials: Testimonial[] = [
       "I have no doubt that Syed would be an asset to any company that is looking for a talented and results-oriented performance marketer. He is a highly skilled professional with a proven track record of success.",
     ],
     note: "After Syed took over the campaign, I was comfortably doing 2 to 3.3 ROAS.",
-    name: "Karunakaran Nagarajan",
-    role: "Career Coach",
-    company: "YouTube lead gen",
+    name: "Dr. Karunakaran Nagarajan",
+    role: "Career Growth Coach",
+    company: "Karuna Excellence Academy",
+    caseStudy: "karuna-excellence-academy",
     metric: { value: "3.3x", label: "ROAS, up from 1.5" },
   },
   {
@@ -43,12 +46,24 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote: [
+      "I worked closely with Syed for over a year and was impressed by his quick grasp of ideas, fast execution, and eagerness to learn. Wishing him the best.",
+    ],
+    note: "…impressed by his quick grasp of ideas, fast execution, and eagerness to learn.",
+    name: "Saransh Maheshwari",
+    role: "Performance & Growth",
+    company: "JetLearn",
+    brand: "JetLearn",
+    caseStudy: "jetlearn",
+  },
+  {
+    quote: [
       "Syed was great at building our ad streams on Google & Meta platforms for user acquisition. He worked well to understand what kind of targets we wanted to achieve, who did we want to acquire and ran the right experiments to reach our audience while bringing down our costs of acquisition.",
     ],
     note: "…ran the right experiments to reach our audience while bringing down our costs of acquisition.",
     name: "Sapan Shah",
     role: "Founder and CEO",
     company: "Yoro News",
+    caseStudy: "yoro-news",
   },
   {
     quote: [

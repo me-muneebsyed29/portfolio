@@ -31,11 +31,11 @@ export async function skyOgImage(input: {
   const chalk = input.chalk.map(rs);
   const sticky = input.sticky && { value: rs(input.sticky.value), label: rs(input.sticky.label) };
 
-  const [head, cloud, jakarta800, jakarta600, caveat] = await Promise.all([
+  const [head, cloud, figtree800, figtree600, caveat] = await Promise.all([
     asset("og-head.png"),
     asset("og-cloud.png"),
-    asset("fonts/plus-jakarta-sans-latin-800-normal.woff"),
-    asset("fonts/plus-jakarta-sans-latin-600-normal.woff"),
+    asset("fonts/figtree-latin-800-normal.woff"),
+    asset("fonts/figtree-latin-600-normal.woff"),
     asset("fonts/caveat-latin-700-normal.woff"),
   ]);
 
@@ -50,7 +50,7 @@ export async function skyOgImage(input: {
         display: "flex",
         position: "relative",
         background: "linear-gradient(180deg, #1f7fe8 0%, #3d97f0 40%, #79bbf7 80%, #a9d5fd 100%)",
-        fontFamily: "Jakarta",
+        fontFamily: "Figtree",
       }}
     >
       <img src={dataUrl(cloud)} alt="" width={700} height={300} style={{ position: "absolute", left: -120, bottom: -60, opacity: 0.95 }} />
@@ -143,8 +143,8 @@ export async function skyOgImage(input: {
     {
       ...ogSize,
       fonts: [
-        { name: "Jakarta", data: jakarta800, weight: 800, style: "normal" },
-        { name: "Jakarta", data: jakarta600, weight: 600, style: "normal" },
+        { name: "Figtree", data: figtree800, weight: 800, style: "normal" },
+        { name: "Figtree", data: figtree600, weight: 600, style: "normal" },
         { name: "Caveat", data: caveat, weight: 700, style: "normal" },
       ],
     },

@@ -143,7 +143,7 @@ export function Hero() {
 
             <motion.h1
               variants={fadeUp}
-              className="mt-7 text-[2.4rem] leading-[1.04] font-bold tracking-[-0.03em] text-balance text-foreground sm:text-[3rem] md:text-[3.75rem]"
+              className="mt-7 text-[2.4rem] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance text-foreground sm:text-[3rem] md:text-[3.75rem]"
             >
               I turn ad spend into pipeline you can plan <span className="marker">around.</span>
             </motion.h1>

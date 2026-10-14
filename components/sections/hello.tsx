@@ -32,7 +32,7 @@ export function Hello() {
         <div>
           <motion.h2
             variants={fadeUp}
-            className="text-[2rem] leading-[1.08] font-bold tracking-[-0.03em] text-foreground md:text-[2.6rem]"
+            className="text-[2rem] leading-[1.08] font-extrabold tracking-[-0.035em] text-foreground md:text-[2.6rem]"
           >
             Hi, I’m Muneeb.
           </motion.h2>

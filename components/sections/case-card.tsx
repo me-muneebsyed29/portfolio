@@ -27,9 +27,9 @@ export function CaseCard({ study, compact = false }: { study: CaseStudy; compact
       ) : null}
 
       <div aria-hidden className="min-h-7 flex-1" />
-      <dl className="flex flex-wrap gap-x-8 gap-y-3 border-t border-rule pt-5">
+      <dl className="grid grid-cols-2 gap-x-6 border-t border-rule pt-5">
         {study.metrics.slice(0, 2).map((metric, i) => (
-          <div key={metric.label} className="flex flex-col-reverse">
+          <div key={metric.label} className="flex flex-col-reverse justify-end">
             <dt className="caps-label mt-1 text-faint">{metric.label}</dt>
             <dd
               className={cn(

@@ -108,7 +108,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
             </motion.ul>
             <motion.h1
               variants={fadeUp}
-              className="mt-6 text-[2.2rem] leading-[1.05] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[3.2rem]"
+              className="mt-6 text-[2.2rem] leading-[1.05] font-extrabold tracking-[-0.035em] text-balance text-foreground md:text-[3.2rem]"
             >
               {study.headline}
             </motion.h1>
@@ -213,7 +213,7 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
 
       <SkySection note="your turn">
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-          <h2 className="text-[2rem] leading-[1.08] font-bold tracking-[-0.03em] text-foreground md:text-[2.4rem]">
+          <h2 className="text-[2rem] leading-[1.08] font-extrabold tracking-[-0.035em] text-foreground md:text-[2.4rem]">
             Want this for your account?
           </h2>
           <Button

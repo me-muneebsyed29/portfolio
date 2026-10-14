@@ -28,7 +28,7 @@ export const testimonials: Testimonial[] = [
     ],
     note: "After Syed took over the campaign, I was comfortably doing 2 to 3.3 ROAS.",
     name: "Dr. Karunakaran Nagarajan",
-    role: "Career Growth Coach",
+    role: "Founder",
     company: "Karuna Excellence Academy",
     caseStudy: "karuna-excellence-academy",
     metric: { value: "3.3x", label: "ROAS, up from 1.5" },

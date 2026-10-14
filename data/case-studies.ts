@@ -331,7 +331,7 @@ export const caseStudies: CaseStudy[] = [
       { value: "₹30", label: "Average cost per lead" },
       { value: "₹52L", label: "Revenue in 2023" },
     ],
-    setup: "Karuna Excellence Academy is a career coaching business that wanted to move its coaching sessions online.",
+    setup: "Karuna Excellence Academy is a career coaching business founded by Dr. Karunakaran Nagarajan, who wanted to move its coaching sessions online.",
     broken: [
       "No proper funnel, and little understanding of the tools and messaging.",
       "Frequent ad disapprovals.",

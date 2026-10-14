@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SkySection } from "@/components/sky/sky-section";
 import { PaperPlane } from "@/components/sky/doodles";
 import { ContactForm } from "@/components/sections/contact-form";
+import { brands } from "@/data/brands";
 import { siteConfig } from "@/lib/site-config";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
@@ -51,7 +52,7 @@ export function Contact() {
             Tell me what you’re running and where it’s stuck. I’ll tell you honestly if I can help.
           </motion.p>
           <motion.p variants={fadeUp} className="mt-3 text-caption text-faint">
-            Trusted by Pella, Time Doctor, Universal Robots and 19 others.
+            Trusted by Pella, JetLearn, Universal Robots and {brands.length - 3} others.
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-8 md:hidden">

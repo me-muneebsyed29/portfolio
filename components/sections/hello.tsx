@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SkySection } from "@/components/sky/sky-section";
+import { CertBadges } from "@/components/sky/badges";
+import { career } from "@/data/credentials";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const tags = ["Builder", "Growth operator", "Father", "Bengaluru"];
@@ -35,8 +37,8 @@ export function Hello() {
             Hi, I’m Muneeb.
           </motion.h2>
           <motion.p variants={fadeUp} className="mt-4 max-w-2xl text-body text-muted-foreground text-pretty">
-            I’m a growth operator in Bengaluru. I’ve spent five years running paid media for B2B SaaS teams in
-            the US, Canada and India.
+            I’m a growth operator in Bengaluru. I’ve spent more than five years running paid media for B2B SaaS,
+            enterprise and consumer brands across the US, Canada, Europe and India.
             <span className="hidden md:inline">
               {" "}
               I like systems, product design, and building small tools with AI.
@@ -50,6 +52,23 @@ export function Hello() {
               </li>
             ))}
           </motion.ul>
+
+          {/* Where the work happened, newest first. */}
+          <motion.ol variants={fadeUp} className="mt-8 grid grid-cols-1 gap-x-8 gap-y-3 border-t border-rule pt-6 sm:grid-cols-2">
+            {career.map((job) => (
+              <li key={job.org}>
+                <p className="text-caption font-bold text-foreground">
+                  {job.org} <span className="font-normal text-faint">· {job.period}</span>
+                </p>
+                <p className="text-caption text-muted-foreground">{job.role}</p>
+              </li>
+            ))}
+          </motion.ol>
+
+          <motion.div variants={fadeUp} className="mt-6">
+            <p className="caps-label text-faint">Certified</p>
+            <CertBadges withIds className="mt-3" />
+          </motion.div>
         </div>
       </motion.div>
     </SkySection>

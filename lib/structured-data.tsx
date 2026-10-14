@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/site-config";
+import { certifications } from "@/data/credentials";
 import type { Essay } from "@/data/writing";
 import type { CaseStudy } from "@/data/case-studies";
 
@@ -26,12 +27,32 @@ export function siteGraph() {
         "@type": "Person",
         "@id": PERSON_ID,
         name: siteConfig.name,
+        /* The name on his CV and LinkedIn, so Google ties both to one person. */
+        alternateName: "Syed Muneeb Rehaman",
         jobTitle: `${siteConfig.role} for B2B SaaS`,
         url: base,
         image: `${base}/portrait.jpg`,
         email: siteConfig.email,
         address: { "@type": "PostalAddress", addressLocality: "Bengaluru", addressCountry: "IN" },
-        knowsAbout: ["Paid media", "B2B SaaS growth", "Demand generation", "Performance marketing", "Marketing experimentation"],
+        knowsAbout: [
+          "Paid media",
+          "B2B SaaS growth",
+          "Account-based marketing",
+          "Demand generation",
+          "Performance marketing",
+          "Google Ads",
+          "LinkedIn Ads",
+          "Meta Ads",
+        ],
+        knowsLanguage: ["English", "Hindi", "Kannada"],
+        alumniOf: { "@type": "CollegeOrUniversity", name: "Manipal University Jaipur" },
+        hasCredential: certifications.map((cert) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: cert.name,
+          credentialCategory: "certification",
+          recognizedBy: { "@type": "Organization", name: cert.issuer },
+          ...(cert.id ? { identifier: cert.id } : {}),
+        })),
         sameAs: [siteConfig.linkedin].filter(Boolean),
       },
       {

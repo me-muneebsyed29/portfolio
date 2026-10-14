@@ -5,7 +5,7 @@ import { SkySection, SectionHead } from "@/components/sky/sky-section";
 import { EssayRows } from "@/components/sections/field-notes";
 import { essays } from "@/data/writing";
 import { caseStudies } from "@/data/case-studies";
-import { cn, isFigure } from "@/lib/utils";
+import { CaseCard } from "@/components/sections/case-card";
 
 /*
  * Where to go next, at the foot of every essay and case study. Keeps readers
@@ -33,39 +33,24 @@ export function MoreNotes({ exclude }: { exclude: string }) {
 }
 
 export function MoreWork({ exclude }: { exclude: string }) {
-  const others = caseStudies.filter((s) => s.slug !== exclude);
+  const current = caseStudies.find((s) => s.slug === exclude);
+  /* Same industry first, then the featured ones, so the next read is close
+     to what brought someone here. */
+  const others = caseStudies
+    .filter((s) => s.slug !== exclude)
+    .sort((a, b) => Number(b.industry === current?.industry) - Number(a.industry === current?.industry) || Number(!!b.featured) - Number(!!a.featured))
+    .slice(0, 3);
   return (
-    <SkySection note="two more, same flight">
-      <SectionHead title="More receipts." />
-      <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+    <SkySection note="more of the same flight">
+      <SectionHead title="More receipts.">
+        <Link href="/work" className="caps-label shrink-0 text-primary">
+          All case studies →
+        </Link>
+      </SectionHead>
+      <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
         {others.map((study) => (
           <li key={study.slug}>
-            <Link
-              href={`/work/${study.slug}`}
-              className="glass-card group flex h-full flex-col rounded-3xl p-6 transition-[transform,background-color] duration-300 hover:-translate-y-1 hover:bg-white/90"
-            >
-              <p className="caps-label text-faint">{study.client}</p>
-              <h3 className="mt-3 text-xl leading-snug font-bold tracking-[-0.02em] text-balance text-foreground">
-                {study.headline}
-              </h3>
-              <p className="mt-4 flex gap-6">
-                {study.metrics.map((metric, i) => (
-                  <span key={metric.label}>
-                    <span
-                      className={cn(
-                        "block text-lg font-bold",
-                        isFigure(metric.value) && "figures",
-                        i === 0 ? "text-cadmium" : "text-foreground"
-                      )}
-                    >
-                      {metric.value}
-                    </span>
-                    <span className="caps-label text-faint">{metric.label}</span>
-                  </span>
-                ))}
-              </p>
-              <span className="caps-label mt-5 text-primary">Read the story →</span>
-            </Link>
+            <CaseCard study={study} compact />
           </li>
         ))}
       </ul>

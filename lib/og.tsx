@@ -14,13 +14,7 @@ export const ogSize = { width: 1200, height: 630 };
 const asset = (path: string) => readFile(join(process.cwd(), "assets", path));
 const dataUrl = (buf: Buffer) => `data:image/png;base64,${buf.toString("base64")}`;
 
-export async function skyOgImage({
-  kicker,
-  title,
-  highlight,
-  chalk,
-  sticky,
-}: {
+export async function skyOgImage(input: {
   kicker: string;
   title: string;
   /* Trailing word(s) of the title to set on the yellow highlighter. */
@@ -29,6 +23,14 @@ export async function skyOgImage({
   /* A big number on a sticky note in place of the head, for case studies. */
   sticky?: { value: string; label: string };
 }) {
+  /* Neither bundled font has a ₹ glyph, so share images spell it Rs. */
+  const rs = (text: string) => text.replace(/₹\s?/g, "Rs ");
+  const kicker = rs(input.kicker);
+  const title = rs(input.title);
+  const highlight = input.highlight && rs(input.highlight);
+  const chalk = input.chalk.map(rs);
+  const sticky = input.sticky && { value: rs(input.sticky.value), label: rs(input.sticky.label) };
+
   const [head, cloud, jakarta800, jakarta600, caveat] = await Promise.all([
     asset("og-head.png"),
     asset("og-cloud.png"),

@@ -13,12 +13,15 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Structure
 
-- `app/` — routes (`/`, `/work/[slug]`), metadata, sitemap/robots, generated icon + OG image
+- `app/` — routes (`/`, `/work`, `/work/[slug]`, `/writing`), metadata, sitemap/robots, generated icon + OG image
 - `components/sections/` — one component per homepage section
 - `components/layout/` — nav, footer, container, section wrapper
 - `components/sky/` — the sky design: fixed cloud backdrop, glass sheet, chalk doodles, and the live nature finale (SVG hills + canvas grass, flowers, butterflies, birds)
 - `components/ui/` — shadcn/ui primitives
-- `data/` — typed content (brands, case studies, how I work, testimonials, lab, stack, writing, weather copy) — edit these directly to update copy
+- `data/` — typed content (case studies, highlights, credentials, brands, how I work, testimonials, lab, stack, writing, weather copy) — edit these directly to update copy
+  - `case-studies.ts` — full stories; `featured: true` puts one on the homepage, the rest live on `/work`
+  - `highlights.ts` — one-number results too thin for a full story, shown under the case studies on `/work`
+  - `credentials.ts` — certifications (badges in the hero and Hello, and `hasCredential` in the Person schema) and the career line
 - `lib/site-config.ts` — name, email, LinkedIn, booking link
 
 ## Sky assets
@@ -31,8 +34,8 @@ The Brands wall shows each brand's name until a logo exists. Drop an SVG at `pub
 
 ## Content still to swap in
 
-- `data/case-studies.ts` — clients are anonymous; name them once cleared, and add each study's `lesson` (it renders as a handwritten note).
-- `data/brands.ts` — logo files and the one-line hover notes.
+- `data/brands.ts` — logo files.
+- `data/credentials.ts` — the Pinterest certification ID, once there is one.
 - `data/writing.ts` — essay previews only; wire up to real posts/MDX when they exist.
 
 ## Deploy

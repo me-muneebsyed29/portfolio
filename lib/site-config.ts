@@ -24,7 +24,7 @@ export const siteConfig = {
   /* Rooted at "/" so they also work from case study and essay pages. Contact
      is the Book a call button; About is the last scroll. */
   nav: [
-    { label: "Work", href: "/#work" },
+    { label: "Work", href: "/work" },
     { label: "How I work", href: "/#how-i-work" },
     { label: "Lab", href: "/#lab" },
     { label: "Writing", href: "/#writing" },

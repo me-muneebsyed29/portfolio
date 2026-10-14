@@ -1,5 +1,6 @@
 import { caseStudies } from "@/data/case-studies";
 import { ogSize, skyOgImage } from "@/lib/og";
+import { lowerFirst } from "@/lib/utils";
 
 export const size = ogSize;
 export const contentType = "image/png";
@@ -17,6 +18,6 @@ export default async function CaseStudyOgImage({ params }: { params: Promise<{ s
     kicker: `${study.client} · ${study.tag}`,
     title: study.headline,
     chalk: ["the receipts"],
-    sticky: { value: lead.value, label: lead.label.toLowerCase() },
+    sticky: { value: lead.value, label: lowerFirst(lead.label) },
   });
 }

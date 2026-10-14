@@ -8,8 +8,8 @@
  * instead, in the same tint.
  *
  * `note` is the one line on the hover sticky note, in the format
- * "what you ran · market", e.g. "Paid media · US". Empty until Muneeb fills
- * them in; without one the note shows the site address.
+ * "what you ran · market · result", e.g. "Google Ads · US · CPL −86%".
+ * Without one the note shows the site address.
  *
  * `caseStudy` links a brand to its story page, once a case study can name it.
  */
@@ -24,32 +24,34 @@ export type Brand = {
 
 export const brandRows: Brand[][] = [
   [
-    { slug: "pella", name: "Pella", site: "pella.com" },
-    { slug: "planet-fitness", name: "Planet Fitness", site: "planetfitness.com" },
-    { slug: "universal-robots", name: "Universal Robots", site: "universal-robots.com" },
-    { slug: "rocket-software", name: "Rocket Software", site: "rocketsoftware.com" },
-    { slug: "creative-planning", name: "Creative Planning", site: "creativeplanning.com" },
-    { slug: "enercare", name: "Enercare", site: "enercare.ca" },
+    { slug: "pella", name: "Pella", site: "pella.com", note: "Paid social · US & Canada · 0.8x → 3x ROAS", caseStudy: "pella" },
+    { slug: "planet-fitness", name: "Planet Fitness", site: "planetfitness.com", note: "Paid social · US · $2M+ budget" },
+    { slug: "universal-robots", name: "Universal Robots", site: "universal-robots.com", note: "Campaign localisation · India" },
+    { slug: "rocket-software", name: "Rocket Software", site: "rocketsoftware.com", note: "B2B ABM · Meta & LinkedIn" },
+    { slug: "creative-planning", name: "Creative Planning", site: "creativeplanning.com", note: "ABM · $11M+ AUM from $90K spend" },
+    { slug: "moneylion", name: "MoneyLion", site: "moneylion.com", note: "App promotion · US · 2.7x ROAS" },
+    { slug: "enercare", name: "Enercare", site: "enercare.ca", note: "Paid social · Canada · $2.8M budget" },
   ],
   [
-    { slug: "time-doctor", name: "Time Doctor", site: "timedoctor.com" },
-    { slug: "wingify", name: "Wingify", site: "wingify.com" },
-    { slug: "lightyear", name: "Lightyear", site: "lightyear.ai" },
+    { slug: "time-doctor", name: "Time Doctor", site: "timedoctor.com", note: "B2B SaaS pipeline · now" },
+    { slug: "wingify", name: "Wingify", site: "wingify.com", note: "B2B SaaS pipeline (VWO) · now" },
+    { slug: "lightyear", name: "Lightyear", site: "lightyear.ai", note: "B2B SaaS pipeline · now" },
     { slug: "culturex", name: "CultureX", site: "culturex.ai" },
-    { slug: "datamoon", name: "Datamoon", site: "datamoon.com" },
+    { slug: "datamoon", name: "Datamoon", site: "datamoon.com", note: "B2B SaaS pipeline · now" },
+    { slug: "wework-india", name: "WeWork India", site: "wework.co.in", note: "B2B pipeline · India · now" },
     { slug: "mudrex", name: "Mudrex", site: "mudrex.com" },
   ],
   [
-    { slug: "jetlearn", name: "JetLearn", site: "jetlearn.com" },
+    { slug: "jetlearn", name: "JetLearn", site: "jetlearn.com", note: "Google Ads · Europe · CAC −65%", caseStudy: "jetlearn" },
     { slug: "alphagen-learning", name: "AlphaGen Learning", site: "alphagenlearning.com" },
-    { slug: "icodeschool", name: "iCodeSchool", site: "icodeschool.com" },
-    { slug: "blue-compass-rv", name: "Blue Compass RV", site: "bluecompassrv.com" },
-    { slug: "canada-masq", name: "Canada Masq", site: "canadamasq.com" },
+    { slug: "icodeschool", name: "iCodeSchool", site: "icodeschool.com", note: "Google Ads · US · CPL −86%", caseStudy: "icode-school" },
+    { slug: "blue-compass-rv", name: "Blue Compass RV", site: "bluecompassrv.com", note: "Paid social · US" },
+    { slug: "canada-masq", name: "Canada Masq", site: "canadamasq.com", note: "Google Ads · Canada · 1.9x → 6.9x ROAS", caseStudy: "canadamasq" },
   ],
   [
-    { slug: "slow-living-stays", name: "Slow Living Stays", site: "slowlivingstays.com" },
-    { slug: "inara", name: "Inara", site: "inara.store" },
-    { slug: "modern-yard", name: "Modern Yard", site: "modernyard.in" },
+    { slug: "slow-living-stays", name: "Slow Living Stays", site: "slowlivingstays.com", note: "Meta Ads · India · 23x ROAS", caseStudy: "slow-living-stays" },
+    { slug: "inara", name: "Inara", site: "inara.store", note: "Meta Ads · India · 3x ROAS", caseStudy: "inara" },
+    { slug: "modern-yard", name: "Modern Yard", site: "modernyard.in", note: "Meta Ads · India · ₹58L in 3.5 months", caseStudy: "modernyard" },
     { slug: "home-artisan", name: "Home Artisan", site: "homeartisan.in" },
     { slug: "baby-saffron", name: "Baby Saffron", site: "babysaffron.com" },
   ],

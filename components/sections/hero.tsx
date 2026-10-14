@@ -13,27 +13,25 @@ import {
   Swoosh,
 } from "@/components/sky/doodles";
 import { weatherCopy } from "@/data/weather";
+import { CertBadges } from "@/components/sky/badges";
 import { siteConfig } from "@/lib/site-config";
 import { useWeather } from "@/lib/weather";
 import { EASE, fadeUp, staggerContainer } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
- * Who Muneeb is, what he promises, four numbers. The four numbers are the
- * proof that used to live in Selected wins; they appear here once and on the
- * case study cards, nowhere else.
+ * Who Muneeb is, what he promises, four numbers. Each traces to a source:
+ * $25M+ is the career total in his LinkedIn headline (GALE alone ran $20M+ a
+ * year), 3x is the Pella case study, 86% the iCode School one, and 95% is the
+ * claim on his CV.
  *
  * One accent number per screen: $25M+ takes the sky blue.
- *
- * Open question in the copy doc: whether $25M+ is the total across clients or
- * the enterprise fintech budget. Case study 3 says the latter; fix both
- * together once it is settled.
  */
 const stats: { figure: string; label: string; accent?: boolean }[] = [
   { figure: "$25M+", label: "ad spend managed", accent: true },
-  { figure: "65%", label: "lower CAC" },
-  { figure: "7x", label: "spend, efficiency held" },
-  { figure: "5+", label: "years doing this" },
+  { figure: "3x", label: "ROAS for Pella, from 0.8x" },
+  { figure: "86%", label: "lower CPL for a US EdTech" },
+  { figure: "95%", label: "of accounts ROAS-positive" },
 ];
 
 /* The sticky note is the one thing the weather changes in the hero. */
@@ -199,8 +197,11 @@ export function Hero() {
             </motion.dl>
 
             <motion.p variants={fadeUp} className="caps-label mt-7 text-faint">
-              Google · Meta · LinkedIn · US, Canada, India
+              Google · Meta · LinkedIn · TikTok · US, Canada, Europe, India
             </motion.p>
+            <motion.div variants={fadeUp}>
+              <CertBadges className="mt-4" />
+            </motion.div>
           </motion.div>
 
           {/* Large screens: the 3D head floats beside the card, cut out of its

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { SkySection, SectionHead } from "@/components/sky/sky-section";
@@ -41,6 +42,14 @@ function Note({ item, index, onOpen }: { item: Testimonial; index: number; onOpe
         </p>
         {item.brand ? (
           <p className="caps-label mt-2 w-fit rounded-full bg-[#3a2a00]/10 px-2 py-0.5">{item.brand}</p>
+        ) : null}
+        {item.caseStudy ? (
+          <Link
+            href={`/work/${item.caseStudy}`}
+            className="caps-label mt-3 block underline decoration-[#3a2a00]/30 underline-offset-4 hover:decoration-[#3a2a00]"
+          >
+            See the case study →
+          </Link>
         ) : null}
         <button
           type="button"

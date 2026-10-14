@@ -70,7 +70,7 @@ export function SectionHead({
   return (
     <div className={cn("flex flex-col gap-4 md:flex-row md:items-end md:justify-between", className)}>
       <div className="max-w-2xl">
-        <Heading className="text-[2rem] leading-[1.08] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[2.6rem]">
+        <Heading className="text-[2rem] leading-[1.08] font-extrabold tracking-[-0.035em] text-balance text-foreground md:text-[2.6rem]">
           {title}
         </Heading>
         {sub ? <p className="mt-3 max-w-xl text-body text-muted-foreground text-pretty">{sub}</p> : null}

@@ -12,7 +12,7 @@ export default function NotFound() {
       <SkyBackdrop />
       <ChalkNote className="mb-4">404, but make it scenic</ChalkNote>
       <div className="glass w-full max-w-lg rounded-[2rem] px-8 py-12 text-center md:px-12">
-        <h1 className="text-[2.4rem] leading-[1.05] font-bold tracking-[-0.03em] text-foreground">
+        <h1 className="text-[2.4rem] leading-[1.05] font-extrabold tracking-[-0.035em] text-foreground">
           This page drifted off.
         </h1>
         <Link

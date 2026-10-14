@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Caveat } from "next/font/google";
+import { Figtree, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GtmHead, GtmNoScript } from "@/components/gtm";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-/* The sky site's one typeface: Plus Jakarta Sans carries headlines, body,
-   labels and figures (with tabular numbers). Chosen over Manrope, DM Sans,
-   Onest and two serif pairings for being the softest of the clean sans faces,
-   which suits the daylight look. Loaded as a variable font, so every weight
-   is one file. */
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+/* The site's one typeface: Figtree carries headlines, body, labels and figures
+   (with tabular numbers). Picked as the closest free match to Circular, over
+   Plus Jakarta Sans, Albert Sans, Outfit, DM Sans and Onest: round, open and
+   easy to read at small sizes, which suits the daylight look. Display headlines
+   set it at 800 with tight tracking to keep their weight. Loaded as a variable
+   font, so every weight is one file; the B2C sub-brand shares it. */
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
   display: "swap",
 });
@@ -72,7 +73,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${caveat.variable} h-full`}
+      className={`${figtree.variable} ${caveat.variable} h-full`}
       suppressHydrationWarning
     >
       <head>

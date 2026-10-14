@@ -35,7 +35,6 @@ The Brands wall shows each brand's name until a logo exists. Drop an SVG at `pub
 ## Content still to swap in
 
 - `data/brands.ts` — logo files.
-- `data/credentials.ts` — the Pinterest certification ID, once there is one.
 - `data/writing.ts` — essay previews only; wire up to real posts/MDX when they exist.
 
 ## Deploy

@@ -35,7 +35,7 @@ The B2B site runs on four colours and nothing else, set as tokens in `app/global
 | Dim Gray | `#4A4A4A` | Stronger rules, secondary tiles |
 | Warm Taupe | `#BEA98E` | The one accent: figures, italic emphasis, the main button |
 
-Type is a warm ivory (`#EFE9E0`) taken from the taupe. Headlines, big figures and quotes are set in Instrument Serif, with its italic in taupe for emphasis. Body copy and labels use Plus Jakarta Sans.
+Type is a warm ivory (`#EFE9E0`) taken from the taupe. Headlines, big figures and quotes are set in Cormorant Garamond, with its italic in taupe for emphasis. Body copy and labels use Manrope.
 
 `public/portrait.jpg` is the hero portrait, and `assets/og-portrait.jpg` is the copy used for share images. The illustrated avatars in `public/sky/` are no longer used, but they are still in the repo.
 

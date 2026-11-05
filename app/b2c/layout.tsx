@@ -5,7 +5,7 @@ import { B2CFooter } from "@/components/b2c/footer";
 import { b2cConfig } from "@/lib/b2c-config";
 
 /* Loaded here rather than in the root layout so the B2B site doesn't pay for a
-   font it never renders. The B2B site sets in Plus Jakarta Sans as part of its
+   font it never renders. The B2B site sets in Manrope as part of its
    studio system; this sub-brand is not on that system and stays on Figtree.
    JetBrains Mono is only used here, for UI labels, so it loads here too. */
 const jetbrainsMono = JetBrains_Mono({

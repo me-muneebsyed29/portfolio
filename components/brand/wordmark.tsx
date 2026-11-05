@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /*
- * Wordmark. The name in Instrument Serif, upright, with a taupe full stop as
+ * Wordmark. The name in Cormorant Garamond, upright, with a taupe full stop as
  * the one accent in the mark. `short` is the first name only, for tight
  * spaces; `full` is the whole name, for the header and footer.
  */

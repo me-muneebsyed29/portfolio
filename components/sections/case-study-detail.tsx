@@ -52,10 +52,10 @@ function BeforeAfter() {
           }}
         />
       ))}
-      <text x="40" y="106" fontSize="17" fontStyle="italic" fill="currentColor" textAnchor="middle" style={{ fontFamily: "var(--font-instrument), serif" }}>
+      <text x="40" y="106" fontSize="17" fontStyle="italic" fill="currentColor" textAnchor="middle" style={{ fontFamily: "var(--font-cormorant), serif" }}>
         before
       </text>
-      <text x="200" y="106" fontSize="17" fontStyle="italic" fill="currentColor" textAnchor="middle" style={{ fontFamily: "var(--font-instrument), serif" }}>
+      <text x="200" y="106" fontSize="17" fontStyle="italic" fill="currentColor" textAnchor="middle" style={{ fontFamily: "var(--font-cormorant), serif" }}>
         after
       </text>
     </motion.svg>

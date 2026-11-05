@@ -62,10 +62,10 @@
   --color-improved: var(--improved);
   --color-broken: var(--broken);
 
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
-  --font-serif: var(--font-instrument), "Times New Roman", Georgia, serif;
+  --font-serif: var(--font-cormorant), Garamond, Georgia, serif;
 
   /* Brand sheet 02 / TYPE. Display and figure sizes only; anything smaller than
      the 13px caption is a spec violation, so no step exists below it. */
@@ -311,7 +311,7 @@ body:has(.studio) {
 .b2c {
   color-scheme: dark;
 
-  /* The B2B site sets in Plus Jakarta Sans as part of the sky system; the B2C
+  /* The B2B site sets in Manrope as part of the studio system; the B2C
      sub-brand is deliberately not on that system, so it keeps Figtree. Loaded in
      app/b2c/layout.tsx so the B2B site never pays for a font it doesn't render. */
   font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
@@ -391,13 +391,16 @@ body:has(.b2c) {
     text-transform: uppercase;
   }
 
-  /* The display voice: Instrument Serif, set tight. Headlines, figures,
+  /* The display voice: Cormorant Garamond at 500. Headlines, figures,
      pull quotes. Never body copy. */
   .font-display {
-    font-family: var(--font-instrument), "Times New Roman", Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    font-feature-settings: "liga" on, "dlig" on;
+    font-family: var(--font-cormorant), Garamond, Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    /* Cormorant defaults to old-style figures; lining ones keep "$12M" and
+       "30-min" sitting on the line like the words around them. */
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "liga" on, "lnum" on;
   }
 
   /* Emphasis inside a serif headline: the italic cut in taupe. Replaces the

@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
+import { Manrope, Cormorant_Garamond } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GtmHead, GtmNoScript } from "@/components/gtm";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-/* The studio site sets in two faces. Plus Jakarta Sans carries body copy,
-   labels and small figures (with tabular numbers); loaded as a variable font,
-   so every weight is one file. */
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+/* The studio site sets in two faces. Manrope carries body copy, labels and
+   small figures (with tabular numbers); loaded as a variable font, so every
+   weight is one file. */
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 });
 
-/* Instrument Serif is the display voice: headlines, big figures, pull quotes.
-   A high-contrast serif with a real italic, which is where the taupe accent
-   lives. It only ships one weight, so it is never asked to be bold. */
-const instrument = Instrument_Serif({
-  variable: "--font-instrument",
+/* Cormorant Garamond is the display voice: headlines, big figures, pull
+   quotes. A classic Garamond cut with a real italic, which is where the taupe
+   accent lives. Set at 500 so its fine strokes hold up on the dark ground. */
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["500", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -72,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${instrument.variable} h-full`}
+      className={`${manrope.variable} ${cormorant.variable} h-full`}
       suppressHydrationWarning
     >
       <head>

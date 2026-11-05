@@ -9,7 +9,9 @@ import { siteConfig } from "@/lib/site-config";
  * the charcoal-black ground, the page's headline in the serif, one aside in
  * the taupe italic, and on the right either the portrait or, for case
  * studies, the lead number on a taupe tile. Fonts and images come from
- * assets/ so it builds offline.
+ * assets/ so it builds offline. The serif is a copy of Cormorant Garamond with
+ * lining figures as the default digits (see assets/fonts/OFL-*.txt), since the
+ * image renderer cannot turn on OpenType features the way the site's CSS does.
  */
 export const ogSize = { width: 1200, height: 630 };
 
@@ -39,11 +41,11 @@ export async function studioOgImage(input: {
   const aside = input.aside.map(rs);
   const tile = input.tile && { value: rs(input.tile.value), label: rs(input.tile.label) };
 
-  const [portrait, jakarta600, serif, serifItalic] = await Promise.all([
+  const [portrait, manrope600, serif, serifItalic] = await Promise.all([
     asset("og-portrait.jpg"),
-    asset("fonts/plus-jakarta-sans-latin-600-normal.woff"),
-    asset("fonts/instrument-serif-latin-400-normal.woff"),
-    asset("fonts/instrument-serif-latin-400-italic.woff"),
+    asset("fonts/manrope-latin-600-normal.woff"),
+    asset("fonts/cormorant-garamond-og-lining-500-normal.woff"),
+    asset("fonts/cormorant-garamond-og-lining-500-italic.woff"),
   ]);
 
   const lead = highlight && title.endsWith(highlight) ? title.slice(0, -highlight.length).trimEnd() : title;
@@ -58,7 +60,7 @@ export async function studioOgImage(input: {
         position: "relative",
         background: INK,
         color: IVORY,
-        fontFamily: "Jakarta",
+        fontFamily: "Manrope",
       }}
     >
       {/* Hairline frame. */}
@@ -84,7 +86,7 @@ export async function studioOgImage(input: {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            fontFamily: "Instrument",
+            fontFamily: "Cormorant",
             fontSize: titleSize,
             lineHeight: 1,
             letterSpacing: -1.5,
@@ -105,11 +107,11 @@ export async function studioOgImage(input: {
             : null}
         </div>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", fontFamily: "Instrument", fontSize: 34, color: IVORY }}>
+          <div style={{ display: "flex", fontFamily: "Cormorant", fontSize: 34, color: IVORY }}>
             {siteConfig.name}
             <span style={{ color: TAUPE }}>.</span>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", fontFamily: "Instrument", fontStyle: "italic", fontSize: 28, lineHeight: 1.1, color: TAUPE }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", fontFamily: "Cormorant", fontStyle: "italic", fontSize: 28, lineHeight: 1.1, color: TAUPE }}>
             {aside.map((line) => (
               <span key={line}>{line}</span>
             ))}
@@ -135,7 +137,7 @@ export async function studioOgImage(input: {
           }}
         >
           <span style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.2 }}>{tile.label}</span>
-          <span style={{ fontFamily: "Instrument", fontSize: tile.value.length > 7 ? 74 : 104, lineHeight: 1, letterSpacing: -2 }}>{tile.value}</span>
+          <span style={{ fontFamily: "Cormorant", fontSize: tile.value.length > 7 ? 74 : 104, lineHeight: 1, letterSpacing: -2 }}>{tile.value}</span>
         </div>
       ) : (
         <div
@@ -168,9 +170,9 @@ export async function studioOgImage(input: {
     {
       ...ogSize,
       fonts: [
-        { name: "Jakarta", data: jakarta600, weight: 600, style: "normal" },
-        { name: "Instrument", data: serif, weight: 400, style: "normal" },
-        { name: "Instrument", data: serifItalic, weight: 400, style: "italic" },
+        { name: "Manrope", data: manrope600, weight: 600, style: "normal" },
+        { name: "Cormorant", data: serif, weight: 500, style: "normal" },
+        { name: "Cormorant", data: serifItalic, weight: 500, style: "italic" },
       ],
     },
   );

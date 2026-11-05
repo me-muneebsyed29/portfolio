@@ -38,7 +38,7 @@ export function Finale({ children }: { children?: React.ReactNode }) {
         <motion.p
           aria-hidden
           style={reduceMotion ? undefined : { y }}
-          className="font-display relative mx-auto mt-24 mb-10 max-w-[1280px] px-4 pb-[0.14em] text-center text-[17.5vw] leading-[0.82] tracking-[-0.03em] whitespace-nowrap select-none md:mt-32 md:text-[15vw] xl:text-[15rem]"
+          className="font-display relative mx-auto mt-24 mb-10 max-w-[1280px] px-4 pb-[0.14em] text-center text-[16vw] leading-[0.82] tracking-[-0.03em] whitespace-nowrap select-none md:mt-32 md:text-[14.5vw] xl:text-[14rem]"
         >
           {NAME.split("").map((char, i) => (
             <motion.span

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { caseStudies } from "@/data/case-studies";
 import { CaseStudyDetail } from "@/components/sections/case-study-detail";
 import { MoreWork } from "@/components/sections/related";
-import { NatureFinale } from "@/components/sky/nature-finale";
+import { Finale } from "@/components/studio/finale";
 import { JsonLd, breadcrumbs, caseStudySchema } from "@/lib/structured-data";
 
 export function generateStaticParams() {
@@ -44,7 +44,7 @@ export default async function CaseStudyPage({
       />
       <CaseStudyDetail study={caseStudies[index]} />
       <MoreWork exclude={caseStudies[index].slug} />
-      <NatureFinale />
+      <Finale />
     </>
   );
 }

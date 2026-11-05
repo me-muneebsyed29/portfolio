@@ -10,9 +10,9 @@ import { EASE } from "@/lib/motion";
  * Floating Book a call, opening Cal.com's booking popup in place.
  *
  * Cal's own floatingButton renders inside a closed shadow root that only takes a
- * fill colour and a label, so the button is ours (the same blue pill and mono
- * label as the nav CTA) and Cal only supplies the modal it opens. The popup runs
- * in light mode with the sky blue as its brand colour, to match the page.
+ * fill colour and a label, so the button is ours (the same taupe pill and caps
+ * label as the hero CTA) and Cal only supplies the modal it opens. The popup runs
+ * in dark mode with taupe as its brand colour, to match the page.
  */
 
 const NAMESPACE = "30min";
@@ -79,18 +79,19 @@ export function CalEmbed() {
   /* Loads embed.js after hydration. */
   useEffect(() => {
     ensureCal().ns[NAMESPACE]("ui", {
-      theme: "light",
+      theme: "dark",
       layout: "month_view",
       hideEventTypeDetails: false,
       cssVarsPerTheme: {
-        light: { "cal-brand": "#1668e3", "cal-brand-text": "#ffffff" },
+        dark: { "cal-brand": "#bea98e", "cal-brand-text": "#0c0c0c" },
+        light: { "cal-brand": "#2c2c2c", "cal-brand-text": "#efe9e0" },
       },
     });
   }, []);
 
   /* Desktop: the hero already has a booking button, so the floating one
      appears once that has scrolled out of view. Phones: the pill is always
-     there, one thumb away, as the sky direction doc asks. */
+     there, one thumb away. */
   useEffect(() => {
     const phone = window.matchMedia("(max-width: 767px)");
     const onScroll = () => setVisible(phone.matches || window.scrollY > window.innerHeight * 0.6);
@@ -126,7 +127,7 @@ export function CalEmbed() {
           <Button
             onClick={openBooking}
             size="lg"
-            className="caps-label pointer-events-auto h-12 rounded-full border-2 border-white px-6 shadow-[0_14px_30px_-12px_rgba(22,104,227,0.8)]"
+            className="caps-label pointer-events-auto h-12 rounded-full border border-[#0c0c0c]/20 px-6 shadow-[0_18px_40px_-14px_rgba(0,0,0,0.9),0_0_30px_-10px_rgba(190,169,142,0.5)] transition-[background-color] duration-500 hover:bg-[#cdbaa0]"
           >
             Book a call
           </Button>

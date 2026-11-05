@@ -1,6 +1,5 @@
 import { caseStudies } from "@/data/case-studies";
-import { ogSize, skyOgImage } from "@/lib/og";
-import { lowerFirst } from "@/lib/utils";
+import { ogSize, studioOgImage } from "@/lib/og";
 
 export const size = ogSize;
 export const contentType = "image/png";
@@ -14,10 +13,10 @@ export default async function CaseStudyOgImage({ params }: { params: Promise<{ s
   const { slug } = await params;
   const study = caseStudies.find((s) => s.slug === slug) ?? caseStudies[0];
   const [lead] = study.metrics;
-  return skyOgImage({
+  return studioOgImage({
     kicker: `${study.client} · ${study.tag}`,
     title: study.headline,
-    chalk: ["the receipts"],
-    sticky: { value: lead.value, label: lowerFirst(lead.label) },
+    aside: ["the receipts"],
+    tile: { value: lead.value, label: lead.label },
   });
 }

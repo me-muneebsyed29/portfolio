@@ -1,7 +1,7 @@
 export type DoodleId = "loop" | "arrow" | "megaphone" | "coins";
 
 /* The four things checked before touching an ad account. Each note carries
-   a chalk doodle in place of the old Fig. diagrams. */
+   a line drawing in taupe that sketches itself in. */
 export const howIWork: { doodle: DoodleId; title: string; body: string }[] = [
   {
     doodle: "loop",

@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { SkySection } from "@/components/sky/sky-section";
-import { StickyNote } from "@/components/sky/doodles";
+import { StudioSection } from "@/components/studio/section";
+import { RevealWords } from "@/components/studio/motion-text";
 import type { CaseStudy } from "@/data/case-studies";
 import { testimonials } from "@/data/testimonials";
 import { siteConfig } from "@/lib/site-config";
@@ -12,14 +12,15 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn, isFigure, lowerFirst } from "@/lib/utils";
 
 /*
- * The case study template from the sky direction doc, so clicking through
- * from the homepage feels like the same flight: hero card with the result as
- * the headline and the biggest number on a sticky note, then the setup, what
- * was broken, what I changed, what moved, an optional lesson as a handwritten
- * note, and the ask.
+ * The case study template, so clicking through from the homepage feels like
+ * the same room: the result as the headline, the metrics on palette tiles
+ * (taupe for the lead number), then the setup, what was broken, what I
+ * changed, what moved, the client's words and an optional lesson, each as a
+ * ruled chapter with its title in the left column. Then the ask.
  */
 
-/* Before and after, in pen: a tangle on the left, a clean climb on the right. */
+/* Before and after, in a taupe hairline: a tangle on the left, a clean climb
+   on the right. Draws itself in on arrival. */
 function BeforeAfter() {
   return (
     <motion.svg
@@ -41,34 +42,58 @@ function BeforeAfter() {
           d={d}
           fill="none"
           stroke="currentColor"
-          strokeWidth={i === 3 ? 1.4 : 2.4}
-          strokeDasharray={i === 3 ? "4 6" : undefined}
+          strokeWidth={i === 3 ? 1 : 1.5}
+          strokeDasharray={i === 3 ? "3 5" : undefined}
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={{
             hidden: { pathLength: 0, opacity: 0 },
-            show: { pathLength: 1, opacity: 1, transition: { duration: 0.9, delay: 0.2 * i } },
+            show: { pathLength: 1, opacity: 1, transition: { duration: 1.1, delay: 0.25 * i } },
           }}
         />
       ))}
-      <text x="40" y="104" className="font-hand" fontSize="18" fill="currentColor" textAnchor="middle">
+      <text x="40" y="106" fontSize="17" fontStyle="italic" fill="currentColor" textAnchor="middle" style={{ fontFamily: "var(--font-instrument), serif" }}>
         before
       </text>
-      <text x="200" y="104" className="font-hand" fontSize="18" fill="currentColor" textAnchor="middle">
+      <text x="200" y="106" fontSize="17" fontStyle="italic" fill="currentColor" textAnchor="middle" style={{ fontFamily: "var(--font-instrument), serif" }}>
         after
       </text>
     </motion.svg>
   );
 }
 
-function Block({ title, children, className }: { title: string; children: React.ReactNode; className?: string }) {
+function Chapter({
+  index,
+  title,
+  children,
+}: {
+  index: string;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <motion.section variants={fadeUp} className={className}>
-      <h2 className="text-xl font-bold tracking-[-0.02em] text-foreground md:text-2xl">{title}</h2>
-      <div className="mt-4">{children}</div>
+    <motion.section
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={viewportOnce}
+      className="grid grid-cols-1 gap-6 border-t border-border pt-8 md:grid-cols-12 md:gap-10 md:pt-12"
+    >
+      <div className="md:col-span-4">
+        <p className="figures caps-label text-primary">{index}</p>
+        <h2 className="font-display mt-3 text-[2.1rem] leading-none text-foreground md:text-[2.6rem]">{title}</h2>
+      </div>
+      <div className="md:col-span-8">{children}</div>
     </motion.section>
   );
 }
+
+const tileTones = [
+  "bg-[#bea98e] text-[#0c0c0c] [&_dt]:text-[#0c0c0c]/70",
+  "bg-[#2c2c2c] text-foreground [&_dt]:text-muted-foreground",
+  "bg-[#4a4a4a] text-foreground [&_dt]:text-foreground/75",
+  "bg-[#0c0c0c] text-foreground ring-1 ring-inset ring-[#2c2c2c] [&_dt]:text-muted-foreground",
+];
 
 export function CaseStudyDetail({ study }: { study: CaseStudy }) {
   const [lead, second] = study.metrics;
@@ -76,156 +101,156 @@ export function CaseStudyDetail({ study }: { study: CaseStudy }) {
   const quote = testimonials.find((t) => t.caseStudy === study.slug);
 
   return (
-    <article className="pt-24 md:pt-28">
-      <SkySection note={<Link href="/work">← all the receipts</Link>}>
-        <motion.div
-          variants={staggerContainer(0.09)}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 items-center gap-10 md:grid-cols-12"
-        >
-          <div className="md:col-span-8">
-            <motion.p variants={fadeUp} className="caps-label text-foreground">
-              {study.client}
-              <span className="text-faint">
-                {" "}
-                · {study.context ? `${study.context} · ` : ""}
-                {study.period}
-              </span>
-            </motion.p>
-            <motion.ul variants={fadeUp} className="mt-3 flex flex-wrap gap-2">
-              <li className="caps-label rounded-full bg-primary/10 px-2.5 py-1 text-cadmium-sm">{study.industry}</li>
-              {study.markets.map((m) => (
-                <li key={m} className="caps-label rounded-full bg-white/70 px-2.5 py-1 text-muted-foreground">
-                  {m}
-                </li>
-              ))}
-              {study.channels.map((c) => (
-                <li key={c} className="caps-label rounded-full bg-white/70 px-2.5 py-1 text-muted-foreground">
-                  {c}
-                </li>
-              ))}
-            </motion.ul>
-            <motion.h1
-              variants={fadeUp}
-              className="mt-6 text-[2.2rem] leading-[1.05] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[3.2rem]"
-            >
-              {study.headline}
-            </motion.h1>
-            <motion.p variants={fadeUp} className="mt-4 max-w-xl text-body text-muted-foreground text-pretty">
-              {study.oneLine}
-            </motion.p>
-            <motion.dl variants={fadeUp} className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-              {study.metrics.map((metric, i) => (
-                <div key={metric.label} className="glass-card flex min-w-36 flex-col-reverse rounded-2xl px-5 py-4">
-                  <dt className="caps-label mt-1 text-faint">{metric.label}</dt>
-                  <dd
-                    className={cn(
-                      "text-2xl font-bold",
-                      isFigure(metric.value) ? "figures" : "tracking-[-0.02em]",
-                      i === 0 ? "text-cadmium" : "text-foreground"
-                    )}
-                  >
-                    {metric.value}
-                  </dd>
-                </div>
-              ))}
-            </motion.dl>
-          </div>
-          <div className="flex justify-center md:col-span-4">
-            <StickyNote className="w-52">
-              <span className="figures block font-sans text-[2.6rem] leading-none font-extrabold">{lead.value}</span>
-              <span className="mt-1 block">{lowerFirst(lead.label)}</span>
-            </StickyNote>
-          </div>
+    <article className="pt-20 md:pt-28">
+      <StudioSection
+        ruled={false}
+        label={
+          <Link href="/work" className="link-draw">
+            ← All the receipts
+          </Link>
+        }
+        note={study.context ?? "case study"}
+      >
+        <motion.div variants={staggerContainer(0.09, 0.1)} initial="hidden" animate="show">
+          <motion.p variants={fadeUp} className="caps-label text-foreground">
+            {study.client}
+            <span className="text-faint"> · {study.period}</span>
+          </motion.p>
+          <motion.ul variants={fadeUp} className="mt-4 flex flex-wrap gap-2">
+            <li className="caps-label rounded-full border border-primary/50 px-3 py-1.5 text-primary">{study.industry}</li>
+            {[...study.markets, ...study.channels].map((m) => (
+              <li key={m} className="caps-label rounded-full border border-border px-3 py-1.5 text-muted-foreground">
+                {m}
+              </li>
+            ))}
+          </motion.ul>
+          <h1 className="font-display mt-10 max-w-5xl text-[3rem] leading-[0.96] text-balance text-foreground md:text-[5.25rem]">
+            <RevealWords text={study.headline} delay={0.2} stagger={0.04} />
+          </h1>
+          <motion.p variants={fadeUp} className="mt-8 max-w-2xl text-body text-muted-foreground text-pretty md:text-[1.15rem]">
+            {study.oneLine}
+          </motion.p>
+          <motion.dl
+            variants={staggerContainer(0.07, 0.5)}
+            className={cn(
+              "mt-14 grid grid-cols-2 gap-3",
+              study.metrics.length >= 4 ? "lg:grid-cols-4" : study.metrics.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2"
+            )}
+          >
+            {study.metrics.map((metric, i) => (
+              <motion.div
+                key={metric.label}
+                variants={fadeUp}
+                className={cn(
+                  "flex min-h-36 flex-col justify-between rounded-[1.25rem] p-5 md:min-h-44 md:p-7",
+                  tileTones[i % tileTones.length],
+                  i === 0 && study.metrics.length % 2 === 1 && "col-span-2 lg:col-span-1"
+                )}
+              >
+                <dt className="caps-label">{metric.label}</dt>
+                <dd className={cn("font-display mt-6 text-[2.4rem] leading-none md:text-[3.25rem]", isFigure(metric.value) && "figures")}>
+                  {metric.value}
+                </dd>
+              </motion.div>
+            ))}
+          </motion.dl>
         </motion.div>
-      </SkySection>
+      </StudioSection>
 
-      <SkySection>
-        <motion.div
-          variants={staggerContainer(0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewportOnce}
-          className="flex flex-col gap-12"
-        >
-          <Block title="The setup">
-            <p className="max-w-2xl text-body text-muted-foreground text-pretty">{study.setup}</p>
-          </Block>
+      <StudioSection ruled={false} containerClassName="flex flex-col gap-16 pt-0 md:gap-20 md:pt-4">
+        <Chapter index="01" title="The setup">
+          <p className="max-w-2xl text-body text-muted-foreground text-pretty md:text-[1.15rem]">{study.setup}</p>
+        </Chapter>
 
-          <Block title="What was broken">
-            <ul className="flex max-w-2xl flex-col gap-2">
-              {study.broken.map((line) => (
-                <li key={line} className="flex gap-3 text-body text-muted-foreground">
-                  <span aria-hidden className="mt-[0.7em] size-1.5 shrink-0 rounded-full bg-foreground/40" />
+        <Chapter index="02" title="What was broken">
+          <ul className="flex max-w-2xl flex-col border-t border-border">
+            {study.broken.map((line) => (
+              <li key={line} className="flex gap-4 border-b border-border py-4 text-body text-muted-foreground">
+                <span aria-hidden className="mt-[0.65em] size-1.5 shrink-0 rotate-45 bg-[#4a4a4a]" />
+                {line}
+              </li>
+            ))}
+          </ul>
+        </Chapter>
+
+        <Chapter index="03" title="What I changed">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+            <ol className="flex flex-col gap-5 lg:col-span-8">
+              {study.changed.map((line, i) => (
+                <li key={line} className="flex gap-5 text-body text-muted-foreground">
+                  <span className="font-display figures w-7 shrink-0 text-[1.6rem] leading-none text-primary italic">
+                    {i + 1}
+                  </span>
                   {line}
                 </li>
               ))}
-            </ul>
-          </Block>
-
-          <Block title="What I changed">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-              <ol className="flex flex-col gap-3 md:col-span-8">
-                {study.changed.map((line, i) => (
-                  <li key={line} className="flex gap-4 text-body text-muted-foreground">
-                    <span className="figures w-6 shrink-0 font-bold text-primary">{i + 1}</span>
-                    {line}
-                  </li>
-                ))}
-              </ol>
-              <div className="md:col-span-4 md:pt-2">
-                <BeforeAfter />
-              </div>
+            </ol>
+            <div className="lg:col-span-4 lg:pt-2">
+              <BeforeAfter />
             </div>
-          </Block>
+          </div>
+        </Chapter>
 
-          <Block title="What moved">
-            <p className="text-[1.6rem] font-bold tracking-[-0.02em] text-foreground">
-              <span className="figures text-cadmium">{lead.value}</span> {lowerFirst(lead.label)}
-              {second ? (
-                <>
-                  {" "}
-                  · <span className={isFigure(second.value) ? "figures" : undefined}>{second.value}</span>{" "}
-                  {lowerFirst(second.label)}
-                </>
-              ) : null}
-            </p>
-            <p className="mt-3 max-w-2xl text-body text-muted-foreground text-pretty">{study.moved}</p>
-          </Block>
+        <Chapter index="04" title="What moved">
+          <p className="font-display text-[2rem] leading-[1.1] text-foreground md:text-[2.6rem]">
+            <span className="figures text-primary">{lead.value}</span> {lowerFirst(lead.label)}
+            {second ? (
+              <>
+                {" "}
+                <span className="text-faint">·</span>{" "}
+                <span className={isFigure(second.value) ? "figures" : undefined}>{second.value}</span> {lowerFirst(second.label)}
+              </>
+            ) : null}
+          </p>
+          <p className="mt-5 max-w-2xl text-body text-muted-foreground text-pretty">{study.moved}</p>
+        </Chapter>
 
-          {quote ? (
-            <motion.figure variants={fadeUp} className="max-w-2xl -rotate-1 bg-[#ffe066] px-7 pt-8 pb-6 text-[#3a2a00] shadow-[0_18px_30px_-18px_rgba(120,80,0,0.55)]">
-              <blockquote className="text-lg leading-snug font-semibold text-pretty">“{quote.note}”</blockquote>
-              <figcaption className="mt-4 text-caption">
-                <strong>{quote.name}</strong>, {quote.role}, {quote.company}
-              </figcaption>
-            </motion.figure>
-          ) : null}
+        {quote ? (
+          <motion.figure
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportOnce}
+            className="relative rounded-[1.25rem] bg-[#bea98e] px-7 pt-14 pb-8 text-[#0c0c0c] md:px-14 md:pt-20 md:pb-12"
+          >
+            <span aria-hidden className="font-display absolute top-2 left-6 text-[7rem] leading-none text-[#0c0c0c]/20 md:left-12 md:text-[9rem]">
+              “
+            </span>
+            <blockquote className="font-display max-w-3xl text-[1.9rem] leading-[1.15] text-balance md:text-[2.75rem]">
+              {quote.note}
+            </blockquote>
+            <figcaption className="mt-8 text-caption">
+              <strong className="font-semibold">{quote.name}</strong>
+              <span className="text-[#0c0c0c]/70">
+                {" "}
+                · {quote.role}, {quote.company}
+              </span>
+            </figcaption>
+          </motion.figure>
+        ) : null}
 
-          {study.lesson ? (
-            <Block title="What I’d do again">
-              <p className="font-hand max-w-2xl -rotate-1 text-[1.8rem] leading-tight text-primary">{study.lesson}</p>
-            </Block>
-          ) : null}
-        </motion.div>
-      </SkySection>
+        {study.lesson ? (
+          <Chapter index="05" title="What I’d do again">
+            <p className="font-display max-w-2xl text-[2rem] leading-[1.15] text-primary italic">{study.lesson}</p>
+          </Chapter>
+        ) : null}
+      </StudioSection>
 
-      <SkySection note="your turn">
-        <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-          <h2 className="text-[2rem] leading-[1.08] font-bold tracking-[-0.03em] text-foreground md:text-[2.4rem]">
-            Want this for your account?
+      <StudioSection label="Your turn">
+        <div className="flex flex-col items-start gap-8 md:flex-row md:items-end md:justify-between">
+          <h2 className="font-display text-[3rem] leading-[0.95] text-foreground md:text-[4.5rem]">
+            Want this for your <span className="em-taupe">account?</span>
           </h2>
           <Button
             render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
             nativeButton={false}
             size="lg"
-            className="caps-label h-12 w-full rounded-full px-7 shadow-[0_10px_24px_-10px_rgba(22,104,227,0.8)] sm:w-auto"
+            className="caps-label h-13 w-full rounded-full px-8 transition-[background-color,box-shadow] duration-500 hover:bg-[#cdbaa0] hover:shadow-[0_0_40px_-8px_rgba(190,169,142,0.6)] sm:w-auto"
           >
             Book a call
           </Button>
         </div>
-      </SkySection>
+      </StudioSection>
     </article>
   );
 }

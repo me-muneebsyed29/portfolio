@@ -1,91 +1,92 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { brandRows, brands, type Brand } from "@/data/brands";
-import { SkySection, SectionHead } from "@/components/sky/sky-section";
+import { AnimatePresence, motion } from "framer-motion";
+import { brands, type Brand } from "@/data/brands";
+import { StudioSection, SectionHead } from "@/components/studio/section";
 import { cn } from "@/lib/utils";
 
 /*
- * Brands I've helped grow: one wall floating on the sky, every mark in the
- * same white tint so the wall reads as part of the sky and colour is the
- * reward on hover. Hover or focus lifts a brand, blooms a cloud puff behind
- * it, dims the rest, and pops a sticky note with what was run and where.
- * Styling lives in globals.css under "Brands wall".
+ * Brands I've helped grow: two rows of names in the serif, drifting slowly in
+ * opposite directions. Hovering or focusing a name lifts it to ivory, dims
+ * the rest, pauses its row, and writes what was run and where into the
+ * caption line underneath. On phones a tap does the same.
  *
- * Phones get two marquee rows drifting in opposite directions; tapping a
- * brand pauses its row and pops its note.
+ * Brands with a case study link to it; the rest are buttons, so nothing is a
+ * dead link. Only the first copy of each row is in the tab order.
  */
 
-function BrandMark({ brand, active, onTap, tabbable = true }: {
+function BrandName({
+  brand,
+  active,
+  dimmed,
+  tabbable,
+  onActivate,
+  onTap,
+}: {
   brand: Brand;
-  active?: boolean;
-  onTap?: () => void;
-  tabbable?: boolean;
+  active: boolean;
+  dimmed: boolean;
+  tabbable: boolean;
+  onActivate: (slug: string | null) => void;
+  onTap: () => void;
 }) {
-  const noteId = useId();
-  const mark = brand.logo ? (
-    // eslint-disable-next-line @next/next/no-img-element -- tinted with CSS filters
-    <img src={`/brands/${brand.slug}.svg`} alt={brand.name} className="brand-logo h-7 w-auto md:h-8" />
-  ) : (
-    <span className="brand-word">{brand.name}</span>
+  const className = cn(
+    "font-display relative shrink-0 px-1 text-[2.4rem] leading-none whitespace-nowrap transition-[color,opacity] duration-500 outline-none md:text-[3.6rem]",
+    active ? "text-foreground" : "text-faint hover:text-foreground focus-visible:text-foreground",
+    dimmed && !active && "opacity-35"
   );
-  const body = (
-    <>
-      <span aria-hidden className="brand-puff" />
-      <span className="brand-float">{mark}</span>
-      <span role="tooltip" id={noteId} className="brand-note">
-        <strong className="block font-sans text-[0.8rem] font-bold not-italic">{brand.name}</strong>
-        {brand.note ?? brand.site}
-      </span>
-    </>
-  );
-  const className = cn("brand", active && "is-active");
+  const handlers = {
+    onMouseEnter: () => onActivate(brand.slug),
+    onFocus: () => onActivate(brand.slug),
+    onBlur: () => onActivate(null),
+    tabIndex: tabbable ? undefined : -1,
+    "aria-hidden": tabbable ? undefined : true,
+  };
 
-  /* Only brands with a case study are links: no dead links otherwise. */
   if (brand.caseStudy) {
     return (
-      <Link
-        href={`/work/${brand.caseStudy}`}
-        aria-describedby={noteId}
-        tabIndex={tabbable ? undefined : -1}
-        className={className}
-      >
-        {body}
+      <Link href={`/work/${brand.caseStudy}`} className={cn(className, "italic")} {...handlers}>
+        {brand.name}
       </Link>
     );
   }
   return (
-    <button
-      type="button"
-      aria-describedby={noteId}
-      tabIndex={tabbable ? undefined : -1}
-      onClick={onTap}
-      className={className}
-    >
-      {body}
+    <button type="button" onClick={onTap} className={className} {...handlers}>
+      {brand.name}
     </button>
   );
 }
 
-function MarqueeRow({ items, reverse }: { items: Brand[]; reverse?: boolean }) {
-  const [active, setActive] = useState<string | null>(null);
+function Row({
+  items,
+  reverse,
+  activeSlug,
+  setActive,
+}: {
+  items: Brand[];
+  reverse?: boolean;
+  activeSlug: string | null;
+  setActive: (slug: string | null) => void;
+}) {
   /* Two copies back to back, so the loop never shows a seam. */
   const loop = [...items, ...items];
   return (
-    <div className="brand-wall overflow-hidden pt-20 pb-2" onMouseLeave={() => setActive(null)}>
-      <div
-        className={cn("brand-marquee flex w-max gap-10 pr-10", reverse && "brand-marquee-reverse")}
-        style={{ animationPlayState: active ? "paused" : "running" }}
-      >
+    <div className="marquee-row marquee-mask overflow-hidden py-3" onMouseLeave={() => setActive(null)}>
+      <div className={cn("marquee-track flex w-max items-center gap-8 pr-8 md:gap-12 md:pr-12", reverse && "marquee-track-reverse")}>
         {loop.map((brand, i) => (
-          <BrandMark
-            key={`${brand.slug}-${i}`}
-            brand={brand}
-            active={active === `${brand.slug}-${i}`}
-            tabbable={i < items.length}
-            onTap={() => setActive((cur) => (cur === `${brand.slug}-${i}` ? null : `${brand.slug}-${i}`))}
-          />
+          <span key={`${brand.slug}-${i}`} className="flex items-center gap-8 md:gap-12">
+            <BrandName
+              brand={brand}
+              active={activeSlug === brand.slug}
+              dimmed={activeSlug !== null}
+              tabbable={i < items.length}
+              onActivate={setActive}
+              onTap={() => setActive(activeSlug === brand.slug ? null : brand.slug)}
+            />
+            <span aria-hidden className="size-1.5 rotate-45 bg-primary/60" />
+          </span>
         ))}
       </div>
     </div>
@@ -93,50 +94,69 @@ function MarqueeRow({ items, reverse }: { items: Brand[]; reverse?: boolean }) {
 }
 
 export function Brands() {
+  const [active, setActive] = useState<string | null>(null);
   const half = Math.ceil(brands.length / 2);
+  const current = brands.find((b) => b.slug === active);
+
   return (
-    <SkySection
+    <StudioSection
       id="brands"
-      bare
+      index="01"
+      label="Clients"
       note={
         <>
-          <span className="hidden md:inline">go on, hover over one →</span>
-          <span className="md:hidden">go on, tap one →</span>
+          <span className="hidden md:inline">hover over a name</span>
+          <span className="md:hidden">tap a name</span>
         </>
       }
+      containerClassName="pb-14 md:pb-20"
     >
-      <div className="glass rounded-[2rem] px-6 py-8 sm:px-10 md:rounded-[2.5rem] md:px-14 md:py-10">
-        <SectionHead
-          title="Brands I’ve helped grow."
-          sub={
-            <>
-              <span className="hidden md:inline">
-                From household names in the US and Canada to SaaS teams and D2C brands in India.
+      <SectionHead
+        title={
+          <>
+            Brands I’ve helped <span className="em-taupe">grow.</span>
+          </>
+        }
+        sub={
+          <>
+            <span className="hidden md:inline">
+              From household names in the US and Canada to SaaS teams and D2C brands in India.
+            </span>
+            <span className="md:hidden">US enterprise to India D2C.</span>
+          </>
+        }
+      />
+
+      <div className="-mx-6 mt-14 md:-mx-10 md:mt-20">
+        <Row items={brands.slice(0, half)} activeSlug={active} setActive={setActive} />
+        <Row items={brands.slice(half)} reverse activeSlug={active} setActive={setActive} />
+      </div>
+
+      {/* The caption line: what was run for the brand under the pointer. */}
+      <div className="mt-8 flex min-h-14 items-center gap-4 border-t border-border pt-6" aria-live="polite">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.p
+            key={current?.slug ?? "idle"}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-wrap items-baseline gap-x-4 gap-y-1"
+          >
+            {current ? (
+              <>
+                <span className="font-display text-[1.6rem] leading-none text-foreground">{current.name}</span>
+                <span className="caps-label text-primary">{current.note ?? current.site}</span>
+                {current.caseStudy ? <span className="caps-label text-faint">Case study →</span> : null}
+              </>
+            ) : (
+              <span className="caps-label text-faint">
+                {brands.length} brands across the US, Canada, Europe and India · names in italics have a case study
               </span>
-              <span className="md:hidden">US enterprise to India D2C.</span>
-            </>
-          }
-        />
+            )}
+          </motion.p>
+        </AnimatePresence>
       </div>
-
-      {/* Desktop: the wall, in the order the doc sets, floating on the sky. */}
-      <div className="brand-wall mt-4 hidden flex-col items-center gap-y-2 pt-16 md:flex">
-        {brandRows.map((row, r) => (
-          <ul key={r} className="flex flex-wrap justify-center gap-x-14 gap-y-4">
-            {row.map((brand, i) => (
-              <li key={brand.slug} style={{ "--bob-delay": `${-((r * 7 + i * 3) % 11) * 0.6}s` } as React.CSSProperties}>
-                <BrandMark brand={brand} />
-              </li>
-            ))}
-          </ul>
-        ))}
-      </div>
-
-      {/* Phones: two drifting rows. */}
-      <div className="-mx-3 md:hidden">
-        <MarqueeRow items={brands.slice(0, half)} />
-        <MarqueeRow items={brands.slice(half)} reverse />
-      </div>
-    </SkySection>
+    </StudioSection>
   );
 }

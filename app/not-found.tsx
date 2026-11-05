@@ -1,27 +1,25 @@
 import Link from "next/link";
-import { SkyBackdrop } from "@/components/sky/sky-backdrop";
-import { ChalkNote } from "@/components/sky/sky-section";
-import { WEATHER_SCRIPT } from "@/lib/weather-script";
+import { StudioBackdrop } from "@/components/studio/backdrop";
 
-/* A lost page is just a cloud that drifted off. Carries its own sky, since
+/* A lost page, set like a closing card. Carries its own backdrop, since
    unmatched URLs render outside the B2B layout. */
 export default function NotFound() {
   return (
-    <div className="sky relative isolate flex min-h-screen flex-col items-center justify-center px-4">
-      <script dangerouslySetInnerHTML={{ __html: WEATHER_SCRIPT }} />
-      <SkyBackdrop />
-      <ChalkNote className="mb-4">404, but make it scenic</ChalkNote>
-      <div className="glass w-full max-w-lg rounded-[2rem] px-8 py-12 text-center md:px-12">
-        <h1 className="text-[2.4rem] leading-[1.05] font-bold tracking-[-0.03em] text-foreground">
-          This page drifted off.
-        </h1>
-        <Link
-          href="/"
-          className="caps-label mt-8 inline-flex h-12 items-center rounded-full bg-primary px-7 text-primary-foreground shadow-[0_10px_24px_-10px_rgba(22,104,227,0.8)]"
-        >
-          Head back home
-        </Link>
-      </div>
+    <div className="studio relative isolate flex min-h-screen flex-col items-center justify-center px-6 text-center">
+      <StudioBackdrop />
+      <p className="caps-label text-primary">Error 404</p>
+      <h1 className="font-display mt-6 text-[3.5rem] leading-[0.95] text-foreground md:text-[5.5rem]">
+        This page <span className="em-taupe">drifted off.</span>
+      </h1>
+      <p className="mt-6 max-w-sm text-body text-muted-foreground">
+        The link may be old, or the page moved. Everything worth reading is one click away.
+      </p>
+      <Link
+        href="/"
+        className="caps-label mt-10 inline-flex h-12 items-center rounded-full bg-primary px-8 text-primary-foreground transition-[background-color,box-shadow] duration-500 hover:bg-[#cdbaa0] hover:shadow-[0_0_40px_-8px_rgba(190,169,142,0.6)]"
+      >
+        Head back home
+      </Link>
     </div>
   );
 }

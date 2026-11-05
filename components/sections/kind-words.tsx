@@ -1,132 +1,219 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { X } from "lucide-react";
-import { SkySection, SectionHead } from "@/components/sky/sky-section";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { StudioSection, SectionHead } from "@/components/studio/section";
 import { testimonials, type Testimonial } from "@/data/testimonials";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /*
- * Kind words: a wall of yellow sticky notes with slight rotations, one line
- * each, verbatim. "Read in full" opens the original in a dialog. The lead
- * note carries the one number big.
+ * Kind words: one quote at a time, large, in the serif. Desktop has the full
+ * list of people on the right as an index; the current one carries a taupe
+ * bar that fills while it is on screen, then the next quote takes over.
+ * Hovering or focusing anywhere in the block holds the current quote.
+ * Phones swipe, or use the arrows; the counter pill and the dots underneath
+ * say where you are.
  *
- * Phones swipe one note at a time with dots underneath, show the first three,
- * then a link to the rest.
+ * Every quote is in the server HTML (stacked in one grid cell, the inactive
+ * ones hidden), so the block never jumps in height and search engines read
+ * them all. "Read in full" opens the original, verbatim, in a dialog.
  */
-const tilts = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2", "-rotate-[1.5deg]", "rotate-[1.5deg]"];
-
-function Note({ item, index, onOpen }: { item: Testimonial; index: number; onOpen: () => void }) {
-  return (
-    <figure
-      className={cn(
-        "relative flex h-full flex-col bg-[#ffe066] px-6 pt-7 pb-5 text-[#3a2a00] shadow-[0_18px_30px_-18px_rgba(120,80,0,0.55)] transition-transform duration-300 md:hover:rotate-0",
-        tilts[index % tilts.length]
-      )}
-    >
-      <span aria-hidden className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 -rotate-2 bg-white/60" />
-      {item.metric ? (
-        <p className="mb-3">
-          <span className="figures block text-[2.6rem] leading-none font-extrabold">{item.metric.value}</span>
-          <span className="caps-label mt-1 block text-[#6b5300]">{item.metric.label}</span>
-        </p>
-      ) : null}
-      <blockquote className="text-[1.05rem] leading-snug font-semibold text-pretty">“{item.note}”</blockquote>
-      <figcaption className="mt-auto pt-5">
-        <p className="text-caption font-bold">{item.name}</p>
-        <p className="text-caption text-[#6b5300]">
-          {item.role}, {item.company}
-        </p>
-        {item.brand ? (
-          <p className="caps-label mt-2 w-fit rounded-full bg-[#3a2a00]/10 px-2 py-0.5">{item.brand}</p>
-        ) : null}
-        {item.caseStudy ? (
-          <Link
-            href={`/work/${item.caseStudy}`}
-            className="caps-label mt-3 block underline decoration-[#3a2a00]/30 underline-offset-4 hover:decoration-[#3a2a00]"
-          >
-            See the case study →
-          </Link>
-        ) : null}
-        <button
-          type="button"
-          onClick={onOpen}
-          className="caps-label mt-4 underline decoration-[#3a2a00]/30 underline-offset-4 hover:decoration-[#3a2a00]"
-        >
-          Read in full
-        </button>
-      </figcaption>
-    </figure>
-  );
-}
+const DURATION = 9000;
 
 export function KindWords() {
+  const reduceMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const touchX = useRef<number | null>(null);
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const [open, setOpen] = useState<Testimonial | null>(null);
-  const [showAll, setShowAll] = useState(false);
-  const [slide, setSlide] = useState(0);
+  const count = testimonials.length;
+
+  const go = useCallback((next: number) => setIndex(((next % count) + count) % count), [count]);
+
+  useEffect(() => {
+    if (reduceMotion || paused || open) return;
+    const t = window.setTimeout(() => go(index + 1), DURATION);
+    return () => window.clearTimeout(t);
+  }, [index, paused, open, reduceMotion, go]);
 
   const openQuote = (item: Testimonial) => {
     setOpen(item);
     dialogRef.current?.showModal();
   };
 
-  const mobileItems = showAll ? testimonials : testimonials.slice(0, 3);
+  const running = !reduceMotion && !paused && !open;
 
   return (
-    <SkySection id="kind-words" note="they said it, not me">
-      <SectionHead title="Kind words from good people." />
+    <StudioSection id="kind-words" index="04" label="Testimonials" note="they said it, not me">
+      <SectionHead
+        title={
+          <>
+            Kind words from <span className="em-taupe">good people.</span>
+          </>
+        }
+      />
 
-      {/* Desktop: the wall. */}
-      <motion.div
-        variants={staggerContainer(0.07)}
-        initial="hidden"
-        whileInView="show"
-        viewport={viewportOnce}
-        className="mt-12 hidden gap-x-6 gap-y-10 md:grid md:grid-cols-2 lg:grid-cols-3"
+      <div
+        className="mt-14 grid grid-cols-1 gap-12 md:mt-20 lg:grid-cols-12 lg:gap-16"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={() => setPaused(false)}
       >
-        {testimonials.map((item, i) => (
-          <motion.div key={item.name} variants={fadeUp}>
-            <Note item={item} index={i} onOpen={() => openQuote(item)} />
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Phones: one note at a time. */}
-      <div className="md:hidden">
+        {/* The quote. */}
         <div
-          ref={trackRef}
-          onScroll={(e) => {
-            const el = e.currentTarget;
-            setSlide(Math.round(el.scrollLeft / el.clientWidth));
+          className="relative flex flex-col lg:col-span-8"
+          onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+          onTouchEnd={(e) => {
+            if (touchX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchX.current;
+            if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+            touchX.current = null;
           }}
-          className="-mx-6 mt-10 flex snap-x snap-mandatory overflow-x-auto pt-3 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {mobileItems.map((item, i) => (
-            <div key={item.name} className="w-full shrink-0 snap-center px-8">
-              <Note item={item} index={i} onOpen={() => openQuote(item)} />
-            </div>
-          ))}
-        </div>
-        <div className="mt-3 flex items-center justify-between">
-          <div className="flex gap-2" aria-hidden>
-            {mobileItems.map((item, i) => (
-              <span
-                key={item.name}
-                className={cn("size-2 rounded-full transition-colors", i === slide ? "bg-primary" : "bg-foreground/20")}
-              />
-            ))}
+          <span aria-hidden className="font-display absolute -top-8 -left-1 text-[7rem] leading-none text-primary/25 md:-top-12 md:-left-5 md:text-[10rem]">
+            “
+          </span>
+          <div className="relative grid">
+            {testimonials.map((item, i) => {
+              const active = i === index;
+              return (
+                <motion.figure
+                  key={item.name}
+                  aria-hidden={!active}
+                  initial={false}
+                  animate={{ opacity: active ? 1 : 0, y: active ? 0 : 16, filter: active ? "blur(0px)" : "blur(6px)" }}
+                  transition={{ duration: 0.7, ease: EASE }}
+                  className={cn("col-start-1 row-start-1 flex flex-col", !active && "pointer-events-none select-none")}
+                >
+                  {item.metric ? (
+                    <p className="mb-6 flex items-baseline gap-3">
+                      <span className="font-display figures text-[3rem] leading-none text-primary md:text-[3.75rem]">
+                        {item.metric.value}
+                      </span>
+                      <span className="caps-label text-muted-foreground">{item.metric.label}</span>
+                    </p>
+                  ) : null}
+                  <blockquote className="font-display text-[1.9rem] leading-[1.15] text-balance text-foreground md:text-[2.9rem]">
+                    {item.note}
+                  </blockquote>
+                  <figcaption className="mt-10 flex flex-col gap-5 border-t border-border pt-6 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <p className="text-body font-medium text-foreground">{item.name}</p>
+                      <p className="text-caption text-muted-foreground">
+                        {item.role}, {item.company}
+                      </p>
+                      {item.brand ? (
+                        <p className="caps-label mt-3 w-fit rounded-full border border-border px-2.5 py-1 text-faint">
+                          {item.brand}
+                        </p>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-wrap gap-x-6 gap-y-2">
+                      {item.caseStudy ? (
+                        <Link href={`/work/${item.caseStudy}`} tabIndex={active ? undefined : -1} className="caps-label link-draw text-primary">
+                          See the case study →
+                        </Link>
+                      ) : null}
+                      <button
+                        type="button"
+                        tabIndex={active ? undefined : -1}
+                        onClick={() => openQuote(item)}
+                        className="caps-label link-draw text-foreground"
+                      >
+                        Read in full
+                      </button>
+                    </div>
+                  </figcaption>
+                </motion.figure>
+              );
+            })}
           </div>
-          {!showAll ? (
-            <button type="button" onClick={() => setShowAll(true)} className="caps-label text-primary">
-              More kind words →
-            </button>
-          ) : null}
+
+          {/* Controls: counter pill, dots, arrows. */}
+          <div className="mt-12 flex items-center justify-between gap-6 lg:mt-auto lg:pt-12">
+            <div className="flex items-center gap-5">
+              <span className="figures caps-label rounded-full bg-[#2c2c2c] px-3.5 py-2 text-foreground">
+                {index + 1}/{count}
+              </span>
+              <div className="flex items-center gap-2" aria-hidden>
+                {testimonials.map((item, i) => (
+                  <span
+                    key={item.name}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-500",
+                      i === index ? "w-6 bg-primary" : "w-1.5 bg-[#4a4a4a]"
+                    )}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => go(index - 1)}
+                aria-label="Previous quote"
+                className="flex size-12 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-primary hover:text-primary"
+              >
+                <ArrowLeft className="size-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => go(index + 1)}
+                aria-label="Next quote"
+                className="flex size-12 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-primary hover:text-primary"
+              >
+                <ArrowRight className="size-4" />
+              </button>
+            </div>
+          </div>
         </div>
+
+        {/* Desktop index of every voice. */}
+        <ol className="hidden border-t border-border lg:col-span-4 lg:block">
+          {testimonials.map((item, i) => {
+            const active = i === index;
+            return (
+              <li key={item.name} className="relative border-b border-border">
+                <button
+                  type="button"
+                  onClick={() => go(i)}
+                  aria-current={active || undefined}
+                  className="group flex w-full items-baseline gap-4 py-4 text-left"
+                >
+                  <span className={cn("figures caps-label transition-colors", active ? "text-primary" : "text-faint")}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>
+                    <span
+                      className={cn(
+                        "block text-[0.95rem] transition-colors duration-300",
+                        active ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                      )}
+                    >
+                      {item.name}
+                    </span>
+                    <span className="block text-caption text-faint">{item.company}</span>
+                  </span>
+                </button>
+                {active ? (
+                  <motion.span
+                    key={`${index}-${running}`}
+                    aria-hidden
+                    className="absolute inset-x-0 -bottom-px h-px origin-left bg-primary"
+                    initial={{ scaleX: running ? 0 : 1 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: running ? DURATION / 1000 : 0, ease: "linear" }}
+                  />
+                ) : null}
+              </li>
+            );
+          })}
+        </ol>
       </div>
 
       <dialog
@@ -135,30 +222,40 @@ export function KindWords() {
         onClick={(e) => {
           if (e.target === e.currentTarget) dialogRef.current?.close();
         }}
-        className="m-auto max-h-[85svh] w-[min(40rem,calc(100vw-2rem))] overflow-y-auto rounded-[2rem] border-0 bg-transparent p-0 backdrop:bg-[#0b1d3a]/40 backdrop:backdrop-blur-sm"
+        className="m-auto max-h-[85svh] w-[min(42rem,calc(100vw-2rem))] overflow-y-auto rounded-[1.25rem] border border-border bg-[#131313] p-0 text-foreground backdrop:bg-black/70 backdrop:backdrop-blur-sm"
       >
-        {open ? (
-          <div className="relative bg-[#ffe066] px-7 pt-9 pb-7 text-[#3a2a00] md:px-10 md:pt-11">
-            <button
-              type="button"
-              onClick={() => dialogRef.current?.close()}
-              aria-label="Close"
-              className="absolute top-4 right-4 rounded-full p-1.5 hover:bg-[#3a2a00]/10"
+        <AnimatePresence>
+          {open ? (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="relative px-7 pt-10 pb-8 md:px-11 md:pt-12"
             >
-              <X className="size-5" />
-            </button>
-            {open.quote.map((para, i) => (
-              <p key={i} className={cn("text-body leading-relaxed text-pretty", i > 0 && "mt-4")}>
-                {para}
-              </p>
-            ))}
-            <p className="mt-6 text-caption font-bold">{open.name}</p>
-            <p className="text-caption text-[#6b5300]">
-              {open.role}, {open.company}
-            </p>
-          </div>
-        ) : null}
+              <button
+                type="button"
+                onClick={() => dialogRef.current?.close()}
+                aria-label="Close"
+                className="absolute top-4 right-4 rounded-full p-2 text-muted-foreground transition-colors hover:bg-[#2c2c2c] hover:text-foreground"
+              >
+                <X className="size-5" />
+              </button>
+              <p className="caps-label text-primary">In full</p>
+              {open.quote.map((para, i) => (
+                <p key={i} className={cn("text-body leading-relaxed text-muted-foreground text-pretty", i === 0 ? "mt-5" : "mt-4")}>
+                  {para}
+                </p>
+              ))}
+              <div className="mt-8 border-t border-border pt-5">
+                <p className="font-display text-[1.5rem] leading-none text-foreground">{open.name}</p>
+                <p className="mt-2 text-caption text-faint">
+                  {open.role}, {open.company}
+                </p>
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </dialog>
-    </SkySection>
+    </StudioSection>
   );
 }

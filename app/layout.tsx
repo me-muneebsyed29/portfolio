@@ -1,27 +1,27 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Caveat } from "next/font/google";
+import { Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GtmHead, GtmNoScript } from "@/components/gtm";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-/* The sky site's one typeface: Plus Jakarta Sans carries headlines, body,
-   labels and figures (with tabular numbers). Chosen over Manrope, DM Sans,
-   Onest and two serif pairings for being the softest of the clean sans faces,
-   which suits the daylight look. Loaded as a variable font, so every weight
-   is one file. */
+/* The studio site sets in two faces. Plus Jakarta Sans carries body copy,
+   labels and small figures (with tabular numbers); loaded as a variable font,
+   so every weight is one file. */
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
   display: "swap",
 });
 
-/* The sky redesign's handwritten voice: the chalk-marker notes from the banner.
-   Annotation only, so two weights are enough. */
-const caveat = Caveat({
-  variable: "--font-caveat",
+/* Instrument Serif is the display voice: headlines, big figures, pull quotes.
+   A high-contrast serif with a real italic, which is where the taupe accent
+   lives. It only ships one weight, so it is never asked to be bold. */
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
-  weight: ["500", "700"],
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -72,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jakarta.variable} ${caveat.variable} h-full`}
+      className={`${jakarta.variable} ${instrument.variable} h-full`}
       suppressHydrationWarning
     >
       <head>
@@ -81,7 +81,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <GtmNoScript />
         {/* Each site tree owns its own look: the B2B portfolio is the
-            daylight sky system, B2C is always dark. Neither has a toggle. */}
+            studio system (charcoal and taupe), B2C is its own dark sub-brand.
+            Neither has a toggle. */}
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>

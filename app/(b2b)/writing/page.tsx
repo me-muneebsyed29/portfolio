@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { FieldNotesIndex } from "@/components/sections/field-notes";
-import { NatureFinale } from "@/components/sky/nature-finale";
+import { Finale } from "@/components/studio/finale";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd, breadcrumbs } from "@/lib/structured-data";
 
@@ -15,10 +15,10 @@ export default function WritingIndexPage() {
   return (
     <>
       <JsonLd data={breadcrumbs([{ name: "Field notes", path: "/writing" }])} />
-      <div className="pt-24 md:pt-28">
+      <div className="pt-20 md:pt-28">
         <FieldNotesIndex />
       </div>
-      <NatureFinale />
+      <Finale />
     </>
   );
 }

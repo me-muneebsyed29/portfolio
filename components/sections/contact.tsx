@@ -4,51 +4,40 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SkySection } from "@/components/sky/sky-section";
-import { PaperPlane } from "@/components/sky/doodles";
+import { StudioSection } from "@/components/studio/section";
+import { RevealWords } from "@/components/studio/motion-text";
 import { ContactForm } from "@/components/sections/contact-form";
 import { brands } from "@/data/brands";
 import { siteConfig } from "@/lib/site-config";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const rows = [
-  { label: "Book a 30-min call", hint: "fastest", href: siteConfig.bookingUrl },
-  { label: siteConfig.email, hint: "email", href: `mailto:${siteConfig.email}` },
+  { label: "Book a 30-min call", hint: "Fastest", href: siteConfig.bookingUrl },
+  { label: siteConfig.email, hint: "Email", href: `mailto:${siteConfig.email}` },
   { label: "@muneebsyed29", hint: "LinkedIn", href: siteConfig.linkedin },
 ];
 
 /*
- * The close. The paper plane that took off in the hero lands here. Desktop
- * puts the ways to reach Muneeb beside the form; phones lead with one big
- * booking button and tuck the form behind "Prefer to write?".
+ * The close. Desktop puts the ways to reach Muneeb beside the form, as large
+ * ruled rows that fill with taupe on hover; phones lead with one big booking
+ * button and tuck the form behind "Prefer to write?".
  */
 export function Contact() {
   const [showForm, setShowForm] = useState(false);
   return (
-    <SkySection
-      id="contact"
-      note={
-        <span className="inline-flex items-end gap-2">
-          <PaperPlane className="w-24 translate-y-2 rotate-[32deg] md:w-28" />
-          see you on the other side :)
-        </span>
-      }
-    >
-      <motion.div
-        variants={staggerContainer(0.09)}
-        initial="hidden"
-        whileInView="show"
-        viewport={viewportOnce}
-        className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8"
-      >
-        <div className="md:col-span-6">
-          <motion.h2
-            variants={fadeUp}
-            className="text-[2.2rem] leading-[1.05] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[3rem]"
-          >
-            Let’s get your pipeline <span className="marker">flying.</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="mt-4 max-w-md text-body text-muted-foreground text-pretty">
+    <StudioSection id="contact" index="08" label="Contact" note="see you on the other side">
+      <div className="grid grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
+        <motion.div
+          variants={staggerContainer(0.09)}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          className="md:col-span-7"
+        >
+          <h2 className="font-display text-[3.2rem] leading-[0.95] text-balance text-foreground md:text-[5rem]">
+            <RevealWords text="Let’s get your pipeline flying." emphasis={1} inView />
+          </h2>
+          <motion.p variants={fadeUp} className="mt-7 max-w-md text-body text-muted-foreground text-pretty">
             Tell me what you’re running and where it’s stuck. I’ll tell you honestly if I can help.
           </motion.p>
           <motion.p variants={fadeUp} className="mt-3 text-caption text-faint">
@@ -60,25 +49,32 @@ export function Contact() {
               render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
               nativeButton={false}
               size="lg"
-              className="caps-label h-14 w-full rounded-full text-[0.8rem] shadow-[0_10px_24px_-10px_rgba(22,104,227,0.8)]"
+              className="caps-label h-14 w-full rounded-full text-[0.8rem]"
             >
               Book a 30-min call
             </Button>
           </motion.div>
 
-          <motion.ul variants={fadeUp} className="mt-6 border-t border-rule md:mt-10">
+          <motion.ul variants={fadeUp} className="mt-8 border-t border-border md:mt-14">
             {rows.map((row, i) => (
               <li key={row.hint} className={i === 0 ? "hidden md:block" : undefined}>
                 <a
                   href={row.href}
                   target={row.href.startsWith("http") ? "_blank" : undefined}
                   rel={row.href.startsWith("http") ? "noreferrer" : undefined}
-                  className="group -mx-3 flex items-center justify-between gap-6 rounded-xl border-b border-rule px-3 py-4 transition-colors duration-200 hover:bg-white/60"
+                  className="group relative flex items-center justify-between gap-6 overflow-hidden border-b border-border py-5 md:py-6"
                 >
-                  <span className="font-semibold text-foreground">{row.label}</span>
-                  <span className="flex items-center gap-2 text-caption text-faint">
-                    {row.hint}
-                    <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  {/* Taupe fill that rises from the rule on hover. */}
+                  <span
+                    aria-hidden
+                    className="absolute inset-0 origin-bottom scale-y-0 bg-primary transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100"
+                  />
+                  <span className="font-display relative text-[1.5rem] leading-none text-foreground transition-[color,transform] duration-500 group-hover:translate-x-4 group-hover:text-primary-foreground md:text-[2rem]">
+                    {row.label}
+                  </span>
+                  <span className="relative flex items-center gap-2 pr-0 text-caption text-faint transition-[color,transform] duration-500 group-hover:-translate-x-4 group-hover:text-primary-foreground">
+                    <span className="caps-label">{row.hint}</span>
+                    <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </a>
               </li>
@@ -89,15 +85,24 @@ export function Contact() {
             type="button"
             onClick={() => setShowForm((v) => !v)}
             aria-expanded={showForm}
-            className="caps-label mt-6 text-primary md:hidden"
+            className="caps-label link-draw mt-8 text-primary md:hidden"
           >
             {showForm ? "Hide the form" : "Prefer to write?"}
           </button>
-        </div>
+        </motion.div>
 
-        <motion.div variants={fadeUp} className="hidden md:col-span-5 md:col-start-8 md:block">
-          <div className="glass-card rounded-3xl p-7 md:p-8">
-            <ContactForm />
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          className="hidden md:col-span-5 md:block"
+        >
+          <div className="rounded-[1.25rem] border border-border bg-card p-8 lg:p-10">
+            <p className="caps-label text-primary">Write to me</p>
+            <div className="mt-6">
+              <ContactForm />
+            </div>
           </div>
         </motion.div>
 
@@ -109,13 +114,13 @@ export function Contact() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden md:hidden"
             >
-              <div className="glass-card rounded-3xl p-6">
+              <div className="rounded-[1.25rem] border border-border bg-card p-6">
                 <ContactForm idPrefix="m-" />
               </div>
             </motion.div>
           ) : null}
         </AnimatePresence>
-      </motion.div>
-    </SkySection>
+      </div>
+    </StudioSection>
   );
 }

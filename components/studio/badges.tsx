@@ -12,10 +12,10 @@ export function CertBadges({ withIds = false, className }: { withIds?: boolean; 
       {certifications.map((cert) => (
         <li
           key={cert.name}
-          className="flex items-center gap-2 rounded-full bg-white/75 py-1.5 pr-3 pl-2 text-foreground ring-1 ring-white"
+          className="flex items-center gap-2 rounded-full border border-border py-1.5 pr-3.5 pl-2.5 text-muted-foreground transition-colors duration-300 hover:border-primary/50 hover:text-foreground"
         >
           <PlatformLogo id={cert.platform} className="size-4 shrink-0" />
-          <span className="text-caption font-semibold">{withIds ? cert.name : `${cert.short} certified`}</span>
+          <span className="text-caption font-medium">{withIds ? cert.name : `${cert.short} certified`}</span>
           {withIds && cert.id ? <span className="figures text-[0.7rem] text-faint">ID {cert.id}</span> : null}
         </li>
       ))}

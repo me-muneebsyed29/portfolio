@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { WorkIndex } from "@/components/sections/work-index";
-import { NatureFinale } from "@/components/sky/nature-finale";
+import { Finale } from "@/components/studio/finale";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd, breadcrumbs } from "@/lib/structured-data";
 
@@ -15,10 +15,10 @@ export default function WorkPage() {
   return (
     <>
       <JsonLd data={breadcrumbs([{ name: "Work", path: "/work" }])} />
-      <div className="pt-24 md:pt-28">
+      <div className="pt-20 md:pt-28">
         <WorkIndex />
       </div>
-      <NatureFinale />
+      <Finale />
     </>
   );
 }

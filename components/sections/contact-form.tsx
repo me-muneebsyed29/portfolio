@@ -11,8 +11,9 @@ const WEB3FORMS_ACCESS_KEY = "5a81973b-6946-4089-829c-2370d3d97b5a";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-/* Copy from the sky direction doc. `idPrefix` keeps ids unique when the
-   phone and desktop versions of the form are both in the page. */
+/* Underlined fields on the card, no boxes: the rule turns taupe on focus.
+   `idPrefix` keeps ids unique when the phone and desktop versions of the
+   form are both in the page. */
 export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
   const [status, setStatus] = useState<Status>("idle");
 
@@ -40,7 +41,7 @@ export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-7">
       <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
       <input type="hidden" name="subject" value="New lead from muneebsyed29.com" />
       <input type="hidden" name="from_name" value="Portfolio Website" />
@@ -51,13 +52,13 @@ export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
           <Label htmlFor={`${idPrefix}name`} className="caps-label text-faint">
             Your name
           </Label>
-          <Input id={`${idPrefix}name`} name="name" placeholder="Muneeb" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
+          <Input id={`${idPrefix}name`} name="name" placeholder="Muneeb" required className="h-12 rounded-none border-0 border-b border-border-strong bg-transparent px-0 text-[1rem] shadow-none transition-colors placeholder:text-faint/70 focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent" />
         </div>
         <div className="space-y-2">
           <Label htmlFor={`${idPrefix}email`} className="caps-label text-faint">
             Work email
           </Label>
-          <Input id={`${idPrefix}email`} name="email" type="email" placeholder="you@company.com" required className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
+          <Input id={`${idPrefix}email`} name="email" type="email" placeholder="you@company.com" required className="h-12 rounded-none border-0 border-b border-border-strong bg-transparent px-0 text-[1rem] shadow-none transition-colors placeholder:text-faint/70 focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent" />
         </div>
       </div>
 
@@ -65,7 +66,7 @@ export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
         <Label htmlFor={`${idPrefix}company`} className="caps-label text-faint">
           Company
         </Label>
-        <Input id={`${idPrefix}company`} name="company" placeholder="Where you work" className="h-11 rounded-xl border-white bg-white/80 focus-visible:bg-white" />
+        <Input id={`${idPrefix}company`} name="company" placeholder="Where you work" className="h-12 rounded-none border-0 border-b border-border-strong bg-transparent px-0 text-[1rem] shadow-none transition-colors placeholder:text-faint/70 focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent" />
       </div>
 
       <div className="space-y-2">
@@ -78,7 +79,7 @@ export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
           placeholder="We spend $20K a month on LinkedIn and CAC keeps climbing…"
           required
           rows={5}
-          className="rounded-xl border-white bg-white/80 focus-visible:bg-white"
+          className="min-h-28 rounded-none border-0 border-b border-border-strong bg-transparent px-0 text-[1rem] shadow-none transition-colors placeholder:text-faint/70 focus-visible:border-primary focus-visible:ring-0 dark:bg-transparent"
         />
       </div>
 
@@ -86,7 +87,7 @@ export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
         type="submit"
         size="lg"
         disabled={status === "sending"}
-        className="caps-label h-12 w-full rounded-full"
+        className="caps-label h-12 w-full rounded-full transition-[background-color,box-shadow] duration-500 hover:bg-[#cdbaa0] hover:shadow-[0_0_40px_-8px_rgba(190,169,142,0.6)]"
       >
         {status === "sending" && "Sending…"}
         {status === "success" && "Sent"}

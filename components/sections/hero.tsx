@@ -1,21 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  Emphasis,
-  GrowthChart,
-  HandList,
-  PaperPlane,
-  Smiley,
-  StickyNote,
-  Swoosh,
-} from "@/components/sky/doodles";
-import { weatherCopy } from "@/data/weather";
-import { CertBadges } from "@/components/sky/badges";
+import { Container } from "@/components/layout/container";
+import { CertBadges } from "@/components/studio/badges";
+import { CountUp, RevealWords } from "@/components/studio/motion-text";
 import { siteConfig } from "@/lib/site-config";
-import { useWeather } from "@/lib/weather";
 import { EASE, fadeUp, staggerContainer } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -25,207 +16,163 @@ import { cn } from "@/lib/utils";
  * year), 3x is the Pella case study, 86% the iCode School one, and 95% is the
  * claim on his CV.
  *
- * One accent number per screen: $25M+ takes the sky blue.
+ * The numbers sit on four tiles, one per colour in the palette, laid out the
+ * way a palette card is: a name at the top, the value at the bottom. On phones
+ * it is the card exactly: one wide taupe tile, two halves, one wide black.
  */
-const stats: { figure: string; label: string; accent?: boolean }[] = [
-  { figure: "$25M+", label: "ad spend managed", accent: true },
-  { figure: "3x", label: "ROAS for Pella, from 0.8x" },
-  { figure: "86%", label: "lower CPL for a US EdTech" },
-  { figure: "95%", label: "of accounts ROAS-positive" },
+type Stat = { figure: string; label: string; context?: string; tone: "taupe" | "charcoal" | "dim" | "black" };
+
+const stats: Stat[] = [
+  { figure: "$25M+", label: "Ad spend managed", context: "Career total", tone: "taupe" },
+  { figure: "3x", label: "ROAS for Pella", context: "From 0.8x", tone: "charcoal" },
+  { figure: "86%", label: "Lower CPL", context: "US EdTech", tone: "dim" },
+  { figure: "95%", label: "Of accounts ROAS-positive", tone: "black" },
 ];
 
-/* The sticky note is the one thing the weather changes in the hero. */
-function WeatherSticky({ className }: { className?: string }) {
-  const weather = useWeather();
-  return (
-    <StickyNote className={className}>
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={weather}
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -4 }}
-          transition={{ duration: 0.25 }}
-          className="block"
-        >
-          {weatherCopy[weather].sticky}
-        </motion.span>
-      </AnimatePresence>
-    </StickyNote>
-  );
-}
+const tones: Record<Stat["tone"], { tile: string; label: string; context: string }> = {
+  taupe: { tile: "bg-[#bea98e] text-[#0c0c0c] col-span-2 lg:col-span-1", label: "text-[#0c0c0c]", context: "text-[#0c0c0c]/70" },
+  charcoal: { tile: "bg-[#2c2c2c] text-foreground", label: "text-foreground", context: "text-muted-foreground" },
+  dim: { tile: "bg-[#4a4a4a] text-foreground", label: "text-foreground", context: "text-foreground/75" },
+  black: {
+    tile: "bg-[#0c0c0c] text-foreground ring-1 ring-inset ring-[#2c2c2c] col-span-2 lg:col-span-1",
+    label: "text-foreground",
+    context: "text-muted-foreground",
+  },
+};
 
 export function Hero() {
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+  const portraitY = useTransform(scrollY, [0, 800], [0, 80]);
+  const portraitScale = useTransform(scrollY, [0, 800], [1, 1.08]);
+
   return (
-    <section id="top" className="relative pt-28 pb-6 md:pt-32 md:pb-10">
-      {/* Banner doodles, drawn on the sky around the glass. Wide screens only:
-          below that there is no sky margin for them to live in. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden overflow-hidden xl:block">
-        <HandList
-          items={["ideas", "experiments", "campaigns", "learn", "repeat"]}
-          className="absolute top-36 left-[max(1.5rem,calc(50%-46rem))]"
-        />
-        {/* The paper plane takes off here and lands in the contact card. */}
-        <PaperPlane className="absolute top-[13.5rem] left-[calc(50%+11rem)] w-48" />
-        <div className="absolute top-28 right-[max(2.5rem,calc(50%-46rem))] flex items-start gap-3">
-          <GrowthChart className="w-28" />
-          <div className="pt-2">
-            <p className="chalk font-hand text-[1.7rem] leading-[1.05] font-medium whitespace-nowrap">
-              more
-              <br />
-              pipeline,
-              <br />
-              less BS
-            </p>
-            <Smiley className="mt-2 ml-8 w-9" />
-          </div>
-        </div>
-      </div>
-
-      <div className="relative mx-auto w-full max-w-[1240px] px-3 sm:px-5">
-        {/* The handwritten top line sits on the sky, above the glass. */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="relative mx-auto mb-6 flex w-fit items-center gap-2 md:mb-8"
-        >
-          <Emphasis className="w-6 md:w-8" />
-          <p className="chalk font-hand text-[2rem] leading-none font-bold md:text-[2.9rem]">
-            paid media · growth · AI
-          </p>
-          <Emphasis flip className="w-6 md:w-8" />
-          <Swoosh className="absolute -bottom-4 left-4 w-[92%] md:-bottom-6" />
-        </motion.div>
-
-        {/* Phones: the head comes first, at about half the width, with the
-            weather note over its corner and the chalk aside beside it. */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
-          className="relative mx-auto mb-8 flex w-full max-w-md items-end justify-center lg:hidden"
-        >
-          <div className="animate-bob relative w-[55%] motion-reduce:animate-none">
-            <Image
-              src="/sky/avatar-head.webp"
-              alt="Illustrated portrait of Muneeb Syed"
-              width={560}
-              height={775}
-              priority
-              sizes="55vw"
-              className="h-auto w-full drop-shadow-[0_24px_30px_rgba(12,60,140,0.35)]"
-            />
-          </div>
-          <p className="chalk font-hand absolute top-6 left-0 -rotate-6 text-[1.25rem] leading-[1.05] font-medium">
-            more
-            <br />
-            pipeline,
-            <br />
-            less BS :)
-          </p>
-          <WeatherSticky className="absolute right-[6%] -bottom-4 w-40 px-4! pt-5! pb-4! [&_p]:text-[1.2rem]" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
-          <motion.div
-            variants={staggerContainer(0.1, 0.1)}
-            initial="hidden"
-            animate="show"
-            className="glass relative rounded-[2rem] p-6 sm:p-10 md:p-12 lg:col-span-8"
-          >
-            <motion.p
-              variants={fadeUp}
-              className="caps-label w-fit rounded-full bg-white/70 px-3 py-1.5 text-muted-foreground"
-            >
-              Growth operator for B2B SaaS · Bengaluru
-            </motion.p>
-
-            <motion.h1
-              variants={fadeUp}
-              className="mt-7 text-[2.4rem] leading-[1.04] font-bold tracking-[-0.03em] text-balance text-foreground sm:text-[3rem] md:text-[3.75rem]"
-            >
-              I turn ad spend into pipeline you can plan <span className="marker">around.</span>
-            </motion.h1>
-
-            <motion.p variants={fadeUp} className="mt-6 max-w-xl text-body text-muted-foreground text-pretty">
-              I help B2B SaaS teams fix what sits behind their ads, then scale what works. Faster
-              tests, cleaner data, and AI doing the grunt work.
-            </motion.p>
-
+    <section className="relative pt-28 pb-10 md:pt-40 md:pb-16">
+      <Container>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-8 lg:pt-6">
             <motion.div
-              variants={fadeUp}
-              className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, ease: EASE }}
+              className="caps-label flex items-center gap-4 text-muted-foreground"
             >
-              <Button
-                render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
-                nativeButton={false}
-                size="lg"
-                className="caps-label h-12 w-full rounded-full px-7 shadow-[0_10px_24px_-10px_rgba(22,104,227,0.8)] sm:w-auto"
-              >
-                Book a 30-min call
-              </Button>
-              <Button
-                render={<a href="#work" />}
-                nativeButton={false}
-                size="lg"
-                variant="outline"
-                className="caps-label h-12 w-full rounded-full border-white bg-white/80 px-7 hover:bg-white sm:w-auto"
-              >
-                See the work
-              </Button>
-            </motion.div>
-
-            <motion.dl variants={staggerContainer(0.07, 0.2)} className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {stats.map((item) => (
-                <motion.div
-                  key={item.label}
-                  variants={fadeUp}
-                  className="glass-card flex flex-col-reverse justify-between rounded-2xl px-4 pt-4 pb-3.5"
-                >
-                  <dt className="mt-2 text-caption leading-snug font-medium text-muted-foreground">{item.label}</dt>
-                  <dd
-                    className={cn(
-                      "figures text-[1.75rem] leading-none font-bold",
-                      item.accent ? "text-cadmium" : "text-foreground"
-                    )}
-                  >
-                    {item.figure}
-                  </dd>
-                </motion.div>
-              ))}
-            </motion.dl>
-
-            <motion.p variants={fadeUp} className="caps-label mt-7 text-faint">
-              Google · Meta · LinkedIn · TikTok · US, Canada, Europe, India
-            </motion.p>
-            <motion.div variants={fadeUp}>
-              <CertBadges className="mt-4" />
-            </motion.div>
-          </motion.div>
-
-          {/* Large screens: the 3D head floats beside the card, cut out of its
-              own sky so it bobs in this one. */}
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.1, ease: EASE, delay: 0.3 }}
-            className="relative hidden lg:col-span-4 lg:block"
-          >
-            <div className="animate-bob relative mx-auto w-[88%] max-w-[340px] motion-reduce:animate-none">
-              <Image
-                src="/sky/avatar-head.webp"
-                alt="Illustrated portrait of Muneeb Syed"
-                width={560}
-                height={775}
-                sizes="340px"
-                className="h-auto w-full drop-shadow-[0_30px_40px_rgba(12,60,140,0.35)]"
+              <motion.span
+                aria-hidden
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.2, ease: EASE, delay: 0.2 }}
+                className="h-px w-10 origin-left bg-primary"
               />
-            </div>
-            <WeatherSticky className="absolute -bottom-6 left-0 w-48" />
-          </motion.div>
+              Growth operator for B2B SaaS · Bengaluru
+            </motion.div>
+
+            <h1 className="font-display mt-8 text-[3.3rem] leading-[0.94] tracking-[-0.025em] text-foreground sm:text-[4.6rem] lg:text-[6.1rem]">
+              <RevealWords text="I turn ad spend into pipeline you can plan around." emphasis={1} delay={0.25} />
+            </h1>
+
+            <motion.div variants={staggerContainer(0.1, 0.9)} initial="hidden" animate="show">
+              <motion.p variants={fadeUp} className="mt-8 max-w-xl text-body text-muted-foreground text-pretty md:text-[1.15rem]">
+                I help B2B SaaS teams fix what sits behind their ads, then scale what works. Faster tests,
+                cleaner data, and AI doing the grunt work.
+              </motion.p>
+
+              <motion.div variants={fadeUp} className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+                <Button
+                  render={<a href={siteConfig.bookingUrl} target="_blank" rel="noreferrer" />}
+                  nativeButton={false}
+                  size="lg"
+                  className="caps-label group h-13 w-full rounded-full px-8 transition-[background-color,box-shadow] duration-500 hover:bg-[#cdbaa0] hover:shadow-[0_0_40px_-8px_rgba(190,169,142,0.6)] sm:w-auto"
+                >
+                  Book a 30-min call
+                  <span aria-hidden className="ml-1 transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </Button>
+                <a href="#work" className="caps-label link-draw w-fit self-center text-foreground sm:self-auto">
+                  See the work
+                </a>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* The portrait: unveiled from the bottom on load, then it eases
+              down and in a touch as the page scrolls. */}
+          <motion.figure
+            initial={reduceMotion ? false : { clipPath: "inset(100% 0 0 0 round 1.25rem)" }}
+            animate={{ clipPath: "inset(0% 0 0 0 round 1.25rem)" }}
+            transition={{ duration: 1.4, ease: EASE, delay: 0.35 }}
+            className="relative mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-[1.25rem] bg-[#2c2c2c] lg:col-span-4 lg:max-w-none"
+          >
+            <motion.div className="absolute inset-0" style={reduceMotion ? undefined : { y: portraitY, scale: portraitScale }}>
+              <Image
+                src="/portrait.jpg"
+                alt="Portrait of Muneeb Syed"
+                fill
+                priority
+                sizes="(min-width: 1024px) 400px, 90vw"
+                className="object-cover object-[50%_30%] contrast-[1.05] grayscale"
+              />
+            </motion.div>
+            {/* Warm the black and white toward taupe, and sink the foot into
+                the ground so the caption reads. */}
+            <div aria-hidden className="absolute inset-0 bg-[#bea98e] mix-blend-color opacity-25" />
+            <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0c0c0c] via-[#0c0c0c]/50 to-transparent" />
+
+            <span className="caps-label absolute top-4 right-4 rounded-full bg-[#2c2c2c]/85 px-3.5 py-2 text-foreground backdrop-blur">
+              5+ yrs
+            </span>
+            <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 md:p-6">
+              <div>
+                <p className="font-display text-[1.9rem] leading-none text-foreground">Muneeb Syed</p>
+                <p className="caps-label mt-2 text-muted-foreground">Paid media · Growth · AI</p>
+              </div>
+              <p className="font-display text-right text-[1.15rem] leading-tight text-primary italic">
+                more pipeline,
+                <br />
+                less BS.
+              </p>
+            </figcaption>
+          </motion.figure>
         </div>
-      </div>
+
+        <motion.dl
+          variants={staggerContainer(0.08, 1.1)}
+          initial="hidden"
+          animate="show"
+          className="mt-14 grid grid-cols-2 gap-3 md:mt-20 lg:grid-cols-[1.35fr_1fr_1fr_1.15fr]"
+        >
+          {stats.map((item) => {
+            const tone = tones[item.tone];
+            return (
+              <motion.div
+                key={item.label}
+                variants={fadeUp}
+                className={cn(
+                  "group flex min-h-40 flex-col justify-between rounded-[1.25rem] p-5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 md:min-h-52 md:p-7",
+                  tone.tile
+                )}
+              >
+                <dt className={cn("text-[1.05rem] leading-snug font-medium md:text-[1.2rem]", tone.label)}>{item.label}</dt>
+                <dd className="mt-6">
+                  <CountUp value={item.figure} className="font-display block text-[3rem] leading-none md:text-[4rem]" />
+                  {item.context ? <span className={cn("caps-label mt-3 block", tone.context)}>{item.context}</span> : null}
+                </dd>
+              </motion.div>
+            );
+          })}
+        </motion.dl>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+        >
+          <p className="caps-label text-faint">Google · Meta · LinkedIn · TikTok — US, Canada, Europe, India</p>
+          <CertBadges />
+        </motion.div>
+      </Container>
     </section>
   );
 }

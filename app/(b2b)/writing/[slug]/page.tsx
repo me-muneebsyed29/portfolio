@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { essays } from "@/data/writing";
 import { EssayDetail } from "@/components/sections/essay-detail";
 import { MoreNotes } from "@/components/sections/related";
-import { NatureFinale } from "@/components/sky/nature-finale";
+import { Finale } from "@/components/studio/finale";
 import { JsonLd, breadcrumbs, essaySchema } from "@/lib/structured-data";
 
 export function generateStaticParams() {
@@ -50,7 +50,7 @@ export default async function EssayPage({
       />
       <EssayDetail essay={essay} />
       <MoreNotes exclude={essay.slug} />
-      <NatureFinale />
+      <Finale />
     </>
   );
 }

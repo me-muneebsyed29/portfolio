@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { SkySection, SectionHead } from "@/components/sky/sky-section";
+import { StudioSection, SectionHead } from "@/components/studio/section";
 import { CaseCard, HighlightCard } from "@/components/sections/case-card";
 import { caseStudies, type Industry, type Market } from "@/data/case-studies";
 import { highlights } from "@/data/highlights";
@@ -25,8 +25,10 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "caps-label rounded-full px-3 py-1.5 transition-colors",
-        active ? "bg-primary text-primary-foreground" : "bg-white/70 text-muted-foreground hover:bg-white hover:text-foreground"
+        "caps-label rounded-full border px-3.5 py-2 transition-colors duration-300",
+        active
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border text-muted-foreground hover:border-[#4a4a4a] hover:text-foreground"
       )}
     >
       {children}
@@ -46,14 +48,26 @@ export function WorkIndex() {
   const notes = highlights.filter((h) => match(h.industry, h.markets));
 
   return (
-    <SkySection note={<Link href="/">← back up to the clouds</Link>}>
+    <StudioSection
+      ruled={false}
+      label={
+        <Link href="/" className="link-draw">
+          ← Home
+        </Link>
+      }
+      note="every number, every market"
+    >
       <SectionHead
         as="h1"
-        title="All the receipts."
+        title={
+          <>
+            All the <span className="em-taupe">receipts.</span>
+          </>
+        }
         sub="Enterprise, B2B SaaS, EdTech, D2C and local businesses across the US, Canada, Europe and India. Pick a filter."
       />
 
-      <div className="mt-8 flex flex-col gap-3">
+      <div className="mt-12 flex flex-col gap-3">
         <div role="group" aria-label="Filter by industry" className="flex flex-wrap gap-2">
           <Chip active={!industry} onClick={() => setIndustry(null)}>
             All industries
@@ -76,13 +90,13 @@ export function WorkIndex() {
         </div>
       </div>
 
-      <p className="mt-6 text-caption text-faint" aria-live="polite">
+      <p className="caps-label mt-10 text-faint" aria-live="polite">
         {studies.length} case {studies.length === 1 ? "study" : "studies"}
         {notes.length ? ` and ${notes.length} highlight${notes.length === 1 ? "" : "s"}` : ""}
       </p>
 
       {studies.length ? (
-        <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {studies.map((study) => (
             <li key={study.slug}>
               <CaseCard study={study} />
@@ -93,8 +107,10 @@ export function WorkIndex() {
 
       {notes.length ? (
         <>
-          <h2 className="mt-12 text-xl font-bold tracking-[-0.02em] text-foreground">More highlights</h2>
-          <p className="mt-1 text-caption text-muted-foreground">
+          <h2 className="font-display mt-20 border-t border-border pt-10 text-[2.25rem] leading-none text-foreground">
+            More highlights
+          </h2>
+          <p className="mt-3 text-caption text-muted-foreground">
             Agency and in-house work where the story is the scale.
           </p>
           <ul className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -116,12 +132,12 @@ export function WorkIndex() {
               setIndustry(null);
               setMarket(null);
             }}
-            className="font-semibold text-primary"
+            className="link-draw text-primary"
           >
             Clear filters
           </button>
         </p>
       ) : null}
-    </SkySection>
+    </StudioSection>
   );
 }

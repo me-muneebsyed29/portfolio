@@ -1,15 +1,15 @@
 /*
- * The brands wall, in the order the sky direction doc sets: names a US or
- * Canadian SaaS buyer will recognise first, then the rest.
+ * The brands, in order: names a US or Canadian SaaS buyer will recognise
+ * first, then the rest.
  *
- * Logos: drop an SVG at public/brands/<slug>.svg and set `logo: true`. At rest
- * every logo is tinted white so the wall reads as part of the sky; hover shows
- * its real colours. Until a file exists the brand's name is set in type
- * instead, in the same tint.
+ * On the site each brand is set as its name in the serif, drifting in a
+ * marquee; names with a case study are set in italics and link to it.
+ * `logo` is kept for a future logo treatment and is not rendered today.
  *
- * `note` is the one line on the hover sticky note, in the format
+ * `note` is one line on what was run, in the format
  * "what you ran · market · result", e.g. "Google Ads · US · CPL −86%".
- * Without one the note shows the site address.
+ * It shows in the caption line under the marquee; without one the caption
+ * shows the site address.
  *
  * `caseStudy` links a brand to its story page, once a case study can name it.
  */

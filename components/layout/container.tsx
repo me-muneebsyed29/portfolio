@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 
-/* 03 / STRUCTURE: 1128px content column, 56px outer margin on documents.
-   Everything inside sits flush left — the grid is never centred. */
+/* 1280px content column with a 24px gutter on phones and 40px from tablet up.
+   The backdrop's column rules sit on the same box, so the grid lines and the
+   copy share edges. */
 export function Container({
   className,
   children,
@@ -10,7 +11,7 @@ export function Container({
   children: React.ReactNode;
 }) {
   return (
-    <div className={cn("mx-auto w-full max-w-[1128px] px-6 md:px-14", className)}>
+    <div className={cn("mx-auto w-full max-w-[1280px] px-6 md:px-10", className)}>
       {children}
     </div>
   );

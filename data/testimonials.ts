@@ -2,7 +2,7 @@ export type Testimonial = {
   /* The full quote, verbatim, one string per paragraph. Never paraphrased.
      "Read in full" opens this. */
   quote: string[];
-  /* One line for the sticky note: a verbatim slice of `quote`, with an
+  /* The line shown large in the quote slider: a verbatim slice of `quote`, with an
      ellipsis where it starts or stops mid-sentence. */
   note: string;
   name: string;

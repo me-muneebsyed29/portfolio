@@ -5,8 +5,8 @@
  * team the result came from.
  *
  * Each study renders as a homepage card (if `featured`), a card on /work, and
- * its own page at /work/<slug>, which follows the template from the sky
- * direction doc: setup, what was broken, what I changed, what moved.
+ * its own page at /work/<slug>, told as: setup, what was broken, what I
+ * changed, what moved.
  */
 export type Industry =
   | "Enterprise"
@@ -40,7 +40,7 @@ export type CaseStudy = {
   tag: string;
   headline: string;
   oneLine: string;
-  /* Stat cards. The first is the accent and goes on the sticky note. */
+  /* Stat cards. The first is the accent and goes on the taupe tile. */
   metrics: { value: string; label: string }[];
   setup: string;
   broken: string[];

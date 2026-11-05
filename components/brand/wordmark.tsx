@@ -1,15 +1,12 @@
 import { cn } from "@/lib/utils";
 
 /*
- * 01 / WORDMARK. Plus Jakarta Sans 700, tracking −0.025em, all caps, no space
- * between the name and the period.
- *
- * The period is the only place the accent appears in a mark, and it is dropped
- * entirely when the frame already carries an accent number — hence `accent`.
- * Full mark goes on the footer and case study headers; short on the site header.
+ * Wordmark. The name in Instrument Serif, upright, with a taupe full stop as
+ * the one accent in the mark. `short` is the first name only, for tight
+ * spaces; `full` is the whole name, for the header and footer.
  */
 export function Wordmark({
-  variant = "short",
+  variant = "full",
   accent = true,
   className,
 }: {
@@ -17,24 +14,10 @@ export function Wordmark({
   accent?: boolean;
   className?: string;
 }) {
-  const base = cn(
-    "inline-block font-bold uppercase tracking-[-0.025em] leading-none",
-    className
-  );
-
-  if (variant === "full") {
-    // The full mark has no period, so there is nothing for the accent to sit on.
-    return <span className={base}>Muneeb Syed</span>;
-  }
-
   return (
-    <span className={base}>
-      Muneeb
-      {/* The mark sets at 17px, so the period takes the under-24px accent
-          value, which rev 02 splits by ground: cadmium light (#E4704F) on
-          dark, the ink value (#9E2F16) on chalk. Full cadmium here would sit
-          at 3.6:1 on graphite. */}
-      <span className={accent ? "text-cadmium-sm" : undefined}>.</span>
+    <span className={cn("font-display inline-block leading-none tracking-[-0.01em]", className)}>
+      {variant === "full" ? "Muneeb Syed" : "Muneeb"}
+      <span className={accent ? "text-primary" : undefined}>.</span>
     </span>
   );
 }

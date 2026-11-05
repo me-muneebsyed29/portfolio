@@ -1,5 +1,5 @@
 import { essays } from "@/data/writing";
-import { ogSize, skyOgImage } from "@/lib/og";
+import { ogSize, studioOgImage } from "@/lib/og";
 
 export const size = ogSize;
 export const contentType = "image/png";
@@ -12,9 +12,9 @@ export function generateStaticParams() {
 export default async function EssayOgImage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const essay = essays.find((e) => e.slug === slug) ?? essays[0];
-  return skyOgImage({
+  return studioOgImage({
     kicker: `Field note · ${essay.readingTime} read`,
     title: essay.title,
-    chalk: ["strong opinions,", "loosely held"],
+    aside: ["strong opinions,", "loosely held"],
   });
 }

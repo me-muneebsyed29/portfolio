@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SkySection, SectionHead } from "@/components/sky/sky-section";
+import { StudioSection, SectionHead, ArrowLink } from "@/components/studio/section";
 import { EssayRows } from "@/components/sections/field-notes";
 import { essays } from "@/data/writing";
 import { caseStudies } from "@/data/case-studies";
@@ -15,20 +15,24 @@ import { CaseCard } from "@/components/sections/case-card";
 export function MoreNotes({ exclude }: { exclude: string }) {
   const others = [...essays].filter((e) => e.slug !== exclude).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
   return (
-    <SkySection note="if that one landed, try these">
-      <SectionHead title="More field notes.">
-        <Link href="/writing" className="caps-label shrink-0 text-primary">
-          All notes →
-        </Link>
+    <StudioSection label="Keep reading" note="if that one landed, try these">
+      <SectionHead
+        title={
+          <>
+            More field <span className="em-taupe">notes.</span>
+          </>
+        }
+      >
+        <ArrowLink href="/writing">All notes</ArrowLink>
       </SectionHead>
       <EssayRows items={others} />
-      <p className="mt-8 text-caption text-muted-foreground">
+      <p className="mt-10 text-caption text-muted-foreground">
         Want to see it in practice?{" "}
-        <Link href="/#work" className="font-semibold text-primary">
+        <Link href="/#work" className="link-draw text-primary">
           The receipts →
         </Link>
       </p>
-    </SkySection>
+    </StudioSection>
   );
 }
 
@@ -41,25 +45,29 @@ export function MoreWork({ exclude }: { exclude: string }) {
     .sort((a, b) => Number(b.industry === current?.industry) - Number(a.industry === current?.industry) || Number(!!b.featured) - Number(!!a.featured))
     .slice(0, 3);
   return (
-    <SkySection note="more of the same flight">
-      <SectionHead title="More receipts.">
-        <Link href="/work" className="caps-label shrink-0 text-primary">
-          All case studies →
-        </Link>
+    <StudioSection label="Keep reading" note="more of the same flight">
+      <SectionHead
+        title={
+          <>
+            More <span className="em-taupe">receipts.</span>
+          </>
+        }
+      >
+        <ArrowLink href="/work">All case studies</ArrowLink>
       </SectionHead>
-      <ul className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <ul className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
         {others.map((study) => (
           <li key={study.slug}>
             <CaseCard study={study} compact />
           </li>
         ))}
       </ul>
-      <p className="mt-8 text-caption text-muted-foreground">
+      <p className="mt-10 text-caption text-muted-foreground">
         Or read how I think about it in the{" "}
-        <Link href="/writing" className="font-semibold text-primary">
+        <Link href="/writing" className="link-draw text-primary">
           field notes →
         </Link>
       </p>
-    </SkySection>
+    </StudioSection>
   );
 }

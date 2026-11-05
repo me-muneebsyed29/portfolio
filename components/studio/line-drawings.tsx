@@ -5,9 +5,9 @@ import type { DoodleId } from "@/data/how-i-work";
 import { cn } from "@/lib/utils";
 
 /*
- * Pen doodles for the How I work notes, one per note. Same hand as the chalk
- * doodles on the sky, but drawn in ink on the white cards, and sketched in
- * once when the note scrolls into view.
+ * Fine line drawings for the How I work principles, one each, in a taupe
+ * hairline. They draw themselves in once when the principle scrolls into
+ * view, then stay.
  */
 const draw: Variants = {
   hidden: { pathLength: 0, opacity: 0 },
@@ -24,7 +24,7 @@ const draw: Variants = {
 const pen = {
   fill: "none",
   stroke: "currentColor",
-  strokeWidth: 2.2,
+  strokeWidth: 1.25,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
 };
@@ -53,7 +53,7 @@ const paths: Record<DoodleId, string[]> = {
   ],
 };
 
-export function NoteDoodle({ id, className }: { id: DoodleId; className?: string }) {
+export function LineDrawing({ id, className }: { id: DoodleId; className?: string }) {
   return (
     <motion.svg
       aria-hidden

@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { SkySection, SectionHead } from "@/components/sky/sky-section";
+import { StudioSection, SectionHead, ArrowLink } from "@/components/studio/section";
 import { CaseCard } from "@/components/sections/case-card";
 import { caseStudies, featuredCaseStudies } from "@/data/case-studies";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
@@ -15,19 +14,24 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
  */
 export function Work() {
   return (
-    <SkySection id="work" note="the why is inside →">
-      <SectionHead title="The receipts." sub="What was broken, what I changed, what moved.">
-        <Link href="/work" className="caps-label shrink-0 text-primary">
-          All {caseStudies.length} case studies →
-        </Link>
+    <StudioSection id="work" index="02" label="Selected work" note="the why is inside">
+      <SectionHead
+        title={
+          <>
+            The <span className="em-taupe">receipts.</span>
+          </>
+        }
+        sub="What was broken, what I changed, what moved."
+      >
+        <ArrowLink href="/work">All {caseStudies.length} case studies</ArrowLink>
       </SectionHead>
 
       <motion.ul
-        variants={staggerContainer(0.08)}
+        variants={staggerContainer(0.1)}
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] sm:-mx-10 sm:px-10 md:mx-0 md:grid md:snap-none md:grid-cols-3 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden"
+        className="-mx-6 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] md:mx-0 md:mt-16 md:grid md:snap-none md:grid-cols-3 md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden"
       >
         {featuredCaseStudies.map((study) => (
           <motion.li key={study.slug} variants={fadeUp} className="w-[85%] shrink-0 snap-start md:w-auto">
@@ -35,6 +39,6 @@ export function Work() {
           </motion.li>
         ))}
       </motion.ul>
-    </SkySection>
+    </StudioSection>
   );
 }

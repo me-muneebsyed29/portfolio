@@ -7,12 +7,11 @@ import { Lab } from "@/components/sections/lab";
 import { FieldNotes } from "@/components/sections/field-notes";
 import { Hello } from "@/components/sections/hello";
 import { Contact } from "@/components/sections/contact";
-import { NatureFinale } from "@/components/sky/nature-finale";
+import { Finale } from "@/components/studio/finale";
 
 /*
- * Page order from the sky direction doc: proof before philosophy. Real
- * numbers within one scroll, a case study within two, and the personal bit
- * as the warm-up right before the ask.
+ * Proof before philosophy: real numbers within one scroll, a case study
+ * within two, and the personal bit as the warm-up right before the ask.
  */
 export default function Home() {
   return (
@@ -24,10 +23,10 @@ export default function Home() {
       <KindWords />
       <Lab />
       <FieldNotes />
-      <NatureFinale>
+      <Finale>
         <Hello />
         <Contact />
-      </NatureFinale>
+      </Finale>
     </>
   );
 }

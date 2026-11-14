@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
-import { brandRows, brands, type Brand } from "@/data/brands";
+import { brandRows, type Brand } from "@/data/brands";
 import { SkySection, SectionHead } from "@/components/sky/sky-section";
 import { cn } from "@/lib/utils";
 
@@ -92,11 +92,23 @@ function MarqueeRow({ items, reverse }: { items: Brand[]; reverse?: boolean }) {
   );
 }
 
-export function Brands() {
-  const half = Math.ceil(brands.length / 2);
+/* The homepage wall by default; /meta-ads passes its own rows and heading. */
+export function Brands({
+  id = "brands",
+  rows = brandRows,
+  title = "Brands I’ve helped grow.",
+  sub,
+}: {
+  id?: string;
+  rows?: Brand[][];
+  title?: React.ReactNode;
+  sub?: React.ReactNode;
+} = {}) {
+  const all = rows.flat();
+  const half = Math.ceil(all.length / 2);
   return (
     <SkySection
-      id="brands"
+      id={id}
       bare
       note={
         <>
@@ -107,21 +119,23 @@ export function Brands() {
     >
       <div className="glass rounded-[2rem] px-6 py-8 sm:px-10 md:rounded-[2.5rem] md:px-14 md:py-10">
         <SectionHead
-          title="Brands I’ve helped grow."
+          title={title}
           sub={
-            <>
-              <span className="hidden md:inline">
-                From household names in the US and Canada to SaaS teams and D2C brands in India.
-              </span>
-              <span className="md:hidden">US enterprise to India D2C.</span>
-            </>
+            sub ?? (
+              <>
+                <span className="hidden md:inline">
+                  From household names in the US and Canada to SaaS teams and D2C brands in India.
+                </span>
+                <span className="md:hidden">US enterprise to India D2C.</span>
+              </>
+            )
           }
         />
       </div>
 
       {/* Desktop: the wall, in the order the doc sets, floating on the sky. */}
       <div className="brand-wall mt-4 hidden flex-col items-center gap-y-2 pt-16 md:flex">
-        {brandRows.map((row, r) => (
+        {rows.map((row, r) => (
           <ul key={r} className="flex flex-wrap justify-center gap-x-14 gap-y-4">
             {row.map((brand, i) => (
               <li key={brand.slug} style={{ "--bob-delay": `${-((r * 7 + i * 3) % 11) * 0.6}s` } as React.CSSProperties}>
@@ -134,8 +148,8 @@ export function Brands() {
 
       {/* Phones: two drifting rows. */}
       <div className="-mx-3 md:hidden">
-        <MarqueeRow items={brands.slice(0, half)} />
-        <MarqueeRow items={brands.slice(half)} reverse />
+        <MarqueeRow items={all.slice(0, half)} />
+        <MarqueeRow items={all.slice(half)} reverse />
       </div>
     </SkySection>
   );

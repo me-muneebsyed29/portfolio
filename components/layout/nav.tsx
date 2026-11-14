@@ -16,6 +16,7 @@ import {
 import { Wordmark } from "@/components/brand/wordmark";
 import { WeatherCaption, WeatherToggle } from "@/components/sky/weather-toggle";
 import { siteConfig } from "@/lib/site-config";
+import { META_ADS_LIVE } from "@/data/meta-ads";
 import { cn } from "@/lib/utils";
 
 /*
@@ -23,6 +24,12 @@ import { cn } from "@/lib/utils";
  * top of the page. It firms up a little once the page scrolls and copy starts
  * passing underneath it.
  */
+/* "Meta Ads" joins the nav once /meta-ads launches (data/meta-ads.ts). */
+const navItems = [
+  ...siteConfig.nav,
+  ...(META_ADS_LIVE ? [{ label: "Meta Ads", href: "/meta-ads" }] : []),
+];
+
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
 
@@ -55,7 +62,7 @@ export function Nav() {
         </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
-          {siteConfig.nav.map((item) => (
+          {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -114,7 +121,7 @@ export function Nav() {
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-10 flex flex-col px-6">
-                {siteConfig.nav.map((item) => (
+                {navItems.map((item) => (
                   <SheetClose
                     key={item.href}
                     nativeButton={false}

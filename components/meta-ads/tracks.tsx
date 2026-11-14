@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import { SkySection, SectionHead } from "@/components/sky/sky-section";
 import { BookCall, Fill, trackEvent } from "@/components/meta-ads/ui";
-import { metaCases, tracks, type MetaCase, type Track } from "@/data/meta-ads";
+import { metaCases, shown, tracks, type MetaCase, type Track } from "@/data/meta-ads";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -177,7 +177,7 @@ function CaseCard({ study }: { study: MetaCase }) {
       </p>
 
       <div className="mt-5 space-y-4 border-t border-rule pt-5">
-        {study.started ? (
+        {study.started && shown(study.started) ? (
           <Step label="Where it started">
             <Fill>{study.started}</Fill>
           </Step>

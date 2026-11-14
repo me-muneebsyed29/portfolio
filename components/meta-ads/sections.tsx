@@ -10,12 +10,15 @@ import {
   creative,
   faq,
   fit,
+  hasGap,
   leaks,
   metaTestimonials,
   ninetyDays,
   offers,
   proofStats,
+  shown,
   teaching,
+  META_ADS_LIVE,
 } from "@/data/meta-ads";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -107,20 +110,12 @@ export function Offers() {
             <h3 className="text-xl font-bold tracking-[-0.02em] text-foreground">{item.name}</h3>
             <p className="mt-2 text-body text-muted-foreground text-pretty">{item.what}</p>
             <div aria-hidden className="min-h-5 flex-1" />
-            <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-rule pt-4">
-              <div>
-                <dt className="caps-label text-faint">How long</dt>
-                <dd className="mt-1 font-semibold text-foreground">
-                  <Fill>{item.length}</Fill>
-                </dd>
-              </div>
-              <div>
-                <dt className="caps-label text-faint">Price</dt>
-                <dd className="mt-1 font-semibold text-foreground">
-                  <Fill>{item.price}</Fill>
-                </dd>
-              </div>
-            </dl>
+            <OfferFacts
+              facts={[
+                { label: "How long", value: item.length },
+                { label: "Price", value: item.price },
+              ]}
+            />
           </motion.li>
         ))}
       </motion.ul>
@@ -128,6 +123,24 @@ export function Offers() {
         <Fill>{offers.footnote}</Fill>
       </p>
     </SkySection>
+  );
+}
+
+/* The how-long and price row; a fact still waiting on a gap is left off. */
+function OfferFacts({ facts }: { facts: { label: string; value: string }[] }) {
+  const visible = facts.filter((f) => shown(f.value));
+  if (visible.length === 0) return null;
+  return (
+    <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-rule pt-4">
+      {visible.map((f) => (
+        <div key={f.label}>
+          <dt className="caps-label text-faint">{f.label}</dt>
+          <dd className="mt-1 font-semibold text-foreground">
+            <Fill>{f.value}</Fill>
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -181,7 +194,7 @@ export function NinetyDays() {
         <div className="mt-8">
           <h3 className="caps-label text-faint">{ninetyDays.howLabel}</h3>
           <ul className="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
-            {ninetyDays.how.map((line) => (
+            {ninetyDays.how.filter((line) => shown(line)).map((line) => (
               <li key={line} className="flex gap-3 text-body text-foreground">
                 <Check className="mt-1 size-4 shrink-0 text-primary" />
                 <span className="text-pretty">
@@ -198,6 +211,7 @@ export function NinetyDays() {
 
 /* 9. Teaching. */
 export function Teaching() {
+  const stats = teaching.stats.filter((s) => shown(s.figure) && shown(s.label));
   return (
     <SkySection id="teaching" note="I teach this too">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
@@ -206,34 +220,40 @@ export function Teaching() {
           <p className="mt-4 text-body text-muted-foreground text-pretty">
             <Fill>{teaching.body}</Fill>
           </p>
-          <dl className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {teaching.stats.map((s) => (
-              <div key={s.label} className="glass-card flex flex-col-reverse rounded-2xl px-4 pt-4 pb-3.5">
-                <dt className="mt-2 text-caption leading-snug text-muted-foreground">
-                  <Fill>{s.label}</Fill>
-                </dt>
-                <dd className="figures text-xl font-bold text-foreground">
-                  <Fill>{s.figure}</Fill>
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-8 text-body text-foreground">
-            {teaching.last}{" "}
-            <a href={teaching.lastLink.href} className="font-semibold text-primary underline-offset-4 hover:underline">
-              <Fill>{teaching.lastLink.label}</Fill>
-            </a>
-          </p>
+          {stats.length > 0 ? (
+            <dl className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {stats.map((s) => (
+                <div key={s.label} className="glass-card flex flex-col-reverse rounded-2xl px-4 pt-4 pb-3.5">
+                  <dt className="mt-2 text-caption leading-snug text-muted-foreground">
+                    <Fill>{s.label}</Fill>
+                  </dt>
+                  <dd className="figures text-xl font-bold text-foreground">
+                    <Fill>{s.figure}</Fill>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+          {shown(teaching.lastLink.label) ? (
+            <p className="mt-8 text-body text-foreground">
+              {teaching.last}{" "}
+              <a href={teaching.lastLink.href} className="font-semibold text-primary underline-offset-4 hover:underline">
+                <Fill>{teaching.lastLink.label}</Fill>
+              </a>
+            </p>
+          ) : null}
         </div>
-        <figure className="relative self-center -rotate-1 bg-[#ffe066] px-6 pt-8 pb-6 text-[#3a2a00] shadow-[0_18px_30px_-18px_rgba(120,80,0,0.55)] md:col-span-5">
-          <span aria-hidden className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 -rotate-2 bg-white/60" />
-          <blockquote className="text-[1.05rem] leading-snug font-semibold text-pretty">
-            <Fill>{teaching.quote.text}</Fill>
-          </blockquote>
-          <figcaption className="mt-4 text-caption font-bold">
-            <Fill>{teaching.quote.who}</Fill>
-          </figcaption>
-        </figure>
+        {shown(teaching.quote.text) ? (
+          <figure className="relative self-center -rotate-1 bg-[#ffe066] px-6 pt-8 pb-6 text-[#3a2a00] shadow-[0_18px_30px_-18px_rgba(120,80,0,0.55)] md:col-span-5">
+            <span aria-hidden className="absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 -rotate-2 bg-white/60" />
+            <blockquote className="text-[1.05rem] leading-snug font-semibold text-pretty">
+              <Fill>{teaching.quote.text}</Fill>
+            </blockquote>
+            <figcaption className="mt-4 text-caption font-bold">
+              <Fill>{teaching.quote.who}</Fill>
+            </figcaption>
+          </figure>
+        ) : null}
       </div>
     </SkySection>
   );
@@ -286,7 +306,7 @@ function FitList({ title, items, good = false }: { title: string; items: string[
     <div className={cn("rounded-3xl p-6 md:p-7", good ? "glass-card" : "bg-white/45")}>
       <p className="caps-label text-faint">{title}</p>
       <ul className="mt-4 space-y-3">
-        {items.map((item) => (
+        {items.filter((item) => shown(item)).map((item) => (
           <li key={item} className="flex gap-3 text-body text-foreground">
             <Icon className={cn("mt-1 size-4 shrink-0", good ? "text-primary" : "text-faint")} />
             <span className="text-pretty">
@@ -300,13 +320,17 @@ function FitList({ title, items, good = false }: { title: string; items: string[
 }
 
 /* 11. FAQ. One open at a time. */
+/* Once live, a question whose answer still has a gap is left out whole: half
+   an answer reads worse than none. */
+const visibleFaq = faq.filter((item) => !META_ADS_LIVE || !hasGap(item.a));
+
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <SkySection id="faq" note="the usual questions">
       <SectionHead title="Questions people ask first" />
       <ul className="mt-8 border-t border-rule">
-        {faq.map((item, i) => {
+        {visibleFaq.map((item, i) => {
           const isOpen = open === i;
           return (
             <li key={item.q} className="border-b border-rule">

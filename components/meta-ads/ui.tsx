@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { META_ADS_LIVE, shown } from "@/data/meta-ads";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -11,8 +12,10 @@ import { cn } from "@/lib/utils";
  */
 
 /* Copy with [gaps]: anything in square brackets is a value only Muneeb can
-   fill, drawn as a dashed yellow highlight so it can't ship unnoticed. */
+   fill. In draft it's drawn as a dashed yellow highlight so it can't ship
+   unnoticed; once live, sentences with gaps are left out (see shown()). */
 export function Fill({ children }: { children: string }) {
+  if (META_ADS_LIVE) return <>{shown(children)}</>;
   const parts = children.split(/(\[[^\]]+\])/g);
   return (
     <>

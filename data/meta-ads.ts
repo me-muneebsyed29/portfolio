@@ -14,7 +14,33 @@
  * decoration, so no Meta, Facebook or Instagram logos anywhere on this page.
  * The certification badge is the one exception.
  */
-export const META_ADS_LIVE = false;
+export const META_ADS_LIVE = true;
+
+/*
+ * Gaps once live. In draft, [gaps] show as yellow highlights. Once live, any
+ * sentence that still holds a gap is dropped, and anything left empty (a
+ * price, a list item, an FAQ) disappears. Filling a gap in brings it back,
+ * so the page can launch before every answer is in.
+ */
+const GAP = /\[[^\]]*\]/g;
+
+export function hasGap(text: string) {
+  return /\[[^\]]*\]/.test(text);
+}
+
+/* What a string shows on the page: itself in draft; in live mode, its
+   sentences without gaps, or null when none are left. Gaps are swapped for a
+   marker before splitting, so punctuation inside a gap can't split it. */
+export function shown(text: string): string | null {
+  if (!META_ADS_LIVE || !hasGap(text)) return text;
+  const kept = text
+    .replace(GAP, "\u0000")
+    .split(/(?<=[.!?])\s+/)
+    .filter((sentence) => !sentence.includes("\u0000"))
+    .join(" ")
+    .trim();
+  return kept || null;
+}
 
 export type Track = "b2b" | "d2c";
 

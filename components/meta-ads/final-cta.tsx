@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { SkySection } from "@/components/sky/sky-section";
 import { PaperPlane } from "@/components/sky/doodles";
 import { BookCall, Fill, getSrc, trackEvent } from "@/components/meta-ads/ui";
-import { finalCta, sellOptions, spendBands } from "@/data/meta-ads";
+import { finalCta, sellOptions, shown, spendBands } from "@/data/meta-ads";
 import { siteConfig } from "@/lib/site-config";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
@@ -70,9 +70,11 @@ export function FinalCta() {
             >
               {showForm ? "Hide the form" : finalCta.reviewLabel}
             </Button>
-            <p className="text-caption text-faint md:hidden">
-              <Fill>{finalCta.reviewNote}</Fill>
-            </p>
+            {shown(finalCta.reviewNote) ? (
+              <p className="text-caption text-faint md:hidden">
+                <Fill>{finalCta.reviewNote}</Fill>
+              </p>
+            ) : null}
           </motion.div>
 
           <motion.ul variants={fadeUp} className="mt-8 border-t border-rule">
@@ -163,7 +165,13 @@ function ReviewForm({ idPrefix = "" }: { idPrefix?: string }) {
       <div>
         <p className="text-xl font-bold tracking-[-0.02em] text-foreground">{finalCta.reviewLabel}</p>
         <p className="mt-1 text-caption text-muted-foreground">
-          A recorded walkthrough of your account, <Fill>{finalCta.reviewNote}</Fill>.
+          A recorded walkthrough of your account
+          {shown(finalCta.reviewNote) ? (
+            <>
+              , <Fill>{finalCta.reviewNote}</Fill>
+            </>
+          ) : null}
+          .
         </p>
       </div>
 

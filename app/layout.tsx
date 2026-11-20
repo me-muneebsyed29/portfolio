@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Figtree, Caveat } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GtmHead, GtmNoScript } from "@/components/gtm";
+import { SiteAnalytics } from "@/components/site-analytics";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -81,6 +82,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <GtmNoScript />
+        <SiteAnalytics />
         {/* Each site tree owns its own look: the B2B portfolio is the
             daylight sky system, B2C is always dark. Neither has a toggle. */}
         <TooltipProvider>{children}</TooltipProvider>

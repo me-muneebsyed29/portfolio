@@ -7,7 +7,7 @@ import { WEATHER_SCRIPT } from "@/lib/weather-script";
    unmatched URLs render outside the B2B layout. */
 export default function NotFound() {
   return (
-    <div className="sky relative isolate flex min-h-screen flex-col items-center justify-center px-4">
+    <div data-page-not-found className="sky relative isolate flex min-h-screen flex-col items-center justify-center px-4">
       <script dangerouslySetInnerHTML={{ __html: WEATHER_SCRIPT }} />
       <SkyBackdrop />
       <ChalkNote className="mb-4">404, but make it scenic</ChalkNote>

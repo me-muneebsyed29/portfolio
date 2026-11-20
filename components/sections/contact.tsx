@@ -88,6 +88,7 @@ export function Contact() {
           <button
             type="button"
             onClick={() => setShowForm((v) => !v)}
+            data-track={showForm ? "contact_form_close" : "contact_form_open"}
             aria-expanded={showForm}
             className="caps-label mt-6 text-primary md:hidden"
           >

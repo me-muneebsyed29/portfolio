@@ -2,6 +2,7 @@
 
 import { Cloud, Snowflake, Sun } from "lucide-react";
 import { setWeather, useWeather, type Weather } from "@/lib/weather";
+import { track } from "@/lib/analytics";
 import { weatherCopy } from "@/data/weather";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +62,10 @@ export function WeatherToggle({ className }: { className?: string }) {
             aria-checked={active}
             aria-label={label}
             title={label}
-            onClick={() => setWeather(value)}
+            onClick={() => {
+              if (value !== weather) track("weather_change", { weather: value });
+              setWeather(value);
+            }}
             className={cn(
               "relative flex size-8 items-center justify-center rounded-full transition-colors duration-200",
               active ? "text-white" : "text-muted-foreground hover:text-foreground"

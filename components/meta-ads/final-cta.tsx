@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { SkySection } from "@/components/sky/sky-section";
 import { PaperPlane } from "@/components/sky/doodles";
 import { BookCall, Fill, getSrc, trackEvent } from "@/components/meta-ads/ui";
+import { leadContext, track } from "@/lib/analytics";
 import { finalCta, sellOptions, shown, spendBands } from "@/data/meta-ads";
 import { siteConfig } from "@/lib/site-config";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
@@ -137,6 +138,12 @@ function ReviewForm({ idPrefix = "" }: { idPrefix?: string }) {
     const data = new FormData(form);
     data.set("src", getSrc());
     data.set("track", new URLSearchParams(window.location.search).get("track") ?? "");
+    /* Where this person came from, so the lead email answers it. */
+    const context = leadContext();
+    data.set("came_from", String(context.lead_source ?? ""));
+    data.set("first_visit_from", String(context.first_source ?? ""));
+    data.set("landing_page", String(context.landing_page ?? ""));
+    data.set("first_seen", String(context.first_seen ?? ""));
     setStatus("sending");
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
@@ -151,6 +158,7 @@ function ReviewForm({ idPrefix = "" }: { idPrefix?: string }) {
           spend: String(data.get("monthly_meta_spend") ?? ""),
           sells: String(data.get("what_you_sell") ?? ""),
         });
+        track("generate_lead", { form: "meta_ads_review", ...context });
         form.reset();
       } else {
         setStatus("error");

@@ -6,6 +6,7 @@ import { SkySection, SectionHead } from "@/components/sky/sky-section";
 import { CaseCard, HighlightCard } from "@/components/sections/case-card";
 import { caseStudies, type Industry, type Market } from "@/data/case-studies";
 import { highlights } from "@/data/highlights";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /*
@@ -37,6 +38,14 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 export function WorkIndex() {
   const [industry, setIndustry] = useState<Industry | null>(null);
   const [market, setMarket] = useState<Market | null>(null);
+  const pickIndustry = (value: Industry | null) => {
+    setIndustry(value);
+    track("work_filter", { filter_type: "industry", filter_value: value ?? "all" });
+  };
+  const pickMarket = (value: Market | null) => {
+    setMarket(value);
+    track("work_filter", { filter_type: "market", filter_value: value ?? "all" });
+  };
 
   const match = useMemo(
     () => (i: Industry, m: Market[]) => (!industry || i === industry) && (!market || m.includes(market)),
@@ -55,21 +64,21 @@ export function WorkIndex() {
 
       <div className="mt-8 flex flex-col gap-3">
         <div role="group" aria-label="Filter by industry" className="flex flex-wrap gap-2">
-          <Chip active={!industry} onClick={() => setIndustry(null)}>
+          <Chip active={!industry} onClick={() => pickIndustry(null)}>
             All industries
           </Chip>
           {industries.map((i) => (
-            <Chip key={i} active={industry === i} onClick={() => setIndustry(industry === i ? null : i)}>
+            <Chip key={i} active={industry === i} onClick={() => pickIndustry(industry === i ? null : i)}>
               {i}
             </Chip>
           ))}
         </div>
         <div role="group" aria-label="Filter by market" className="flex flex-wrap gap-2">
-          <Chip active={!market} onClick={() => setMarket(null)}>
+          <Chip active={!market} onClick={() => pickMarket(null)}>
             All markets
           </Chip>
           {markets.map((m) => (
-            <Chip key={m} active={market === m} onClick={() => setMarket(market === m ? null : m)}>
+            <Chip key={m} active={market === m} onClick={() => pickMarket(market === m ? null : m)}>
               {m}
             </Chip>
           ))}

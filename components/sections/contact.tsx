@@ -44,7 +44,7 @@ export function Contact() {
         <div className="md:col-span-6">
           <motion.h2
             variants={fadeUp}
-            className="text-[2.2rem] leading-[1.05] font-bold tracking-[-0.03em] text-balance text-foreground md:text-[3rem]"
+            className="text-[2.2rem] leading-[1.05] font-extrabold tracking-[-0.035em] text-balance text-foreground md:text-[3rem]"
           >
             Let’s get your pipeline <span className="marker">flying.</span>
           </motion.h2>
@@ -88,6 +88,7 @@ export function Contact() {
           <button
             type="button"
             onClick={() => setShowForm((v) => !v)}
+            data-track={showForm ? "contact_form_close" : "contact_form_open"}
             aria-expanded={showForm}
             className="caps-label mt-6 text-primary md:hidden"
           >

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { siteConfig } from "@/lib/site-config";
+import { leadContext, track } from "@/lib/analytics";
 
 const WEB3FORMS_ACCESS_KEY = "5a81973b-6946-4089-829c-2370d3d97b5a";
 
@@ -20,22 +21,34 @@ export function ContactForm({ idPrefix = "" }: { idPrefix?: string }) {
     e.preventDefault();
     const form = e.currentTarget;
     setStatus("sending");
+    /* Where this person came from, so the lead email answers it. */
+    const context = leadContext();
+    const body = new FormData(form);
+    body.set("came_from", String(context.lead_source ?? ""));
+    body.set("first_visit_from", String(context.first_source ?? ""));
+    body.set("landing_page", String(context.landing_page ?? ""));
+    body.set("first_seen", String(context.first_seen ?? ""));
+    body.set("sent_from_page", window.location.pathname);
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { Accept: "application/json" },
-        body: new FormData(form),
+        body,
       });
       const data = await res.json();
       if (data.success) {
         setStatus("success");
+        track("contact_form_submit", { form: "contact", ...context });
+        track("generate_lead", { form: "contact", ...context });
         form.reset();
       } else {
         setStatus("error");
+        track("contact_form_error", { form: "contact", error: String(data.message ?? "rejected").slice(0, 80) });
       }
     } catch {
       setStatus("error");
+      track("contact_form_error", { form: "contact", error: "network" });
     }
   }
 

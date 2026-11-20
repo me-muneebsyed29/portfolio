@@ -62,7 +62,7 @@
   --color-improved: var(--improved);
   --color-broken: var(--broken);
 
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-heading: var(--font-sans);
 
@@ -445,9 +445,7 @@ body:has(.sky) {
 .b2c {
   color-scheme: dark;
 
-  /* The B2B site sets in Plus Jakarta Sans as part of the sky system; the B2C
-     sub-brand is deliberately not on that system, so it keeps Figtree. Loaded in
-     app/b2c/layout.tsx so the B2B site never pays for a font it doesn't render. */
+  /* Same Figtree as the B2B site, loaded once in the root layout. */
   font-family: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 
   --background: #08090a;

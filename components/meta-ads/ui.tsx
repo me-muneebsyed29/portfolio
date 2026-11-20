@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { META_ADS_LIVE, shown } from "@/data/meta-ads";
 import { siteConfig } from "@/lib/site-config";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 /*
@@ -42,18 +43,13 @@ export function Fill({ children }: { children: string }) {
  * GTM can report which pitch books calls. Add matching triggers in GTM for
  * the event names: meta_ads_cta, meta_ads_track, meta_ads_review_submit.
  */
-type DataLayerWindow = Window & { dataLayer?: Record<string, unknown>[] };
-
 export function getSrc() {
   if (typeof window === "undefined") return "";
   return new URLSearchParams(window.location.search).get("src") ?? "";
 }
 
 export function trackEvent(event: string, params: Record<string, string> = {}) {
-  if (typeof window === "undefined") return;
-  const w = window as DataLayerWindow;
-  w.dataLayer = w.dataLayer ?? [];
-  w.dataLayer.push({ event, page: "meta-ads", src: getSrc(), ...params });
+  track(event, { page: "meta-ads", src: getSrc(), ...params });
 }
 
 /* The main call to action, tagged with where on the page it was clicked. */

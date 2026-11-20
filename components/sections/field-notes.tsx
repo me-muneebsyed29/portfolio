@@ -9,7 +9,16 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 const byNewest = [...essays].sort((a, b) => b.date.localeCompare(a.date));
 
 /* Rows of title, teaser and read time. Phones drop the teaser. */
-export function EssayRows({ items, showDate = false }: { items: Essay[]; showDate?: boolean }) {
+export function EssayRows({
+  items,
+  showDate = false,
+  headingAs: Heading = "h3",
+}: {
+  items: Essay[];
+  showDate?: boolean;
+  /* h2 on /writing, where the rows sit straight under the page's h1. */
+  headingAs?: "h2" | "h3";
+}) {
   return (
     <motion.ul
       variants={staggerContainer(0.07)}
@@ -24,9 +33,9 @@ export function EssayRows({ items, showDate = false }: { items: Essay[]; showDat
             href={`/writing/${essay.slug}`}
             className="group -mx-4 grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-2 rounded-2xl border-b border-rule px-4 py-6 transition-colors duration-200 hover:bg-white/60 md:grid-cols-12"
           >
-            <h3 className="text-lg font-bold tracking-[-0.02em] text-balance text-foreground md:col-span-5">
+            <Heading className="text-lg font-bold tracking-[-0.02em] text-balance text-foreground md:col-span-5">
               {essay.title}
-            </h3>
+            </Heading>
             <p className="hidden text-caption text-muted-foreground text-pretty md:col-span-5 md:block">
               {essay.excerpt}
             </p>
@@ -66,7 +75,7 @@ export function FieldNotesIndex() {
         title="Field notes."
         sub="Short essays on paid media, growth and AI. Strong opinions, loosely held."
       />
-      <EssayRows items={byNewest} showDate />
+      <EssayRows items={byNewest} showDate headingAs="h2" />
     </SkySection>
   );
 }

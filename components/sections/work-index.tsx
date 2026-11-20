@@ -94,7 +94,7 @@ export function WorkIndex() {
         <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {studies.map((study) => (
             <li key={study.slug}>
-              <CaseCard study={study} />
+              <CaseCard study={study} headingAs="h2" />
             </li>
           ))}
         </ul>

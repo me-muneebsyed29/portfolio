@@ -8,7 +8,17 @@ import { cn, isFigure } from "@/lib/utils";
  * block at the foot of each story. Two metrics on the card; the rest live on
  * the story page.
  */
-export function CaseCard({ study, compact = false }: { study: CaseStudy; compact?: boolean }) {
+export function CaseCard({
+  study,
+  compact = false,
+  headingAs: Heading = "h3",
+}: {
+  study: CaseStudy;
+  compact?: boolean;
+  /* h3 under a section heading; h2 when the cards sit straight under the
+     page's h1, as on /work, so the outline never skips a level. */
+  headingAs?: "h2" | "h3";
+}) {
   return (
     <Link
       href={`/work/${study.slug}`}
@@ -19,9 +29,9 @@ export function CaseCard({ study, compact = false }: { study: CaseStudy; compact
         <p className="caps-label text-faint">· {study.markets.join(" & ")}</p>
       </div>
       <p className="caps-label mt-2 w-fit rounded-full bg-primary/10 px-2.5 py-1 text-cadmium-sm">{study.tag}</p>
-      <h3 className="mt-5 text-xl leading-snug font-bold tracking-[-0.02em] text-balance text-foreground">
+      <Heading className="mt-5 text-xl leading-snug font-bold tracking-[-0.02em] text-balance text-foreground">
         {study.headline}
-      </h3>
+      </Heading>
       {!compact ? (
         <p className="mt-3 hidden text-caption text-muted-foreground text-pretty md:block">{study.oneLine}</p>
       ) : null}

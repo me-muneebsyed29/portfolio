@@ -225,7 +225,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "modernyard",
     client: "ModernYard",
-    seoTitle: "Case study: ModernYard, ₹58L sales in 3.5 months",
+    seoTitle: "Case study: ModernYard, ₹58L in 3.5 months",
     seoDescription:
       "How an Indian D2C home decor brand reached ₹58L in gross sales in three and a half months on Meta, at a 4x net effective ROAS.",
     industry: "D2C",
